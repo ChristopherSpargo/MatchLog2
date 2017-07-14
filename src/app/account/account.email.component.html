@@ -1,0 +1,120 @@
+﻿                <!--Form used to provide the CHANGE PASSWORD feature-->
+
+<div class=" app-central-container app-fade-in  " 
+     [ngClass]="{'app-open': formOpen}"
+     (swiperight)="closeForm()">
+
+  <!-- Form Header -->
+
+  <app-form-header  headerType        = "center" 
+                    headerTitle       = "Change Email" 
+                    headerTheme       = "app-form-header-theme"
+                    closeButtonTheme  = "app-white"
+                    [headerClose]     = "closeForm">
+  </app-form-header>
+
+  <!-- Start of Form -->
+
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp ">
+    <div class="container app-form-theme px-3 pt-2 pb-3">
+      <form #emailForm = "ngForm" role="form" novalidate
+            (ngSubmit)="submitRequest(emailForm)">
+        <div class="d-flex flex-column">
+
+          <!-- Email field -->
+
+          <app-icon-input
+            [fForm]       = "emailForm" 
+            fRef          = "cE" 
+            fName         = "cEmail" 
+            [fReadonly]   = "true"
+            fType         = "email" 
+            fLabel        = "Current Email Address"  
+            fIcon         = "mail_outline"
+            fColor        = "app-retro-ltgreen" 
+            [fValue]      = "currEmail">
+          </app-icon-input>
+
+          <!-- Password field -->
+
+          <app-icon-input
+            [fForm]       ="emailForm" 
+            fRef          ="uP" 
+            fName         ="uPassword" 
+            [fRequired]   ="true" 
+            fType         ="password" 
+            fLabel        ="Password" 
+            fIcon         ="lock_open"
+            fColor        ="app-retro-ltgreen" 
+            [(fValue)]    ="password" 
+            fErrors       ="required|pattern|minlength"
+            fErrorMsgs    ="A password is required.|Invalid password character/format.|Password must be at least 6 characters."
+            fMinlength    ="6" 
+            fMaxlength    ="16" 
+            fPattern      ="^[a-zA-Z]+[$%!#\w]*$" 
+            fExtraCSS     ="mb-2"
+            [fFocusFn]    ="clearRequestStatus">
+          </app-icon-input>
+
+          <!-- New Email field -->
+
+          <app-icon-input
+            [fForm]       = "emailForm" 
+            fRef          = "nE" 
+            fName         = "nEmail" 
+            [fRequired]   = "true" 
+            fType         = "email" 
+            fLabel        = "New Email Address"  
+            fIcon         = "mail_outline"
+            fColor        = "app-retro-ltgreen" 
+            [(fValue)]    = "newEmail" 
+            fErrors       = "required|email"
+            fErrorMsgs    = "An email address is required.|Invalid email address character/format."
+            fExtraCSS     = "mb-2"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+
+          <!-- Status Message Area -->
+
+          <div class=" app-form-message-area app-open app-no-overflow ">
+            <div class="d-flex flex-row justify-content-center align-items-center app-form-message-area app-fade-in"
+                  [ngClass]="{'app-open': working}">
+              <div class="progress app-progress-indicator" >
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
+                      role="progressbar" aria-valuenow="100" 
+                      aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">Working...</div>
+              </div>                
+            </div>
+            <div class=" app-form-message-area app-fade-in"
+                  [ngClass]="{'app-open': (haveStatusMessages() && emailForm.submitted)}" >
+              <app-messages [mList]="requestStatus" [mMax]="2">
+                <app-message name="formHasErrors" class="app-error">
+                  Please correct the fields with errors.
+                </app-message>
+                <app-message name="emailChangeFail" class="app-error">
+                  Unable to change email address.
+                </app-message>
+                <app-message name="emailInvalid" class="app-error">
+                  New email address is invalid.
+                </app-message>
+                <app-message name="emailInUse" class="app-error">
+                  New email address already in use.
+                </app-message>
+                <app-message name="unrecognizedEmail" class="app-error">
+                  No account for current email.
+                </app-message>
+                <app-message name="incorrectPassword" class="app-error">
+                  Password value is incorrect.
+                </app-message>
+              </app-messages>
+            </div>
+          </div>
+
+          <!-- Actions Area -->
+
+          <app-update-actions></app-update-actions>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

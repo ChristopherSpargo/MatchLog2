@@ -1,0 +1,84 @@
+﻿                                                <!-- About (Help) Panel -->
+
+    <!--the appropriate help file will be swapped in based on the current helpContext-->
+  <div class="d-flex flex-column app-about-container app-slide-right"
+       [ngClass]="{'app-open': aboutOpen}">
+
+    <!-- Card Header -->
+
+    <!--<div class=" app-noscroll-frame-left md-whiteframe-2dp">
+      <md-content  ng-swipe-left="mainCtrl.closeAbout()" 
+            class=" app-about-header-theme ">
+
+        <div layout="column" class=" app-form-header-padding ">
+          <div layout="row">
+            <div flex="15" layout="row" layout-align="start center">
+              <md-button class=" md-icon-button app-form-image-button " aria-label="help" 
+                         ng-click="$emit('toggleAbout')" > 
+              <md-tooltip md-delay="700">Close</md-tooltip>
+                <img class=" app-form-header-image " ng-src="{{mainCtrl.formHeaderIcon}}"/>
+              </md-button>
+            </div>
+            <div flex="70" layout="column" layout-align="center center">
+              <div flex class=" app-about-title1 ">- How To -</div>
+              <div flex class=" app-about-title2 ">{{mainCtrl.helpContextTitle()}}</div>
+            </div>
+            <div flex="15" layout="row" layout-align="center center">
+              <md-button class=" md-icon-button app-form-close-button " 
+                         ng-click="mainCtrl.closeAbout()">
+                <md-icon md-svg-icon="arrowBack" aria-label="close help"
+                         class="app-white app-form-close-icon "></md-icon>
+              </md-button>
+            </div>
+          </div>
+        </div>
+      </md-content>
+    </div>-->
+
+    <!--Section for context specific help information-->
+
+      <!--<div layout-padding class=" app-scroll-frame-left md-whiteframe-2dp app-about-body-theme " 
+            ng-swipe-left="mainCtrl.closeAbout()" flex>
+          <md-card-content ng-if="mainCtrl.helpContext()=='UsingMatchLog'" ng-include="'../App/About/about.match-log.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ContactUs'" ng-include="'../App/About/about.contact-us.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ManageEvents'" ng-include="'../App/About/about.manage-events.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ManagePlayers'" ng-include="'../App/About/about.manage-players.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ManageLocations'" ng-include="'../App/About/about.manage-locations.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ManageTournaments'" ng-include="'../App/About/about.manage-tournaments.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ProfileUpdate'" ng-include="'../App/About/about.account.profile.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='Account'" ng-include="'../App/About/about.account.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ChangeEmail'" ng-include="'../App/About/about.account.email.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ChangePassword'" ng-include="'../App/About/about.account.password.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='DeleteAccount'" ng-include="'../App/About/about.account.delete.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='Login'" ng-include="'../App/About/about.login.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='MatchLogSearch'" ng-include="'../App/About/about.log-search.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='MatchLogMenu'" ng-include="'../App/About/about.log-select.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ViewMatchStatistics'" ng-include="'../App/About/about.log-view.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='MatchInformation'" ng-include="'../App/About/about.log-setup.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='PointInformation'" ng-include="'../App/About/about.log-point.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ReviewEditMatchLog'" ng-include="'../App/About/about.log-review-edit.html'">
+          </md-card-content>
+          <md-card-content ng-if="mainCtrl.helpContext()=='ResumeMatchLog'" ng-include="'../App/About/about.log-resume.html'">
+          </md-card-content>
+      </div>-->
+    <!-- </div> -->
+  </div>
+
+

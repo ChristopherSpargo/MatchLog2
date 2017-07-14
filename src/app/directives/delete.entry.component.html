@@ -1,0 +1,11 @@
+    <!-- Template used to present a delete option element. 
+         Used with <app-delete-entry> DIRECTIVE -->
+    <div class="d-flex flex-row align-items-center mt-1">
+      <i class="material-icons app-input-icon app-warn">remove_circle</i>
+      <input type="checkbox" id="deleteCheckbox" [(ngModel)]="fValue"
+                    [disabled]="!fCanDelete()" class="mt-1 mr-1"
+                    (change)="valueChange()">
+      <label class="app-smaller-font app-form-theme-text mb-0" 
+             [ngClass]="{'app-disabled-text': !fCanDelete()}"
+             for="deleteCheckbox">Remove this entry</label>
+    </div>

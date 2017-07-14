@@ -1,0 +1,98 @@
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from "@angular/forms";
+import { UtilSvc } from '../utilities/utilSvc';
+import { UserInfo } from '../app.globals';
+import { DataSvc } from '../model/dataSvc'
+import { CookieSvc } from '../utilities/cookieSvc';
+
+    // COMPONENT for CHANGE EMAIL feature
+
+@Component({
+  templateUrl: 'account.password.component.html'
+})
+export class AccountPasswordComponent implements OnInit {
+
+  constructor(private user: UserInfo, private utilSvc: UtilSvc, private dataSvc: DataSvc,
+              private cookieSvc: CookieSvc){
+  };
+    
+    // CONTROLLER for CHANGE PASSWORD address feature
+
+  userEmail          : string;
+  currPassword       : string = "";
+  newPassword        : string = "";
+  requestStatus      : { [key: string]: any } = {};
+  rememberLogin      : boolean;
+  working            : boolean = false;
+  formOpen           : boolean = false;
+
+  ngOnInit() {
+    if (!this.user.authData) {
+      this.utilSvc.returnToHomeMsg("signInToAccessAccount"); //let user know they need to log in
+    }
+    else{
+      this.userEmail = this.user.userEmail;
+      this.rememberLogin = (this.userEmail == this.cookieSvc.getCookieItem('userEmail'));
+      //update the current help context and open the Email Change form
+      this.utilSvc.setCurrentHelpContext("ChangePassword"); //note current state
+      this.utilSvc.displayUserMessages();
+      setTimeout( () => {
+        this.formOpen = true;}, 300);
+    }
+  }
+
+  // finish up Password Change process.  Update user's cookie.  Report status message.
+  reportPasswordChange() : void {
+    this.user.password = this.newPassword;
+    if (this.rememberLogin) {
+      this.cookieSvc.setCookieItem('password', this.user.password);
+    }
+    this.utilSvc.displayThisUserMessage("passwordChanged");
+    this.closeForm();
+  }
+
+  // send change password request to Firebase service
+  submitRequest(form : NgForm) : void {
+    this.clearRequestStatus();
+    if(form.invalid){
+      this.requestStatus.formHasErrors = true;
+      return;
+    }
+    this.working = true;
+    this.dataSvc.changePassword(this.userEmail, this.currPassword, this.newPassword)
+    .then((success) => {
+      this.working = false;
+      this.reportPasswordChange();
+    })
+    .catch((error) => {
+      switch (error) {  //decide which status message to give
+        case "INVALID_PASSWORD":
+          this.requestStatus.incorrectPassword = true;
+          break;
+        case "INVALID_USER":
+          this.requestStatus.unrecognizedEmail = true;
+          break;
+        default:
+          this.utilSvc.displayThisUserMessage("passwordChangeFailed");
+      }
+      this.requestStatus.passwordChangeFail = true;
+      this.working = false;
+    });
+  }
+
+  // clear status messages object
+  clearRequestStatus = ()=> {
+    this.requestStatus = {};
+  }
+
+  //indicate whether there are any status messages
+  haveStatusMessages = () => {
+    return this.requestStatus !== {};
+  }
+
+  //set form closed flag, wait for animation to complete before changing states to 'home'
+  closeForm = ()=>  {
+    this.formOpen = false;
+    this.utilSvc.returnToHomeState(400);
+  }
+}

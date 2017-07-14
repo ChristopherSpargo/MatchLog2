@@ -1,0 +1,25 @@
+    <!-- Template used to show "Working" status or form status messages. 
+         Used with <app-form-messages> COMPONENT -->
+    <div class=" app-form-message-area app-open app-no-overflow mt-1">
+      <div class="d-flex flex-row justify-content-center align-items-center app-form-message-area app-fade-in"
+           [ngClass]="{'app-open': fWorkingOpen}">
+        <div class="progress app-progress-indicator" >
+          <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
+                role="progressbar" aria-valuenow="100" 
+                aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">Working...</div>
+        </div>                
+      </div>
+      <div *ngIf="fHaveMessage" class="app-form-message-area app-fade-in" [ngClass]="{'app-open': fMessageOpen}">
+        <app-messages [mList]="fMessageObj" [mMax]="2">
+          <app-message name="formHasErrors" class="app-error">
+            Please correct the fields with errors.
+          </app-message>
+          <app-message name="updateFail" class="app-error">
+            Unable to perform update.
+          </app-message>
+          <app-message name="updateSuccess" class="app-success">
+            List update successful.
+          </app-message>
+        </app-messages>
+      </div>
+    </div>

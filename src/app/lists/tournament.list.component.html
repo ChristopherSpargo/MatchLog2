@@ -1,0 +1,74 @@
+                <!--Form used to provide the EVENT MANAGEMENT feature-->
+
+<!--<app-waiting-indicator awi-open="!fC.formOpen && !fC.formWasOpen"></app-waiting-indicator>-->
+
+<div 
+  class=" app-central-container app-fade-in"
+  [ngClass]="{'app-open': formOpen}"
+  (swiperight)="closeForm()"
+  >
+
+
+  <!-- Form Header -->
+
+  <app-form-header  headerType        = "center" 
+                    headerTitle       = "Manage Tournaments" 
+                    headerTheme       = "app-form-header-theme"
+                    closeButtonTheme  = "app-white"
+                    [headerClose]     = "closeForm">
+  </app-form-header>
+
+                                              <!-- Start of Form -->
+
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
+    <div class="container app-form-theme px-3 pt-2 pb-3">
+      <form #listForm = "ngForm" role="form" novalidate
+            (ngSubmit)="submitRequest(listForm)">
+        <div class="d-flex flex-column">
+
+          <!-- Event Name Field -->
+          <app-list-item-field 
+              [fForm]         = "listForm"
+              fName           = "itemName"
+              fRef            = "iName"
+              [(fValue)]      = "selectedItem"
+              fLabel          = "Tournament Name" 
+              fIcon           = "description" 
+              fColor          = "app-light-brown "
+              [fOnFocus]      = "clearRequestStatus"
+              [fOnChange]     = "copyItemName"
+              [fList]         = "itemList"
+              fListValue      = "index"
+              [fEqual]        = "false"
+              fNewTest        = ""
+              fNewName        = "newIName"
+              fNewRef         = "nIName"
+              [(fNewValue)]   = "newItemName"
+          >
+          </app-list-item-field>
+
+          <!-- Delete entry option -->
+          <app-delete-entry 
+            [(fValue)]      = "deleteItem" 
+            [fCanDelete]    = "canDeleteItem">
+          </app-delete-entry>
+
+          <!-- Messages Area -->
+          <app-form-messages 
+            [fHaveMessage]    = "haveStatusMessages()"
+            [fWorkingOpen]    = "!haveStatusMessages() && working"
+            [fMessageOpen]    = "haveStatusMessages() && !working"
+            [fMessageObj]     = "requestStatus">
+          </app-form-messages>                    
+                            
+          <!-- Actions Area -->
+          <app-update-actions 
+            [fDeleteCheck]    = "deleteItem" 
+            [fAddCheck]       = "selectedItem == '999'">
+          </app-update-actions>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

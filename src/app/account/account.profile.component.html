@@ -1,0 +1,76 @@
+<!--Form used to provide the PROFILE UPDATE feature-->
+
+<!--<app-waiting-indicator awi-open="!fC.formOpen && !fC.formWasOpen"></app-waiting-indicator>-->
+
+<div 
+  class=" app-central-container app-fade-in"
+  [ngClass]="{'app-open': formOpen}"
+  (swiperight)="closeForm()"
+  >
+
+
+  <!-- Form Header -->
+
+  <app-form-header  headerType        = "center" 
+                    headerTitle       = "Update Profile" 
+                    headerTheme       = "app-form-header-theme"
+                    closeButtonTheme  = "app-white"
+                    [headerClose]     = "closeForm">
+  </app-form-header>
+
+  <!-- Start of Form -->
+
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
+    <div class="container app-form-theme px-3 pt-2 pb-3">
+      <form #profileForm = "ngForm" role="form" novalidate
+            (ngSubmit)="submitRequest(profileForm)">
+        <div class="d-flex flex-column">
+
+             <!-- Default Player field -->
+
+          <app-list-item-field 
+              [fForm]         = "profileForm"
+              fName           = "playerName"
+              fRef            = "pName"
+              [(fValue)]      = "profile.defaultPlayerId"
+              fLabel          = "Usual player being logged:"
+              fIcon           = "face" 
+              fColor          = "app-retro-ltgreen"
+              [fOnFocus]      = "clearRequestStatus"
+              [fList]         = "playerList"
+              fListValue      = "player"
+              [fAllowNew]     = "false">
+          </app-list-item-field>
+
+              <!-- Default Opponent Gender field -->
+
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="app-form-icon-input-label-sm">Usual gender of opponents:</label>
+            <div class="d-flex flex-row justify-content-start align-items-end">
+              <i class="material-icons app-input-icon-area app-light-brown">wc</i>
+              <div class="d-flex flex-row">
+                <input type="radio" value="Male" name="gender" class="app-inline-flex app-form-radio-control"
+                    [(ngModel)]="profile.defaultOpponentGender">Male
+                <input type="radio" value="Female" name="gender" class=" app-inline-flex app-form-radio-control ml-4"
+                    [(ngModel)]="profile.defaultOpponentGender">Female
+              </div>
+            </div>
+          </div>
+
+            <!-- Status Message Area -->
+
+          <app-form-messages 
+            [fHaveMessage]  ="haveStatusMessages()"
+            [fWorkingOpen]  ="!haveStatusMessages() && working"
+            [fMessageOpen]  ="haveStatusMessages() && !working"
+            [fMessageObj]   ="requestStatus">
+          </app-form-messages>                    
+
+            <!-- Actions Area -->
+
+            <app-update-actions></app-update-actions>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

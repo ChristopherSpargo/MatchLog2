@@ -1,0 +1,176 @@
+                <!--Form used to provide the PLAYER MANAGEMENT feature-->
+<!--<app-waiting-indicator [fOpen]="formOpen && formWasOpen"></app-waiting-indicator>-->
+
+<div 
+  class=" app-central-container app-fade-in"
+  [ngClass]="{'app-open': formOpen}"
+  (swiperight)="closeForm()"
+  >
+       <!-- Form Header -->
+
+  <app-form-header  headerType="center" 
+                    headerTitle="Manage Players" 
+                    headerTheme="app-form-header-theme"
+                    closeButtonTheme="app-white"
+                    [headerClose]="closeForm">
+  </app-form-header>
+
+       <!-- Start of Form -->
+
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
+    <div class="container app-form-theme px-3 pt-2 pb-3">
+      <form #playerForm = "ngForm" role="form" novalidate
+            (ngSubmit)="submitRequest(playerForm)">
+        <div class="d-flex flex-column">
+
+            <!-- Player selection field -->
+
+          <app-list-item-field 
+            [fForm]         = "playerForm"
+            fName           = "itemName"
+            fRef            = "iName"
+            [fRequired]     = "true" 
+            [(fValue)]      = "selectedItem"
+            fLabel          = "Player Name" 
+            fIcon           = "face" 
+            fColor          = "app-light-brown "
+            [fOnFocus]      = "clearRequestStatus"
+            [fOnChange]     = "setItemFields"
+            [fList]         = "itemList"
+            fListValue      = "player">
+          </app-list-item-field>
+
+            <!-- Player firstName field -->
+
+          <app-icon-input
+            [fForm]       = "playerForm" 
+            fRef          = "pF" 
+            fName         = "pFirst" 
+            [fRequired]   = "selectedItem != ''" 
+            [fDisabled]   = "selectedItem == ''"
+            fType         = "text" 
+            fLabel        = "First Name"  
+            fIcon         = "looks_one"
+            fColor        = "app-light-brown" 
+            [(fValue)]    = "item.firstName" 
+            fPattern      = "^[ \w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "A first name is required.|Invalid first name character/format."
+            fExtraCSS     = "pb-1"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+
+            <!-- Player lastName field -->
+
+          <app-icon-input
+            [fForm]       = "playerForm" 
+            fRef          = "pL" 
+            fName         = "pLast" 
+            [fRequired]   = "selectedItem != ''" 
+            [fDisabled]   = "selectedItem == ''"
+            fType         = "text" 
+            fLabel        = "Last Name"  
+            fIcon         = "looks_two"
+            fColor        = "app-light-brown" 
+            [(fValue)]    = "item.lastName" 
+            fPattern      = "^[ \w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "A last name is required.|Invalid last name character/format."
+            fExtraCSS     = "pb-1"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+
+          <!-- Handed field -->
+
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="app-form-icon-input-label-sm">Player Plays</label>
+            <div class="d-flex flex-row justify-content-start align-items-end">
+              <i class="material-icons app-input-icon-area app-light-brown">swap_horiz</i>
+              <div class="d-flex flex-row">
+                <input type="radio" value="Right" name="handed" class="app-inline-flex app-form-radio-control"
+                    [(ngModel)]="item.handed">Right
+                <input type="radio" value="Left" name="handed" class="app-inline-flex app-form-radio-control ml-4"
+                    [(ngModel)]="item.handed">Left
+              </div>
+            </div>
+          </div>
+          <div class=" app-form-input-divider-tall app-icon-offset-width "></div>
+
+          <!-- Gender field -->
+
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="app-form-icon-input-label-sm">Gender</label>
+            <div class="d-flex flex-row justify-content-start align-items-end">
+              <i class="material-icons app-input-icon-area app-light-brown">wc</i>
+              <div class="d-flex flex-row">
+                <input type="radio" value="Male" name="gender" class="app-inline-flex app-form-radio-control"
+                    [(ngModel)]="item.gender">Male
+                <input type="radio" value="Female" name="gender" class=" app-inline-flex app-form-radio-control ml-4"
+                    [(ngModel)]="item.gender">Female
+              </div>
+            </div>
+          </div>
+          <div class=" app-form-input-divider-tall app-icon-offset-width "></div>
+
+          <!-- Player Notes field -->
+
+          <app-icon-input
+            [fForm]       = "playerForm" 
+            fRef          = "pN" 
+            fName         = "pNotes" 
+            [fDisabled]   = "selectedItem == ''"
+            fType         = "textarea" 
+            fLabel        = "Notes"  
+            fIcon         = "edit"
+            fColor        = "app-light-brown" 
+            [(fValue)]    = "item.notes" 
+            fPattern      = "^[ -.!?\w]{1,}$"
+            fMaxLength    = "1000"
+            fErrors       = "pattern"
+            fErrorMsgs    = "Invalid note character/format."
+            fExtraCSS     = "mb-2"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+
+          <!-- Creation Date Field -->
+
+          <app-icon-input
+            [fForm]       = "playerForm" 
+            fRef          = "cD" 
+            fName         = "cDate" 
+            [fDisabled]   = "selectedItem == ''"
+            [fReadonly]   = "true"
+            fType         = "text" 
+            fLabel        = "Created On"  
+            fIcon         = "today"
+            fColor        = "app-light-brown" 
+            fExtraCSS     = "mb-2"
+            [(fValue)]    = "item.createdOn">
+          </app-icon-input>
+
+          <!-- Delete entry option -->
+          <app-delete-entry 
+            [(fValue)]    ="deleteItem" 
+            [fCanDelete]  ="canDeleteItem">
+          </app-delete-entry>
+
+          <!-- Messages Area -->
+          <app-form-messages 
+            [fHaveMessage]  ="haveStatusMessages()"
+            [fWorkingOpen]  ="!haveStatusMessages() && working"
+            [fMessageOpen]  ="haveStatusMessages() && !working"
+            [fMessageObj]   ="requestStatus">
+          </app-form-messages>                    
+                            
+          <!-- Actions Area -->
+          <app-update-actions 
+            [fDeleteCheck]  ="deleteItem" 
+            [fAddCheck]     ="selectedItem == '999'">
+          </app-update-actions>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>

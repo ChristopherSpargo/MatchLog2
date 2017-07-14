@@ -1,0 +1,12 @@
+    <!-- Template used to show the appropriate action buttons at the bottom of a form. 
+         Used with <app-update-actions> COMPONENT -->
+    <div id="actions" class="d-flex flex-row justify-content-center align-items-center">
+      <button *ngIf="!fDeleteCheck" type="submit" [attr.aria-label]="fAddCheck ? 'add' : 'save'"
+                 class="btn app-action-button ">
+        <i class="material-icons app-action-icon app-primary">{{fAddCheck ? 'add_circle' : 'check_circle'}}</i>
+      </button>
+      <button *ngIf="fDeleteCheck" type="submit" [attr.aria-label]="remove"
+                 class="btn app-action-button ">
+        <i class="material-icons app-action-icon app-warn">remove_circle</i>
+      </button>
+    </div>

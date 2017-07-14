@@ -1,0 +1,307 @@
+
+    <!-- Main Toolbar for Small Screens -->
+
+  <div class=" nav app-toolbar-theme app-main-short-toolbar hidden-md-up 
+               d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
+      <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
+        <div class=" app-logo-text1 ">MatchLog</div>
+        <div class=" app-logo-text2 app-text-center">Tennis Logs</div>
+      </div>
+    </div>
+    <button type="button" class="btn app-bar-feature-button "  
+            data-toggle="tooltip" data-placement="top" title="View Logs" data-delay="200"
+                (click)="menuItemSelected('logsView')">
+      <i class="material-icons app-bar-feature-icon align-self-end" aria-label="view logs">assignment</i>
+    </button>
+    <button type="button" class="btn app-bar-feature-button "  
+            data-toggle="tooltip" data-placement="top" title="Create Log" data-delay="200"
+                (click)="menuItemSelected('logsCreate')">
+      <i class="material-icons app-bar-feature-icon" aria-label="create log">edit</i>
+    </button>
+    <button type="button" class="btn app-bar-feature-button "  
+            data-toggle="tooltip" data-placement="top" title="Players" data-delay="200"
+                (click)="menuItemSelected('managePlayers')">
+      <i class="material-icons app-bar-feature-icon" aria-label="manage players">face</i>
+    </button>
+    <button *ngIf="!loggedIn()" type="button" class="btn app-bar-feature-button "  
+            data-toggle="tooltip" data-placement="top" title="Sign In" data-delay="200"
+                (click)="menuItemSelected('login')">
+      <i class="material-icons app-bar-feature-icon" aria-label="sign in">person_outline</i>
+    </button>
+    <button *ngIf="loggedIn()" type="button" class="btn app-bar-feature-button "  
+            data-toggle="tooltip" data-placement="top" title="Sign Out" data-delay="200"
+                (click)="logout($event)">
+      <i class="material-icons app-bar-feature-icon" aria-label="sign out">person</i>
+    </button>
+    <!--slide-down menu activation icon-->
+    <div class=" d-flex flex-row app-slidedown-menu-button ">
+      <button type="button" class="btn app-slidedown-menu-button app-menu-button app-no-margin "  
+              data-toggle="tooltip" data-placement="top" title="Menu" data-delay="200"
+                  (click)="toggleSlidenav()"
+                  [disabled]="aboutOpen()">
+        <i class="material-icons app-slidedown-menu-icon app-slide-open-icon app-font-normal" 
+                  [ngClass]="{'app-visible': !slidenavOpen()}"
+                  aria-label="open menu">more_vert</i>
+        <i class="material-icons app-slidedown-menu-icon app-slide-close-icon app-font-normal" 
+                  [ngClass]="{'app-visible': slidenavOpen()}"
+                  aria-label="open menu">arrow_upward</i>
+      </button>
+    </div>
+  </div>
+
+                              <!-- Main SideDown Menu -->
+
+  <div [style.visibility]="slidenavOpen ? 'visible' : 'hidden'" class="hidden-md-up app-slide-down app-slide-menu" 
+       [ngClass]="{'app-open': slidenavOpen()}">
+    <div class="d-flex flex-column justify-content-start align-items-end app-whiteframe-2dp app-frame app-scrollable">
+        <ul class="d-flex flex-column app-slide-menu-ul app-form-theme">
+          <li>
+            <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
+                    (click)="toggleLogsMenu()">
+              <i class="material-icons app-court-green app-menu-item-icon">assignment</i>
+              Match Logs
+              <i class="material-icons app-form-theme-text ml-1">{{!logsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
+            </button>
+            <div class="app-slidenav-submenu" [ngClass]="{'app-open': logsMenuOpen()}">
+              <ul class="app-slide-menu-ul">
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('logsView')">
+                    <i class="material-icons app-court-green app-menu-item-icon-sm">assignment</i>
+                    View Match Logs
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('logsCreate', 'Create')">
+                    <i class="material-icons app-court-green app-menu-item-icon-sm">edit</i>
+                    Create a Match Log
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('logsCreate', 'Resume')">
+                    <i class="material-icons app-court-green app-menu-item-icon-sm">play_circle_outline</i>
+                    Resume a Match Log
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
+                       (click)="toggleListsMenu()">
+              <i class="material-icons app-light-brown app-menu-item-icon ">list</i>
+              List Management
+              <i class="material-icons app-form-theme-text ml-1">{{!listsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
+            </button>
+            <div class="app-slidenav-submenu" [ngClass]="{'app-open': listsMenuOpen()}">
+              <ul class=" app-slide-menu-ul ">
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('manageEvents')">
+                    <i class="material-icons app-light-brown app-menu-item-icon-sm">description</i>
+                    Manage Events
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('managePlayers')">
+                    <i class="material-icons app-light-brown app-menu-item-icon-sm">face</i>
+                    Manage Players
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('manageLocations')">
+                    <i class="material-icons app-light-brown app-menu-item-icon-sm">place</i>
+                    Manage Locations
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('manageTournaments')">
+                    <i class="material-icons app-light-brown app-menu-item-icon-sm">group</i>
+                    Manage Tournaments
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
+                       (click)="toggleAccountMenu()">
+              <i class="material-icons app-retro-ltgreen app-menu-item-icon ">folder_open</i>
+              Account
+              <i class="material-icons app-form-theme-text ml-1">{{!accountMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
+            </button>
+            <div class="app-slidenav-submenu" [ngClass]="{'app-open': accountMenuOpen()}">
+              <ul class=" app-slide-menu-ul ">
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('accountProfile')">
+                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">person</i>
+                    Edit Profile
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('accountEmail')">
+                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">mail_outline</i>
+                    Change Email
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('accountPassword')">
+                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">lock</i>
+                    Change Password
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="menuItemSelected('accountDelete')">
+                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">delete_forever</i>
+                    Delete Account
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
+                       (click)="toggleAboutMenu()">
+              <i class="material-icons app-about-icon-color app-menu-item-icon ">info_outline</i>
+              About
+              <i class="material-icons app-form-theme-text ml-1">{{!aboutMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
+            </button>
+            <div class="app-slidenav-submenu" [ngClass]="{'app-open': aboutMenuOpen()}">
+              <ul class=" app-slide-menu-ul ">
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="showAbout('UsingMatchLog')">
+                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">assignment</i>
+                    Using MatchLog
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing" 
+                          (click)="showAbout('ContactUs')">
+                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">message</i>
+                    Contacting MatchLog
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
+                                              app-subitem-spacing app-disabled">
+                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">person</i>
+                      User: {{loggedIn() ? userEmail() : 'Not signed in'}}
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn d-flex flex-row align-items-center app-small-font 
+                                              app-slide-menu-listitem app-subitem-spacing app-disabled">
+                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">build</i>
+                    MatchLog Version: {{version()}}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li *ngIf="!loggedIn()">
+            <button type="button" aria-label="sign in"
+                       class="btn d-flex flex-row align-items-center app-slide-menu-listitem "
+                       (click)="menuItemSelected('login')">
+              <i class="material-icons app-retro-ltblue app-menu-item-icon">person_outline</i>
+              Sign In
+            </button>
+          </li>
+          <li *ngIf="loggedIn()">
+            <button type="button" aria-label="sign out"
+                       class="btn d-flex flex-row align-items-center app-slide-menu-listitem "
+                       (click)="closeSlidenav(); logout($event)">
+              <i class="material-icons app-retro-ltblue app-menu-item-icon">person</i>
+              Sign Out
+            </button>
+          </li>
+        </ul>
+    </div>
+  </div>
+
+  <!-- Main Toolbar for Other Screen Sizes -->
+
+  <div class=" nav app-toolbar-theme app-main-short-toolbar hidden-sm-down 
+               d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
+      <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
+        <div class=" app-logo-text1 ">MatchLog</div>
+        <div class=" app-logo-text2 app-text-center">Tennis Logs</div>
+      </div>
+    </div>
+    <ul class="nav app-white">
+      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
+           href="#" role="button" aria-haspopup="true" aria-expanded="false">Match Logs</a>
+        <div class="dropdown-menu app-toolbar-submenu-theme">
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsView">View Match Logs</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate({task:'Create'})">Create a Match Log</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate({task:'Resume'})">Resume a Match Log</a>
+        </div>
+      </li>
+      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" href="#" 
+           role="button" aria-haspopup="true" aria-expanded="false">List Management</a>
+        <div class="dropdown-menu app-toolbar-submenu-theme">
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="manageEvents">Manage Events</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="managePlayers">Manage Players</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="manageLocations">Manage Locations</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="manageTournaments">Manage Tournaments</a>
+        </div>
+      </li>
+      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" href="#" 
+           role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+        <div class="dropdown-menu app-toolbar-submenu-theme">
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="accountProfile">Edit Profile</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="accountEmail">Change Email</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="accountPassword">Change Password</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="accountDelete">Delete Account</a>
+        </div>
+      </li>
+      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
+           href="#" role="button" aria-haspopup="true" aria-expanded="false">About</a>
+        <div class="dropdown-menu app-toolbar-submenu-theme">
+          <a role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('UsingMatchLog')">Using Matchlog</a>
+          <a role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting Matchlog</a>
+          <a class="dropdown-item app-dropdown-disabled-text">
+            User:{{loggedIn() ? ' ' + userEmail() : ' Not signed in'}}</a>
+          <a class="dropdown-item app-dropdown-disabled-text">MatchLog Version: {{' ' + version()}}</a>
+        </div>
+      </li>
+      <li *ngIf="!loggedIn()" class="nav-item">
+        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlideouts()" uiSref="login">Sign In</a>
+      </li>
+      <li *ngIf="loggedIn()" class="nav-item app-toolbar-text">
+        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlideouts(); logout($event)">Sign Out</a>
+      </li>
+    </ul>  
+    <div class="pr-2 d-flex flex-row align-items-center">
+      <i *ngIf="!loggedIn()" class="material-icons">person_outline</i>
+      <i *ngIf="loggedIn()" class="material-icons">person</i>
+    </div>
+  </div>

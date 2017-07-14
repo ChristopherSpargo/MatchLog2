@@ -1,0 +1,73 @@
+    <!-- Template used for gathering a list item. 
+         Used with <app-list-item-field> DIRECTIVE -->
+<div class="d-flex flex-row">
+  <div class="app-icon-input-field-container">
+    <label class="app-icon-input-field-label-sm" 
+          [class.has-value]="fValue != ''" 
+          [class.has-focus]="focused" 
+          [class.app-show-required]="fRequired">
+          {{fLabel}}</label>
+    <div class="d-flex flex-row">
+    <i class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
+      <select name="{{fName}}" ngModel  
+              [required]="fRequired"
+              [disabled]="fDisabled"
+              [(ngModel)]="fValue" class="app-form-input d-flex" #fRef="ngModel"
+              [registerForm]="fForm" [registerModel]="fRef"
+              (focus)="showFocused()" (blur)="showNotFocused()" (change)="valueChange()">
+        <optgroup label="{{fLabel}}" class="app-form-theme-select-menu">
+          <ng-container *ngIf="fAllowNew">
+            <option class="app-form-theme-select-menu" value="999">New {{fLabel}}</option>
+          </ng-container>
+          <ng-container *ngIf=" fListValue == 'index' ">
+            <option *ngFor="let item of fList; index as i;"
+                    value="{{i}}">
+                    {{item}}
+            </option>
+          </ng-container>
+          <ng-container *ngIf=" fListValue == 'player' ">
+            <option *ngFor="let item of fList"
+                    value="{{item.id}}">
+                    {{item.name}}
+            </option>
+          </ng-container>
+          <ng-container *ngIf=" fListValue == '' ">
+            <option *ngFor="let item of fList"
+                    value="{{item}}">
+                    {{item}}
+            </option>
+          </ng-container>
+        </optgroup>
+      </select>
+    </div>
+    <div class="app-field-messages" [style.visibility]="(fRef.touched || fForm.submitted) ? 'visible' : 'hidden'">
+      <validation-messages [vField]="fRef" [vMultiple]="fErrorMulti">
+        <validation-message name="required">Required</validation-message>
+      </validation-messages>
+    </div>
+  </div>
+</div>
+
+<!-- New item description field -->
+  
+<div *ngIf="fNewName" class="d-flex flex-row app-vertical-expand "
+     [ngClass]="{'app-vertical-expand-open': fValue != ''}">
+  <app-icon-input
+      [fForm]       = "fForm" 
+      fRef          = "{{fNewRef}}" 
+      fName         = "{{fNewName}}" 
+      [fRequired]   = "(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
+      fType         = "text" 
+      fPattern      = "^[ #,!?'$-\w]{1,}$"
+      fMaxlength    = "30"
+      fLabel        = "{{fValue == '999' ? 'New' : 'Edit'}} {{fLabel}}"  
+      fIcon         = "{{fValue == '999' ? 'add_circle' : 'edit'}}"
+      fColor        = "{{fColor}}" 
+      [(fValue)]    = "fNewValue" 
+      fErrors       = "required|pattern"
+      fErrorMsgs    = "New {{fLabel}} is required.|Invalid character or format for {{fLabel}}."
+      fExtraCSS     = "mb-2"
+      [fOnInput]    = "newValueChange"
+      [fFocusFn]    = "fOnFocus">
+    </app-icon-input>
+</div>

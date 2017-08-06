@@ -1,18 +1,31 @@
-/// <reference types="matchlog2" />
-import { Game } from './game';
+import { Game, REGULAR_GAME_TYPE, TIEBREAK_GAME_TYPE } from './game';
 import { Point } from './point';
+import { MatchPosition } from './match'
 import { PLAYER_ID, OPPONENT_ID } from '../constants'
 
+// CONSTANT values used by the TSet class
+export const SET_TYPES =           ["Six Game","Eight Game","Tiebreak"];
+export const SET_LENGTHS =         [6,8,10];
+export const DEFAULT_SET_TYPE =    0;
+export const SIX_GAME_SET_TYPE =   0;
+export const EIGHT_GAME_SET_TYPE = 1;
+export const TIEBREAK_SET_TYPE =   2;  
+
+// this is the record stored for a Set in the database
+export interface SetData{
+  t   : number;
+  nA  : boolean;
+  sI  : number;
+  wI  : number;
+  pS  : number;
+  oS  : number;
+  pGS : string;
+  oGS : string;
+  gL? : Game[];
+  pL? : Point[];
+}
+
 export class TSet {
-
-  //CONSTANT values used by the TSet class
-  static SET_TYPES =           ["Six Game","Eight Game","Tiebreak"];
-  static SET_LENGTHS =         [6,8,10];
-  static DEFAULT_SET_TYPE =    0;
-  static SIX_GAME_SET_TYPE =   0;
-  static EIGHT_GAME_SET_TYPE = 1;
-  static TIEBREAK_SET_TYPE =   2;  
-
 
   type:              number;
   noAd:              boolean;
@@ -42,7 +55,7 @@ export class TSet {
 
   // set the properties from the given SetData object
   setSetProperties(setLog: SetData): void {
-    this.type =               setLog.t || TSet.DEFAULT_SET_TYPE;
+    this.type =               setLog.t || DEFAULT_SET_TYPE;
     this.noAd =               setLog.nA || false;
     this.serverId =           setLog.sI || 0;
     this.winnerId =           setLog.wI || 0;
@@ -50,7 +63,7 @@ export class TSet {
     this.opponentScore =      setLog.oS || 0;
     this.playerGameScore =    setLog.pGS || "0";
     this.opponentGameScore =  setLog.oGS || "0";
-    if(this.type != TSet.TIEBREAK_SET_TYPE){
+    if(this.type != TIEBREAK_SET_TYPE){
       this.buildGameList(setLog.gL);
     } else{
       this.buildPointList(setLog.pL);
@@ -71,7 +84,7 @@ export class TSet {
       gL:  undefined,
       pL:  undefined
     }
-    if(this.type != TSet.TIEBREAK_SET_TYPE){
+    if(this.type != TIEBREAK_SET_TYPE){
       setLog.gL = this.buildGameLog();
     } else{
       setLog.pL = this.buildPointLog();
@@ -84,8 +97,8 @@ export class TSet {
     var lastGame;
 
     switch(this.type){
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         if(this.games === undefined){
             this.buildGameList(); //add a 1st game
         }
@@ -95,7 +108,7 @@ export class TSet {
         this.serverId = this.games[lastGame].serverId; //in case of a tibreak game
         this.checkNeedNewGame();
         break;
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         if(this.points === undefined){
           this.points = [];
         }
@@ -112,7 +125,7 @@ export class TSet {
   cycleLastPoint(): void{
     var lastPoint;
 
-    if((this.type == TSet.TIEBREAK_SET_TYPE) &&  this.points.length){
+    if((this.type == TIEBREAK_SET_TYPE) &&  this.points.length){
       lastPoint = this.points.pop();      //remove last point
       this.addNewPoint(lastPoint);        //re-add last point
     }
@@ -122,7 +135,7 @@ export class TSet {
   insertOrDeletePoint(gameNum: number, pointNum: number, newPoint?: Point) : void {
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         if(newPoint){
           this.points.splice(pointNum-1,0,newPoint);  //insert
         } else {
@@ -130,8 +143,8 @@ export class TSet {
         }
         this.cycleLastPoint();
         break;
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         this.games[gameNum-1].insertOrDeletePoint(pointNum, newPoint);
         this.games[gameNum-1].cycleLastPoint();
         break;
@@ -145,11 +158,11 @@ export class TSet {
     var moved = false;
 
     switch(this.type){
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         list = this.games[gameNum-1].points;
         break;
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         list = this.points;
         break;
     }
@@ -159,7 +172,7 @@ export class TSet {
       list[pointNum-1+offset];
       list[pointNum-1+offset] = p;
       moved = true;
-      if( this.type != TSet.TIEBREAK_SET_TYPE){
+      if( this.type != TIEBREAK_SET_TYPE){
         this.games[gameNum-1].cycleLastPoint();
       }
     }
@@ -171,12 +184,12 @@ export class TSet {
     var lastPoint;
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         this.points[pointNum-1] = newPoint;
         this.cycleLastPoint();
         break;
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         this.games[gameNum-1].points[pointNum-1] = newPoint;
         this.games[gameNum-1].cycleLastPoint();
         break;
@@ -186,7 +199,7 @@ export class TSet {
   //check to see if the set is empty
   //return the length of the point list for this game (or TIBREAK_SET)
   getEndPointNumber(): number {
-    if(this.type == TSet.TIEBREAK_SET_TYPE){
+    if(this.type == TIEBREAK_SET_TYPE){
       return this.points.length;
     }
     if(this.games && this.games.length){
@@ -199,7 +212,7 @@ export class TSet {
   //return: empty status
   isEmpty(): boolean {
 
-    if(this.type == TSet.TIEBREAK_SET_TYPE){
+    if(this.type == TIEBREAK_SET_TYPE){
       return (!this.points || !this.points.length);
     }
     return(!this.games || !this.games.length);
@@ -207,7 +220,7 @@ export class TSet {
 
   //remove an empty game at the end of the set if present
   removeLooseEnds(): void {
-    if((this.type != TSet.TIEBREAK_SET_TYPE) && !this.isEmpty()){
+    if((this.type != TIEBREAK_SET_TYPE) && !this.isEmpty()){
       if(!this.games[this.games.length-1].points.length){
         this.games.pop();                    //remove final game if no points
         if(!this.isEmpty()) {this.serverId = this.games[this.games.length-1].serverId;}
@@ -233,8 +246,8 @@ export class TSet {
     var addedGame = false;
 
     switch(this.type){
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         this.removeLooseEnds();
         this.computeScore(); //computeScore will denote whether this point ends the game
         addedGame = this.readyForPoint();
@@ -246,7 +259,7 @@ export class TSet {
   //add a game to this match
   addNewGame(): void {
     var gameLog: any = {};
-    var tiebreakAt = this.type == TSet.EIGHT_GAME_SET_TYPE ? 8 : 6;
+    var tiebreakAt = this.type == EIGHT_GAME_SET_TYPE ? 8 : 6;
     var last = this.games.length;
 
     if(!last){ // figure out who serves this game
@@ -257,9 +270,9 @@ export class TSet {
       this.serverId = gameLog.sI; //propogate serverId back up
     }
     if(this.playerScore != this.opponentScore || this.playerScore != tiebreakAt){
-      gameLog.t = Game.REGULAR_GAME_TYPE; //still in regular games
+      gameLog.t = REGULAR_GAME_TYPE; //still in regular games
     } else{
-      gameLog.t = Game.TIEBREAK_GAME_TYPE; //time for a tiebreak
+      gameLog.t = TIEBREAK_GAME_TYPE; //time for a tiebreak
     }
     gameLog.nA = this.noAd;
     this.games.push(Game.build(gameLog));
@@ -322,10 +335,10 @@ export class TSet {
   currentGameScore(): string[] {
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         return undefined;
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         return  [this.playerGameScore, this.opponentGameScore];
     }
   }
@@ -334,11 +347,11 @@ export class TSet {
     var sId;
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         sId = this.points[setPosition.point].serverId;
         break;
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         //if no point index given, get the serverId from the game before the one specified in setPosition
         sId = this.games[(setPosition.point == undefined) ? setPosition.game : setPosition.game-1]
                           .getServerId(setPosition.point);
@@ -355,12 +368,12 @@ export class TSet {
     this.computeScore(setPosition);
     sId = this.getServerId(setPosition);
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         msg = ((sId == PLAYER_ID) ? this.playerScore : this.opponentScore) + "-" + 
               ((sId == PLAYER_ID) ? this.opponentScore : this.playerScore);
         break;
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         msg = "(" + ((sId == PLAYER_ID) ? this.playerScore : this.opponentScore) + "," + 
                     ((sId == PLAYER_ID) ? this.opponentScore : this.playerScore) + ")";
         if(setPosition.point != undefined){
@@ -376,10 +389,10 @@ export class TSet {
   currentPlayerScore(choice: number): number | string {
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         return (choice == PLAYER_ID ? this.playerScore : this.opponentScore);
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         return (choice == PLAYER_ID ? this.playerGameScore : this.opponentGameScore);
     }
   }
@@ -394,8 +407,8 @@ export class TSet {
     this.winnerId = 0;
 
     switch(this.type) {
-      case TSet.SIX_GAME_SET_TYPE:
-      case TSet.EIGHT_GAME_SET_TYPE:
+      case SIX_GAME_SET_TYPE:
+      case EIGHT_GAME_SET_TYPE:
         var numGames =(position && (position.game != undefined)) ? position.game : this.games.length;
         for(var i=0; (i<numGames) && !this.winnerId; i++) {
           if(i == numGames-1){
@@ -411,15 +424,15 @@ export class TSet {
               this.opponentScore++;
             }
             //check to see if set is over
-            if(this.playerScore >= TSet.SET_LENGTHS[this.type]){
+            if(this.playerScore >= SET_LENGTHS[this.type]){
               if((this.playerScore > this.opponentScore+1) ||
-                  ((this.playerScore > this.opponentScore) && (this.opponentScore == TSet.SET_LENGTHS[this.type]))){
+                  ((this.playerScore > this.opponentScore) && (this.opponentScore == SET_LENGTHS[this.type]))){
                 this.winnerId = PLAYER_ID;
               }
             }
-            if(this.opponentScore >= TSet.SET_LENGTHS[this.type]){
+            if(this.opponentScore >= SET_LENGTHS[this.type]){
               if((this.opponentScore > this.playerScore+1) ||
-                  ((this.opponentScore > this.playerScore) && (this.playerScore == TSet.SET_LENGTHS[this.type]))){
+                  ((this.opponentScore > this.playerScore) && (this.playerScore == SET_LENGTHS[this.type]))){
                 this.winnerId = OPPONENT_ID;
               }
             }
@@ -432,18 +445,18 @@ export class TSet {
             this.gamePoint = g.gamePoint;
             if(this.gamePoint){
               if(this.serverId == PLAYER_ID){
-                if((this.playerScore >= TSet.SET_LENGTHS[this.type]-1 &&
+                if((this.playerScore >= SET_LENGTHS[this.type]-1 &&
                   this.playerScore > this.opponentScore) ||
-                  (this.playerScore == TSet.SET_LENGTHS[this.type] && //in a tiebreak?
+                  (this.playerScore == SET_LENGTHS[this.type] && //in a tiebreak?
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = PLAYER_ID;
                 } 
               }
               else {
-                if((this.opponentScore >= TSet.SET_LENGTHS[this.type]-1 &&
+                if((this.opponentScore >= SET_LENGTHS[this.type]-1 &&
                   this.opponentScore > this.playerScore) ||
-                  (this.opponentScore == TSet.SET_LENGTHS[this.type] &&
+                  (this.opponentScore == SET_LENGTHS[this.type] &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = OPPONENT_ID;
@@ -452,18 +465,18 @@ export class TSet {
             }
             if(this.breakPoint){
               if(this.serverId != PLAYER_ID){
-                if((this.playerScore >= TSet.SET_LENGTHS[this.type]-1 &&
+                if((this.playerScore >= SET_LENGTHS[this.type]-1 &&
                   this.playerScore > this.opponentScore) ||
-                  (this.playerScore == TSet.SET_LENGTHS[this.type] &&
+                  (this.playerScore == SET_LENGTHS[this.type] &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = PLAYER_ID;
                 } 
               }
               else {
-                if((this.opponentScore >= TSet.SET_LENGTHS[this.type]-1 &&
+                if((this.opponentScore >= SET_LENGTHS[this.type]-1 &&
                   this.opponentScore > this.playerScore) ||
-                  (this.opponentScore == TSet.SET_LENGTHS[this.type] &&
+                  (this.opponentScore == SET_LENGTHS[this.type] &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = OPPONENT_ID;
@@ -473,7 +486,7 @@ export class TSet {
           }
         }
         break;
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         var numPoints = (position && (position.point != undefined)) ? position.point : this.points.length;
         for(var i=0; i<numPoints && !this.winnerId; i++) {
           if( this.points[i].winnerId == PLAYER_ID){
@@ -481,20 +494,20 @@ export class TSet {
           else {
             this.opponentScore++;}
           //check to see if set is over
-          if(this.playerScore >= TSet.SET_LENGTHS[this.type] && this.playerScore > this.opponentScore+1){
+          if(this.playerScore >= SET_LENGTHS[this.type] && this.playerScore > this.opponentScore+1){
               this.winnerId = PLAYER_ID;
           }
           else {
-            if(this.playerScore >= TSet.SET_LENGTHS[this.type]-1 && this.playerScore > this.opponentScore){
+            if(this.playerScore >= SET_LENGTHS[this.type]-1 && this.playerScore > this.opponentScore){
               this.setPoint = true;
               this.setPointFor = PLAYER_ID;
             }
           }
-          if(this.opponentScore >= TSet.SET_LENGTHS[this.type] && this.opponentScore > this.playerScore+1){
+          if(this.opponentScore >= SET_LENGTHS[this.type] && this.opponentScore > this.playerScore+1){
               this.winnerId = OPPONENT_ID;
           }
           else {
-            if(this.opponentScore >= TSet.SET_LENGTHS[this.type]-1 && this.opponentScore > this.playerScore){
+            if(this.opponentScore >= SET_LENGTHS[this.type]-1 && this.opponentScore > this.playerScore){
               this.setPoint = true;
               this.setPointFor = OPPONENT_ID;
             }
@@ -509,7 +522,7 @@ export class TSet {
     var statsOut = statsIn;
 
     switch(this.type){
-      case TSet.TIEBREAK_SET_TYPE:
+      case TIEBREAK_SET_TYPE:
         var g : Game;
         var gLog = { //use a game object to tally stats on the tibreak points
           wI: 0,

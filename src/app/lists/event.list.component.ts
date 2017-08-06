@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo } from '../app.globals';
-import { DataSvc } from '../model/dataSvc'
+import { DataSvc, EVENT_TABLE_NAME } from '../model/dataSvc'
 
     // COMPONENT for MANAGE EVENTS feature
 
@@ -35,7 +35,7 @@ export class EventListComponent implements OnInit {
       // update the current help context and open the Event Management form
       this.utilSvc.setCurrentHelpContext("ManageEvents"); // note current state
       this.utilSvc.displayUserMessages();;
-      this.dataSvc.getList(this.dataSvc.EVENT_TABLE_NAME)
+      this.dataSvc.getList(EVENT_TABLE_NAME)
       .then((list) => {
           this.itemList = <string[]>list;
           this.formOpen = true;
@@ -78,12 +78,12 @@ export class EventListComponent implements OnInit {
         action = "Remove";
       }
     }
-    this.dataSvc.updateList(this.dataSvc.EVENT_TABLE_NAME, this.itemName, action, parseInt(this.selectedItem))   // send the update
+    this.dataSvc.updateList(EVENT_TABLE_NAME, this.itemName, action, parseInt(this.selectedItem))   // send the update
     .then((success) => {
       this.utilSvc.setUserMessage(msgId, msg);
       this.utilSvc.displayUserMessages();
       this.resetForm(form);
-      this.dataSvc.getList(this.dataSvc.EVENT_TABLE_NAME)  // re-read the list
+      this.dataSvc.getList(EVENT_TABLE_NAME)  // re-read the list
       .then((list) => {
         this.requestStatus.updateSuccess = true;
         this.itemList = <string[]>list;
@@ -116,7 +116,7 @@ export class EventListComponent implements OnInit {
   // get the form ready for another operation
   resetForm(form : NgForm) : void {
     if(form){
-      form.reset();
+      form.resetForm();
       // document.getElementById("deleteCheckBox").focus();
     }
     this.selectedItem = "";
@@ -136,7 +136,7 @@ export class EventListComponent implements OnInit {
 
   //indicate whether there are any status messages
   haveStatusMessages = () => {
-    return this.requestStatus.length !== 0;
+    return Object.keys(this.requestStatus).length !== 0;
   }
 
   // return true if there is something wrong with the form input

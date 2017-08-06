@@ -1,22 +1,22 @@
 ﻿                <!--Form used to provide the ACCOUNT LOGIN feature-->
 
-<div class=" app-central-container app-fade-in  " 
-     [ngClass]="{'app-open': formOpen}"
-     (swiperight)="cancelLogin()">
+<div class="app-central-container app-fade-in" 
+     [class.app-open]="formOpen"
+     (swiperight)="closeForm()">
 
   <!-- Form Header -->
 
   <app-form-header  headerType        = "center" 
                     headerTitle       = "Account Sign In" 
-                    headerTheme       = "app-form-header-theme"
+                    headerTheme       = "app-account-header-theme"
                     closeButtonTheme  = "app-white"
-                    [headerClose]     = "cancelLogin">
+                    [headerClose]     = "closeForm">
   </app-form-header>
 
   <!-- Start of Form -->
 
-  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp ">
-    <div class="container app-form-theme px-3 pt-2 pb-3">
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp" (swiperight)="closeForm()">
+    <div class="container app-form-theme px-2 py-3">
       <form #loginForm = "ngForm" role="form" novalidate
             (ngSubmit)="sendLoginRequest(loginForm)">
         <div class="d-flex flex-column">
@@ -31,7 +31,7 @@
             fType         = "email" 
             fLabel        = "Email Address"  
             fIcon         = "mail_outline"
-            fColor        = "app-retro-ltgreen" 
+            fColor        = "app-accounts-color" 
             [(fValue)]    = "userEmail" 
             fErrors       = "required|email"
             fErrorMsgs    = "An email address is required.|Invalid email address character/format."
@@ -48,7 +48,7 @@
             fType         ="password" 
             fLabel        ="Password" 
             fIcon         ="lock_open"
-            fColor        ="app-retro-ltgreen" 
+            fColor        ="app-accounts-color" 
             [(fValue)]    ="userPassword" 
             fErrors       ="required|pattern|minlength"
             fErrorMsgs    ="A password is required.|Invalid password character/format.|Password must be at least 6 characters."
@@ -62,7 +62,7 @@
           <!-- Hidden fields for creating a new account -->
 
           <div class=" d-flex flex-column app-vertical-expand app-form-theme-text"
-                [ngClass]="{'app-vertical-expand-open': showNewAccountFields()}">
+                [class.app-open]="showNewAccountFields()">
 
             <!-- Password confirmation field -->
 
@@ -73,7 +73,7 @@
               [fRequired] ="showNewAccountFields()" 
               fType       ="password" 
               fLabel      ="Confirm Password" 
-              fColor      ="app-retro-ltgreen" 
+              fColor      ="app-accounts-color" 
               [(fValue)]  ="passwordConfirm" 
               fErrors     ="required|pattern|minlength" 
               fIcon       ="lock_outline"
@@ -104,76 +104,25 @@
 
           <!-- Status Message Area -->
 
-          <div class=" app-form-message-area app-open app-no-overflow ">
-            <div class="d-flex flex-row justify-content-center align-items-center app-form-message-area app-fade-in"
-                  [ngClass]="{'app-open': working}">
-              <div class="progress app-progress-indicator" >
-                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
-                      role="progressbar" aria-valuenow="100" 
-                      aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">Working...</div>
-              </div>                
-            </div>
-            <div class=" app-form-message-area app-fade-in"
-                  [ngClass]="{'app-open': (haveStatusMessages() && loginForm.submitted && !working)}" >
-              <app-messages [mList]="requestStatus" [mMax]="2">
-                <app-message name="formHasErrors" class="app-error">
-                  Please correct the fields with errors.
-                </app-message>
-                <app-message name="createSuccess" class="app-success">
-                  Success!
-                </app-message>
-                <app-message name="createFail" class="app-error">
-                  Unable to create new account.
-                </app-message>
-                <app-message name="authFail" class="app-error">
-                  Unable to sign in.
-                </app-message>
-                <app-message name="emailInUse" class="app-error">
-                  Email address already in use.
-                </app-message>
-                <app-message name="emailInvalid" class="app-error">
-                  Invalid email address.
-                </app-message>
-                <app-message name="accountCreated" class="app-success">
-                  Your new account has been created, press Submit to Sign In.
-                </app-message>
-                <app-message name="passwordResetSent" class="app-success">
-                  Password reset email sent.
-                </app-message>
-                <app-message name="enterTempPassword" class="app-success">
-                  Enter the password from that email.
-                </app-message>
-                <app-message name="passwordResetFail" class="app-error">
-                  Unable to reset password.
-                </app-message>
-                <app-message name="unrecognizedEmail" class="app-error">
-                  No account for given email.
-                </app-message>
-                <app-message name="incorrectPassword" class="app-error">
-                  Password value is incorrect.
-                </app-message>
-              </app-messages>
-            </div>
-          </div>
+          <app-form-messages 
+            [fWorkingOpen]    = "!haveStatusMessages() && working"
+            [fMessageOpen]    = "haveStatusMessages() && !working"
+            [fMessageObj]     = "requestStatus">
+          </app-form-messages>                    
 
           <!-- Actions Area -->
 
           <div class="d-flex flex-row justify-content-center align-items-center" id="actions">
-            <button *ngIf="!newAccount && !requestStatus.incorrectPassword"
-                    class="btn app-action-button" type="submit" id="submit" aria-label="sign in">
-              <i class="material-icons app-action-icon app-primary">{{createAccount ? 'add_circle' : 'check_circle'}}</i>
-            </button>
-            <button *ngIf="newAccount"
-                    class="btn app-action-button" type="button" aria-label="sign in"
-                    (click)="sendLoginRequest(loginForm)">
-              <i class="material-icons app-action-icon app-primary">check_circle</i>
-            </button>
-            <button *ngIf="requestStatus.incorrectPassword"
-                    class="btn app-action-button" aria-label="forgot password"
-                    data-toggle="tooltip" data-placement="top" title="Reset Password" data-delay="200"
-                    (click)="requestPasswordReset()">
-              <i class="material-icons app-action-icon app-warn">mood_bad</i>
-            </button>
+            <app-fab *ngIf="!newAccount && !requestStatus.incorrectPassword" fAria="sign in"
+                      fIcon="{{createAccount ? 'add_circle' : 'check_circle'}}">
+            </app-fab>
+            <app-fab *ngIf="newAccount" fAria="sign in"
+                      fIcon="arrow_forward">
+            </app-fab>
+            <app-fab *ngIf="requestStatus.incorrectPassword"
+                      fAria="forgot password" fIcon="sentiment_dissatisfied" fIconColor="app-warn"
+                      fType="button" [fOnClick]="requestPasswordReset">
+            </app-fab>
           </div>
         </div>
       </form>

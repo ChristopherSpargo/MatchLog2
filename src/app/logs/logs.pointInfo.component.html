@@ -1,0 +1,335 @@
+                <!--Form used to gather point information-->
+
+      <div *ngIf="loggingMatch()"  class="container px-2 py-3 app-pan-y"
+             (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+        <!-- Start of Form -->
+        <form #logForm ="ngForm" role="form" novalidate class="px-0 py-0"
+              (submit)="submitPointInfo(logForm)">
+
+          <!-- Serve result field -->
+          
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="d-flex flex-row justify-content-start align-items-center
+                          app-input-divider my-0 app-match-info-label ">
+                   {{servingLabel}}
+            </label>
+            <div *ngIf="specialPoint"
+                 class="d-flex flex-row justify-content-center align-items-center app-special-point">
+              <div class=" app-form-input-label-opacity ">(</div>
+              <div [ngClass]="{'app-check-red': specialPoint == 'break point',
+                              'app-check-green': specialPoint != 'break point'}">
+                  {{specialPoint}}
+              </div>
+              <div class="app-form-input-label-opacity">)</div>
+            </div>
+            <div class=" app-match-info-input-container ">
+              <div class="d-flex flex-row justify-content-around align-items-center">
+                <div class="d-flex flex-column">
+                  <div class="d-inline-flex flex-row align-items-center">
+                    <input type="checkbox" [(ngModel)]="pointInfo.first"
+                              class="app-inline-flex app-form-radio-control" 
+                              name="fServe" id="s1st"
+                              [required]="!(pointInfo.second ||
+                                              pointInfo.ace ||
+                                              pointInfo.double)"
+                              (click)="updateLogForm('first')" 
+                              (focus)="clearRequestStatus()">
+                    <label for="s1st" class="mb-0">1st Serve</label>
+                  </div>
+                  <div class="d-inline-flex flex-row align-items-center">
+                    <input type="checkbox" [(ngModel)]="pointInfo.second" 
+                             class="app-inline-flex app-form-radio-control" 
+                             (click)="updateLogForm('second')" name="sServe" id="s2nd"
+                             (focus)="clearRequestStatus()">
+                    <label for="s2nd" class="mb-0">2nd Serve</label>
+                  </div>
+                </div>
+                <div class="d-flex flex-column">
+                  <div class="d-inline-flex flex-row align-items-center">
+                    <input type="checkbox" [(ngModel)]="pointInfo.ace" name="svcAce" id="sAce"
+                              class="app-inline-flex app-form-radio-control" 
+                              (click)="updateLogForm('Ace')" 
+                              (focus)="clearRequestStatus()">
+                    <label for="sAce" class="mb-0">Ace</label>
+                  </div>
+                  <div class="d-inline-flex flex-row align-items-center">
+                    <input type="checkbox" [(ngModel)]="pointInfo.double" name="svcDouble" id="sDbl"
+                              class="app-inline-flex app-form-radio-control" 
+                              (focus)="clearRequestStatus()"                           
+                              (click)="updateLogForm('Double')">
+                    <label for="sDbl" class="mb-0">Double Fault</label>
+                  </div>
+                </div>
+              </div>
+              <!-- <div *ngIf="logForm.submitted"
+                   ng-messages="logForm.first.$error">
+                <div ng-message="required">
+                  Required
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Return result field -->
+          
+         <div class=" app-match-stats-divider-32 "></div>
+         <div class="d-flex flex-column app-form-theme-text ">
+            <label class="d-flex flex-row justify-content-start align-items-center 
+                          app-input-divider app-match-info-label">Return:</label>
+            <div class=" app-match-info-input-container ">
+              <div      class="d-flex flex-row justify-content-around align-items-center">
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="checkbox" [(ngModel)]="pointInfo.return" id="rIn"
+                          [required]="!(pointInfo.ace || pointInfo.double ||
+                          pointInfo.missedReturn || pointInfo.returnWinner)"
+                          class="app-inline-flex app-form-radio-control" name="return"
+                          [disabled]="pointInfo.double || pointInfo.ace ||
+                          (!pointInfo.first && !pointInfo.second)"
+                          (click)="updateLogForm('return')" 
+                          (focus)="clearRequestStatus()">
+                  <label  for="rIn" class="mb-0">In</label>
+                </div>
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="checkbox" [(ngModel)]="pointInfo.missedReturn" 
+                          class="app-inline-flex app-form-radio-control" id="rOut" name="rOut"
+                          [disabled]="pointInfo.double || pointInfo.ace ||
+                          (!pointInfo.first && !pointInfo.second)"
+                          (click)="updateLogForm('missedReturn')" 
+                          (focus)="clearRequestStatus()">
+                  <label  for="rOut" class="mb-0">Out</label>
+                </div>
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="checkbox" [(ngModel)]="pointInfo.returnWinner" 
+                          class="app-inline-flex app-form-radio-control" id="rWinner" name="rWinner"
+                          [disabled]="pointInfo.double || pointInfo.ace ||
+                          (!pointInfo.first && !pointInfo.second)"
+                          (click)="updateLogForm('returnWinner')" 
+                          (focus)="clearRequestStatus()">
+                  <label  for="rWinner" class="mb-0">Winner</label>
+                </div>
+              </div>
+              <div      class=" app-match-stats-divider-50 "></div>
+              <div      class="d-flex flex-row justify-content-center align-items-center pb-0"> 
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="radio" value="F" class="app-inline-flex app-form-radio-control"
+                          name="rWing" id="rWingF"
+                          aria-label="return wing" [(ngModel)]="pointInfo.returnWing"
+                          (click)="updateLogForm('returnWingF')" 
+                          [disabled]="!pointInfo.ace && !(pointInfo.return || pointInfo.missedReturn ||pointInfo.returnWinner)">
+                  <label  (click)="toggleReturnWing()" 
+                          class="mb-0 mr-1">{{pointInfo.returnWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
+                </div>
+                <input  type="radio" value="B" class=" app-inline-flex app-form-radio-control "
+                      name="rWing" id="rWingB" [(ngModel)]="pointInfo.returnWing"
+                      aria-label="return wing" class="app-inline-flex app-form-radio-control"
+                      (click)="updateLogForm('returnWingB')" 
+                      [disabled]="!pointInfo.ace && !(pointInfo.return || pointInfo.missedReturn ||pointInfo.returnWinner)">
+              </div>
+              <!-- <div *ngIf="logForm.$submitted"
+                   ng-messages="logForm.return.$error">
+                <div ng-message="required">
+                  Required
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Number of shots field -->
+
+         <div class=" app-match-stats-divider-32 "></div>
+         <div class="d-flex flex-row justify-content-start align-items-center
+                     app-input-divider app-left-padding-16px app-match-info-label">Number of shots:</div>
+          <div class="d-flex flex-row">
+            <div class="d-flex flex-row app-width-60" >
+              <div class="d-flex flex-column app-form-theme-text ">
+                <div class=" app-match-info-input-container ">
+                  <div layout="row" flex-offset="5">
+                    <button class="btn app-add-subtract-button " type="button"
+                            [disabled]="pointInfo.double ||pointInfo.ace ||
+                                          pointInfo.missedReturn || pointInfo.returnWinner"
+                            (focus)="clearRequestStatus()"
+                            (click)="subtractAShot()">
+                      <i aria-label="one less point"
+                               class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
+                    </button>
+                      <input type="text" name="shots" autocomplete="off" 
+                             aria-label="number of shots" name="nShots"
+                             [(ngModel)]="pointInfo.shots" required readonly
+                             class="app-add-subtract-input-control app-form-theme-text"
+                             >
+                    <button class="btn app-add-subtract-button " type="button"
+                               [disabled]="pointInfo.double ||pointInfo.ace 
+                                            || pointInfo.missedReturn || pointInfo.returnWinner"
+                               (focus)="clearRequestStatus()"
+                               (click)="addAShot(1)">
+                      <i aria-label="one more point"
+                               class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
+                    </button>
+                    <button class="btn app-add-subtract-button app-left-margin-8px" type="button"
+                               [disabled]="pointInfo.double ||pointInfo.ace 
+                                            || pointInfo.missedReturn || pointInfo.returnWinner"
+                               (focus)="clearRequestStatus()"
+                               (click)="addAShot(5)">
+                      <i aria-label="add five shots"
+                               class="material-icons app-primary app-add-subtract-icon">forward_5</i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-row app-width-40 justify-content-around align-items-center">
+              <app-fab></app-fab>
+              <app-fab *ngIf="insertActive() || editActive()"
+                fType       = "button"
+                fIcon       = "cancel"
+                fIconColor  = "app-warn"
+                [fOnClick]  = "cancelInsertOrEdit"
+                [fParam]    = "logForm">
+              </app-fab>
+            </div>
+          </div>
+
+
+          <!-- Message Area -->
+
+          <app-form-messages 
+            [fHaveMessage]    = "haveStatusMessages()"
+            [fWorkingOpen]    = "false"
+            [fMessageOpen]    = "haveStatusMessages()"
+            [fMessageObj]     = "requestStatus">
+          </app-form-messages>                    
+
+          <!-- Winner Id field -->
+          
+          <div class=" app-match-stats-divider-32 "></div>
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="d-flex flex-row justify-content-start align-items-center
+                           app-input-divider app-match-info-label ">Point won by:</label>
+            <div class=" app-match-info-input-container ">
+              <div class="d-flex flex-row justify-content-around align-items-center"> 
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="radio" value="{{PLAYER_ID}}" class="app-inline-flex app-form-radio-control "
+                          aria-label="player won" id="pWon" name="pWinner" [(ngModel)]="pointInfo.winnerId"
+                          (click)="updateLogForm('playerWon')" 
+                          [disabled]="pointInfo.double || pointInfo.missedReturn || pointInfo.returnWinner ||
+                                      pointInfo.ace || (!pointInfo.first && !pointInfo.second)">
+                  <label  for="pWon" class="mb-0">{{getPlayerName()}}</label>
+                </div>
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="radio" value="{{OPPONENT_ID}}" class="app-inline-flex app-form-radio-control"
+                          aria-label="opponent won" id="oWon"  name="pWinner" [(ngModel)]="pointInfo.winnerId"
+                          (click)="updateLogForm('opponentWon')" 
+                          [disabled]="pointInfo.double || pointInfo.missedReturn || pointInfo.returnWinner ||
+                                      pointInfo.ace || (!pointInfo.first && !pointInfo.second)">
+                  <label  for="oWon" class="mb-0">{{getOpponentName()}}</label>
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-around align-items-center app-top-margin-4px ">
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="checkbox" [(ngModel)]="pointInfo.playerAtNet" 
+                          class=" app-form-radio-control " id="pAtNet" name="pAtNet"
+                          [disabled]="!pointInfo.return || pointInfo.returnWinner"
+                          (click)="updateLogForm('playerAtNet')" 
+                          (focus)="clearRequestStatus()">
+                  <label for="pAtNet" class="mb-0">At Net</label>
+                </div>
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input type="checkbox" [(ngModel)]="pointInfo.opponentAtNet" 
+                            class=" app-form-radio-control " id="oAtNet" name="oAtNet"
+                            [disabled]="!pointInfo.return || pointInfo.returnWinner"
+                            (click)="updateLogForm('opponentAtNet')" 
+                            (focus)="clearRequestStatus()">
+                  <label for="oAtNet" class="mb-0">At Net</label>
+                </div>
+              </div>
+              <!-- <div *ngIf="logForm.$submitted"
+                   ng-messages="logForm.winner.$error">
+                <div ng-message="required">
+                  Required
+                </div>
+              </div> -->
+            </div>
+          </div>
+
+          <!-- Point ending field -->
+
+          <div class=" app-match-stats-divider-32 "></div>
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="d-flex flex-row justify-content-start align-items-center
+                           app-input-divider app-match-info-label ">Point ended by:</label>
+            <div class=" app-match-info-input-container ">
+              <div class="d-flex flex-row justify-content-center align-items-center"> 
+                <div class="d-inline-flex flex-row align-items-center">
+                  <input  type="radio" value="F" class="app-inline-flex app-form-radio-control"
+                          aria-label="last shot wing" id="lsWingF" [(ngModel)]="pointInfo.lastShotWing"
+                          (click)="updateLogForm('lastShotWingF')"  name="lsWing"
+                          [disabled]="!pointInfo.return && pointInfo.missedReturn && !pointInfo.returnWinner">
+                  <label  (click)="toggleLastShotWing()" 
+                          class="mb-0 mr-1">{{pointInfo.lastShotWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
+                </div>
+                <input  type="radio" value="B" class="app-inline-flex app-form-radio-control"
+                            aria-label="last shot wing" [(ngModel)]="pointInfo.lastShotWing"
+                            (click)="updateLogForm('lastShotWingB')"  name="lsWing"
+                            [disabled]="!pointInfo.return && pointInfo.missedReturn &&
+                                          !pointInfo.returnWinner">
+              </div>
+              <div class=" app-match-stats-divider-50 "></div>
+              <div class="d-flex flex-row justify-content-around align-items-center app-flex-wrap pb-0"> 
+                <ng-container  *ngFor="let e of pointEndings; index as i">
+                  <div class="d-inline-flex flex-row align-items-center app-width-40">
+                    <input  type="radio" id="{{'pEnd'+i}}" [(ngModel)]="pointInfo.pointEndedBy" 
+                            [required]="!(pointInfo.ace || pointInfo.double)"
+                            (click)="updateLogForm(e.name)" name="endedBy"
+                            (focus)="clearRequestStatus()"
+                            class="app-inline-flex app-form-radio-control" 
+                            value="{{e.id}}">
+                    <label  for="{{'pEnd'+i}}" class="mb-0">{{e.name}}</label>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unforced error detail field -->
+
+          <div class=" app-match-stats-divider-32 "></div>
+          <div class="d-flex flex-column app-form-theme-text ">
+            <label class="d-flex flex-row justify-content-start align-items-center
+                           app-input-divider app-match-info-label ">Unforced error detail:</label>
+            <div class=" app-match-info-input-container ">
+              <div class="d-flex flex-row justify-content-around align-items-center app-flex-wrap pb-0"> 
+                <ng-container  *ngFor="let d of errorDetails; index as j">
+                  <div class="d-inline-flex flex-row align-items-center app-width-40">
+                    <input  type="radio" id="{{'pED'+j}}" [(ngModel)]="pointInfo.unforcedErrorDetail" 
+                            [disabled]="pointInfo.pointEndedBy != UNFORCED_ERROR_ENDING"
+                            (click)="updateLogForm(d)" name="eDetail"
+                            (focus)="clearRequestStatus()"
+                            class="app-inline-flex app-form-radio-control" 
+                            value="{{j}}">
+                    <label  for="{{'pED'+j}}" class="mb-0">{{d}}</label>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="!loggingMatch()" class=" mx-2 my-2 app-theme-inherit ">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <h1>Match {{matchStatus()}}</h1>
+          <div class="d-flex flex-column justify-content-start align-items-center">
+              <button *ngIf="matchStatus() == 'Paused'" class="btn app-large-button app-primary "
+                      (click)="resumeMatch()"
+                      type="button">RESUME
+              </button>
+              <button class="btn app-large-button app-primary "
+                      (click)="selectReviewTab()"
+                      type="button">REVIEW
+              </button>
+              <button class="btn app-large-button app-primary "
+                      (click)="closeView()"
+                      type="button">EXIT
+              </button>
+          </div>
+        </div>
+      </div>

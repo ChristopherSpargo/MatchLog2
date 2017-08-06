@@ -1,0 +1,18 @@
+  <div>
+    <app-about-heading fIcon="list" fText="Managing Locations"></app-about-heading>
+    &nbsp;&nbsp;The locations list contains the names of the locations where tournaments/matches are played, such as 'Scottsdale Ranch Park'.
+    This form allows you to add/remove/change entries in your locations list.
+    Here's an explanation of the fields and buttons:<br />
+    <app-about-heading fIcon="place" fText="Location Name" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This is the name of a of a tournament/match location.
+    From the drop-down list, select a location to change/remove it or select <b>New Location Name</b> to add
+    a new location name to the list.<br />
+    <app-about-heading fIcon="add_circle" fText="New Location Name" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field will display if you choose New Location Name from the list in the Location Name field.
+     Enter a name for the new location here.<br />
+    <app-about-heading fIcon="remove_circle" fText="Remove This Entry" fIconColor="app-warn"></app-about-heading>
+    &nbsp;&nbsp;Check this box to remove the selected location from the list.<br />
+    <app-about-heading fIcon="check_circle" fText="Submit Button" [fFab]="true" fIconColor="app-primary"></app-about-heading>
+    &nbsp;&nbsp;Press this button to submit your list update request.  If successful, you will
+    receive a brief notification.<br />
+  </div>

@@ -1,0 +1,72 @@
+<!--Template for tabs container for create-logs state-->
+<!-- <app-waiting-indicator awi-open="!vC.viewOpen && !vC.viewWasOpen"></app-waiting-indicator> -->
+
+<div id="app-view-top"
+		 class="d-flex flex-column app-central-container-130 app-fade-in mb-2"
+     [class.app-open]="viewOpen">
+
+  <!-- Form Header -->
+
+  <app-form-header  headerType        = "center" 
+                    headerTitle       = "{{headerTitle}}" 
+                    headerTheme       = "app-logs-header-theme"
+                    closeButtonTheme  = "app-white"
+                    [appBarItems]    = "appBarItems"
+                    [headerClose]     = "closeView">
+  </app-form-header>
+
+  	<!-- Tab set for Create Match Logs -->
+  <div class="app-form-theme app-flex-1 pt-1 app-card-bottom-corners app-whiteframe-2dp" >
+    <ngb-tabset #viewTabs="ngbTabset" (tabChange)="tabChange($event)" 
+                [destroyOnHide]="false" justify="center">
+      <ngb-tab id="logTab"
+                [disabled]="!selectedMatch() || resumeMenuOpen">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme">edit</i>
+            <div class="app-tab-title ml-1">LOG</div>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the point information input form -->
+           <app-logs-point-info>
+          </app-logs-point-info> 
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="viewTab"
+                [disabled]="!selectedMatch() || resumeMenuOpen">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme" 
+              (click)="toggleEventInfo()">assignment</i>
+            <div class="app-tab-title mx-1">REVIEW</div>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the selected match -->
+          <!-- <h2>Review</h2> -->
+           <app-logs-display
+            [matchViewOpen] = "matchViewOpen">
+          </app-logs-display> 
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="matchTab">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme">{{resumeMenuOpen ? 'menu' : 'settings'}}</i>
+            <div class="app-tab-title ml-1">{{resumeMenuOpen ? 'RESUME' : 'SETUP'}}</div>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the match search form -->
+           <!-- <h2>Match Info</h2>  -->
+            <app-logs-create-info
+            [resumeMenuOpen] = resumeMenuOpen
+            [MIFormOpen]     = "MIFormOpen"
+            [pausedMatches]  = "pausedMatches">
+          </app-logs-create-info>  
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

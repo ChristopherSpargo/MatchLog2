@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo } from '../app.globals';
 import { DataSvc } from '../model/dataSvc';
-import { Player, PlayerData } from '../model/player';
+import { PlayerData, DEFAULT_GENDER_TYPE, DEFAULT_HANDED_TYPE } from '../model/player';
 
     // COMPONENT for MANAGE PLAYERS feature
 
@@ -21,8 +21,8 @@ export class PlayerListComponent implements OnInit {
     id          : 0,
     firstName   : "",
     lastName    : "",
-    handed      : Player.DEFAULT_HANDED_TYPE,
-    gender      : Player.DEFAULT_GENDER_TYPE,
+    handed      : DEFAULT_HANDED_TYPE,
+    gender      : DEFAULT_GENDER_TYPE,
     notes       : "",
     createdOn   : this.utilSvc.formatDate()
   };
@@ -91,6 +91,7 @@ export class PlayerListComponent implements OnInit {
     pData.handed        = this.item.handed;
     pData.gender        = this.item.gender;
     pData.createdOn     = this.item.createdOn;
+    this.selectedItem = "999";
     if(this.item.notes != ""){pData.notes = this.item.notes;} // can't store empty string in Database
     this.dataSvc.updatePlayerList(pData, action)   //  send the update
     .then((success) => {
@@ -110,6 +111,7 @@ export class PlayerListComponent implements OnInit {
       });            
     })
     .catch((error) => {
+      window.scrollTo(0,0);
       this.resetForm(form);
       this.utilSvc.displayThisUserMessage("errorUpdatingPlayerList");
       this.working = false;
@@ -136,7 +138,7 @@ export class PlayerListComponent implements OnInit {
     this.deleteItem   = false;
     this.setItemFields();
     if(form){
-      form.reset();
+      form.resetForm();
       // the following line thwarts a display problem on mobile(Android) when
       // focus stays with the itemName field after completion of an operation
       // document.getElementById("deleteCheckBox").focus();
@@ -160,8 +162,8 @@ export class PlayerListComponent implements OnInit {
       this.item.id        = 0;
       this.item.firstName = "";
       this.item.lastName  = "";
-      this.item.handed    = Player.DEFAULT_HANDED_TYPE;
-      this.item.gender    = Player.DEFAULT_GENDER_TYPE;
+      this.item.handed    = DEFAULT_HANDED_TYPE;
+      this.item.gender    = DEFAULT_GENDER_TYPE;
       this.item.notes     = "";
       this.item.createdOn = this.utilSvc.formatDate();
     }
@@ -179,7 +181,7 @@ export class PlayerListComponent implements OnInit {
 
   //indicate whether there are any status messages
   haveStatusMessages = () => {
-    return this.requestStatus.length !== 0;
+    return Object.keys(this.requestStatus).length !== 0;
   }
 
   // set form closed flag, wait for animation to complete before changing states to 'home'

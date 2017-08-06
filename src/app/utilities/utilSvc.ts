@@ -3,21 +3,35 @@
 import { Injectable, OnInit } from '@angular/core';
 import { StateService } from "@uirouter/angular";
 import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
-import { UserInfo } from '../app.globals';
+import { AboutStatus, UserInfo } from '../app.globals';
 import { ModalComponent } from '../modal/modal.component';
 
 @Injectable()
-
 export class UtilSvc implements OnInit {
 
   toastConfig : ToasterConfig;
 
-    constructor(private user: UserInfo, private stateService: StateService, 
+    constructor(private user: UserInfo, private stateService: StateService, private aboutStatus: AboutStatus,
       private toasterService: ToasterService, private modalSvc: ModalComponent) {
     }
 
     ngOnInit() {
       this.toastConfig = new ToasterConfig({positionClass: 'toast-bottom-left'});
+    }
+
+    // scroll to top of window
+    scrollToTop = () => {
+      document.body.style.overflowY ="scroll";
+      document.body.style.height = "auto";
+      setTimeout( () => {
+        document.body.style.height = "";
+        document.body.style.overflowY = "";
+      },50);
+    }
+
+    //emit a custom event with the given name and detail data (if any)
+    emitEvent(name : string, data? : any) : void {
+      document.dispatchEvent(new CustomEvent(name, {detail: data}));
     }
 
     // return a random integer from 0 upto but not icluding the given value
@@ -94,13 +108,13 @@ export class UtilSvc implements OnInit {
 
     //display a toast for each message in user.messages object
     displayUserMessages() : void {
-      if (this.user.messages !== null) {
+      if ((this.user.messages !== null) && (!this.user.messageOpen)) {
         var self = this;
         var msgArray = Object.getOwnPropertyNames(this.user.messages);  //get messages from object to array
         if (msgArray.length) {    //if there are any messages left...
           var msgText = "";
           var msgType = 'info';
-          var msgDuration = 2500;
+          var msgDuration = 2000;
           var key = msgArray[0];  //get next message from messages object
           switch (key) {          //decide which message to display
             case 'signInSuccess':
@@ -117,19 +131,19 @@ export class UtilSvc implements OnInit {
               break;
             case 'signInToLog':
               msgText = "Please sign in to log a match.";
-              msgDuration = 3000;
+              msgDuration = 2500;
               break;
             case 'signInToReview':
               msgText = "Please sign in to review your saved matches.";
-              msgDuration = 3000;
+              msgDuration = 2500;
               break;
             case 'signInToAccessLists':
               msgText = "Please sign in to manage lists.";
-              msgDuration = 3000;
+              msgDuration = 2500;
               break;
             case 'signInToAccessAccount':
               msgText = "Please sign in to access your account.";
-              msgDuration = 3000;
+              msgDuration = 2500;
               break;
             case 'profileUpdated':
               msgText = "Profile successfully updated.";
@@ -211,7 +225,7 @@ export class UtilSvc implements OnInit {
               msgText = "Point Deleted";
               msgType = 'success';
               break;
-            case 'PlayerListReadError':
+            case 'errorReadingPlayerList':
               msgText = "Error reading player list.";
               msgType = 'error';
               break;
@@ -221,6 +235,7 @@ export class UtilSvc implements OnInit {
               break;
             case 'noTournamentsFound':
               msgText = "No tournament list found.";
+              msgType = 'warning';
               break;
             case 'noLocationsFound':
               msgText = "No location list found.";
@@ -261,11 +276,10 @@ export class UtilSvc implements OnInit {
             case 'noWriteAccess':
               msgText = "This account has no WRITE access.";
               msgType = 'error';
-              msgDuration = 3000;
+              msgDuration = 2500;
               break;
             default:
           }
-          delete this.user.messages[key];   //remove this message
           var toast: Toast = {
             type: msgType,
             timeout: msgDuration,
@@ -275,8 +289,11 @@ export class UtilSvc implements OnInit {
             // body: "<div class='app-toast-msg'>" + msgText + "</div>",
             // bodyOutputType: BodyOutputType.TrustedHtml
           };
+          this.user.messageOpen = true;
           this.toasterService.pop(toast);
-          setTimeout(function(){
+          setTimeout(() => {
+            delete this.user.messages[key];   //remove this message
+            this.user.messageOpen = false;
             self.displayUserMessages();     //see if there are any more messages
           }, msgDuration)
         } 
@@ -285,7 +302,7 @@ export class UtilSvc implements OnInit {
 
     //set the current help context
     setCurrentHelpContext(help: string) : void {
-      this.user.helpContext = help;
+      this.aboutStatus.context = help;
     };
 
     // switch to home state after setting the given user message

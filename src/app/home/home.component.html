@@ -41,51 +41,56 @@
                   (click)="toggleSlidenav()"
                   [disabled]="aboutOpen()">
         <i class="material-icons app-slidedown-menu-icon app-slide-open-icon app-font-normal" 
-                  [ngClass]="{'app-visible': !slidenavOpen()}"
+                  [class.app-visible]="!slidenavOpen()"
                   aria-label="open menu">more_vert</i>
         <i class="material-icons app-slidedown-menu-icon app-slide-close-icon app-font-normal" 
-                  [ngClass]="{'app-visible': slidenavOpen()}"
+                  [class.app-visible]="slidenavOpen()"
                   aria-label="open menu">arrow_upward</i>
       </button>
     </div>
   </div>
 
+  <!--define a backdrop container for click-outside-to-close functionality for the slide-down menu-->
+   <div *ngIf="slidenavOpen()" class="app-click-to-close-slidenav" 
+       (click)="closeSlidenav()"></div>
+        
                               <!-- Main SideDown Menu -->
 
-  <div [style.visibility]="slidenavOpen ? 'visible' : 'hidden'" class="hidden-md-up app-slide-down app-slide-menu" 
-       [ngClass]="{'app-open': slidenavOpen()}">
-    <div class="d-flex flex-column justify-content-start align-items-end app-whiteframe-2dp app-frame app-scrollable">
+  <div 
+       class="hidden-md-up app-slide-down app-slide-menu" 
+       [class.app-open]="slidenavOpen()">
+    <div class="d-flex flex-column justify-content-start align-items-start app-whiteframe-2dp app-frame app-scrollable">
         <ul class="d-flex flex-column app-slide-menu-ul app-form-theme">
           <li>
             <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
                     (click)="toggleLogsMenu()">
-              <i class="material-icons app-court-green app-menu-item-icon">assignment</i>
+              <i class="material-icons app-logs-color app-menu-item-icon">assignment</i>
               Match Logs
               <i class="material-icons app-form-theme-text ml-1">{{!logsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
             </button>
-            <div class="app-slidenav-submenu" [ngClass]="{'app-open': logsMenuOpen()}">
+            <div class="app-slidenav-submenu" [class.app-open]="logsMenuOpen()">
               <ul class="app-slide-menu-ul">
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('logsView')">
-                    <i class="material-icons app-court-green app-menu-item-icon-sm">assignment</i>
+                    <i class="material-icons app-logs-color app-menu-item-icon-sm">assignment</i>
                     View Match Logs
                   </button>
                 </li>
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
-                          (click)="menuItemSelected('logsCreate', 'Create')">
-                    <i class="material-icons app-court-green app-menu-item-icon-sm">edit</i>
+                          (click)="menuItemSelected('logsCreate')">
+                    <i class="material-icons app-logs-color app-menu-item-icon-sm">edit</i>
                     Create a Match Log
                   </button>
                 </li>
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
-                          (click)="menuItemSelected('logsCreate', 'Resume')">
-                    <i class="material-icons app-court-green app-menu-item-icon-sm">play_circle_outline</i>
+                          (click)="menuItemSelected('logsResume')">
+                    <i class="material-icons app-logs-color app-menu-item-icon-sm">play_circle_outline</i>
                     Resume a Match Log
                   </button>
                 </li>
@@ -95,17 +100,17 @@
           <li>
             <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
                        (click)="toggleListsMenu()">
-              <i class="material-icons app-light-brown app-menu-item-icon ">list</i>
+              <i class="material-icons app-lists-color app-menu-item-icon ">list</i>
               List Management
               <i class="material-icons app-form-theme-text ml-1">{{!listsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
             </button>
-            <div class="app-slidenav-submenu" [ngClass]="{'app-open': listsMenuOpen()}">
+            <div class="app-slidenav-submenu" [class.app-open]="listsMenuOpen()">
               <ul class=" app-slide-menu-ul ">
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('manageEvents')">
-                    <i class="material-icons app-light-brown app-menu-item-icon-sm">description</i>
+                    <i class="material-icons app-lists-color app-menu-item-icon-sm">description</i>
                     Manage Events
                   </button>
                 </li>
@@ -113,7 +118,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('managePlayers')">
-                    <i class="material-icons app-light-brown app-menu-item-icon-sm">face</i>
+                    <i class="material-icons app-lists-color app-menu-item-icon-sm">face</i>
                     Manage Players
                   </button>
                 </li>
@@ -121,7 +126,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('manageLocations')">
-                    <i class="material-icons app-light-brown app-menu-item-icon-sm">place</i>
+                    <i class="material-icons app-lists-color app-menu-item-icon-sm">place</i>
                     Manage Locations
                   </button>
                 </li>
@@ -129,7 +134,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('manageTournaments')">
-                    <i class="material-icons app-light-brown app-menu-item-icon-sm">group</i>
+                    <i class="material-icons app-lists-color app-menu-item-icon-sm">group</i>
                     Manage Tournaments
                   </button>
                 </li>
@@ -139,17 +144,17 @@
           <li>
             <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
                        (click)="toggleAccountMenu()">
-              <i class="material-icons app-retro-ltgreen app-menu-item-icon ">folder_open</i>
+              <i class="material-icons app-accounts-color app-menu-item-icon ">folder_open</i>
               Account
               <i class="material-icons app-form-theme-text ml-1">{{!accountMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
             </button>
-            <div class="app-slidenav-submenu" [ngClass]="{'app-open': accountMenuOpen()}">
+            <div class="app-slidenav-submenu" [class.app-open]="accountMenuOpen()">
               <ul class=" app-slide-menu-ul ">
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('accountProfile')">
-                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">person</i>
+                    <i class="material-icons app-accounts-color app-menu-item-icon-sm">person</i>
                     Edit Profile
                   </button>
                 </li>
@@ -157,7 +162,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('accountEmail')">
-                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">mail_outline</i>
+                    <i class="material-icons app-accounts-color app-menu-item-icon-sm">mail_outline</i>
                     Change Email
                   </button>
                 </li>
@@ -165,7 +170,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('accountPassword')">
-                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">lock</i>
+                    <i class="material-icons app-accounts-color app-menu-item-icon-sm">lock</i>
                     Change Password
                   </button>
                 </li>
@@ -173,7 +178,7 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="menuItemSelected('accountDelete')">
-                    <i class="material-icons app-retro-ltgreen app-menu-item-icon-sm">delete_forever</i>
+                    <i class="material-icons app-accounts-color app-menu-item-icon-sm">delete_forever</i>
                     Delete Account
                   </button>
                 </li>
@@ -183,17 +188,17 @@
           <li>
             <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem"
                        (click)="toggleAboutMenu()">
-              <i class="material-icons app-about-icon-color app-menu-item-icon ">info_outline</i>
+              <i class="material-icons app-about-color app-menu-item-icon ">info_outline</i>
               About
               <i class="material-icons app-form-theme-text ml-1">{{!aboutMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
             </button>
-            <div class="app-slidenav-submenu" [ngClass]="{'app-open': aboutMenuOpen()}">
+            <div class="app-slidenav-submenu" [class.app-open]="aboutMenuOpen()">
               <ul class=" app-slide-menu-ul ">
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="showAbout('UsingMatchLog')">
-                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">assignment</i>
+                    <i class="material-icons app-about-color app-menu-item-icon-sm">assignment</i>
                     Using MatchLog
                   </button>
                 </li>
@@ -201,22 +206,22 @@
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing" 
                           (click)="showAbout('ContactUs')">
-                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">message</i>
+                    <i class="material-icons app-about-color app-menu-item-icon-sm">message</i>
                     Contacting MatchLog
                   </button>
                 </li>
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-slide-menu-listitem 
                                               app-subitem-spacing app-disabled">
-                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">person</i>
+                    <i class="material-icons app-about-color app-menu-item-icon-sm">person</i>
                       User: {{loggedIn() ? userEmail() : 'Not signed in'}}
                   </button>
                 </li>
                 <li>
                   <button type="button" class="btn d-flex flex-row align-items-center app-small-font 
                                               app-slide-menu-listitem app-subitem-spacing app-disabled">
-                    <i class="material-icons app-about-icon-color app-menu-item-icon-sm">build</i>
-                    MatchLog Version: {{version()}}
+                    <i class="material-icons app-about-color app-menu-item-icon-sm">build</i>
+                    MatchLog Version: {{version}}
                   </button>
                 </li>
               </ul>
@@ -258,8 +263,8 @@
            href="#" role="button" aria-haspopup="true" aria-expanded="false">Match Logs</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
           <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsView">View Match Logs</a>
-          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate({task:'Create'})">Create a Match Log</a>
-          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate({task:'Resume'})">Resume a Match Log</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate">Create a Match Log</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsResume">Resume a Match Log</a>
         </div>
       </li>
       <li ngbDropdown class="nav-item dropdown app-lt-border-right">
@@ -290,14 +295,14 @@
           <a role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting Matchlog</a>
           <a class="dropdown-item app-dropdown-disabled-text">
             User:{{loggedIn() ? ' ' + userEmail() : ' Not signed in'}}</a>
-          <a class="dropdown-item app-dropdown-disabled-text">MatchLog Version: {{' ' + version()}}</a>
+          <a class="dropdown-item app-dropdown-disabled-text">MatchLog Version: {{' ' + version}}</a>
         </div>
       </li>
       <li *ngIf="!loggedIn()" class="nav-item">
-        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlideouts()" uiSref="login">Sign In</a>
+        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlidenav()" uiSref="login">Sign In</a>
       </li>
       <li *ngIf="loggedIn()" class="nav-item app-toolbar-text">
-        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlideouts(); logout($event)">Sign Out</a>
+        <a role="button" class="nav-link app-toolbar-text" (click)="closeSlidenav(); logout($event)">Sign Out</a>
       </li>
     </ul>  
     <div class="pr-2 d-flex flex-row align-items-center">

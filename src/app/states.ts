@@ -8,6 +8,8 @@ import { AccountProfileComponent } from "./account/account.profile.component";
 import { AccountEmailComponent } from "./account/account.email.component";
 import { AccountPasswordComponent } from "./account/account.password.component";
 import { AccountDeleteComponent } from "./account/account.delete.component";
+import { LogsViewComponent } from "./logs/logs.view.component";
+import { LogsCreateComponent } from "./logs/logs.create.component";
 
 /** States */
 export const homeState = { name: 'home', url: '/home',  component: HomeComponent };
@@ -20,3 +22,6 @@ export const accountProfileState = { name: 'accountProfile', url: '/account-prof
 export const accountEmailState = { name: 'accountEmail', url: '/account-email',  component: AccountEmailComponent };
 export const accountPasswordState = { name: 'accountPassword', url: '/account-password',  component: AccountPasswordComponent };
 export const accountDeleteState = { name: 'accountDelete', url: '/account-delete',  component: AccountDeleteComponent };
+export const logsViewState = { name: 'logsView', url: '/logs-view',  component: LogsViewComponent };
+export const logsCreateState = { name: 'logsCreate', url: '/logs-create',  component: LogsCreateComponent };
+export const logsResumeState = { name: 'logsResume', url: '/logs-resume',  component: LogsCreateComponent };

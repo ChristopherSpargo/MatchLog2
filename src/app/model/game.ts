@@ -1,5 +1,8 @@
-import { Point } from './point';
+import { Point, PointData, WINNER_POINT_ENDING, FORCED_ERROR_POINT_ENDING, UNFORCED_ERROR_POINT_ENDING,
+UNFORCED_ERROR_DETAIL_EXECUTION, UNFORCED_ERROR_DETAIL_POSITION, UNFORCED_ERROR_DETAIL_SELECTION,
+ACE_POINT_ENDING, DOUBLE_FAULT_POINT_ENDING } from './point';
 import { PLAYER_ID, OPPONENT_ID } from '../constants'
+import { MatchPosition } from './match'
 
 //this is the record stored for a Game in the database
 export interface GameData{
@@ -11,6 +14,13 @@ export interface GameData{
   sI?:  number;              //server Id (PLAYER_ID or OPPONENT_ID)
   pL?:  any[];               //point list
 }
+
+// CONSTANT values used by the Game class
+export const GAME_TYPES = ["Regular","Tiebreak"];
+export const DEFAULT_GAME_TYPE = 0;
+export const REGULAR_GAME_TYPE = 0;
+export const TIEBREAK_GAME_TYPE = 1;
+
 
 export class Game {
 
@@ -24,12 +34,6 @@ export class Game {
   constructor(gameLog: GameData) {
     this.setGameProperties(gameLog);
   };
-
-  //CONSTANT values used by the Game class
-  static GAME_TYPES = ["Regular","Tiebreak"];
-  static DEFAULT_GAME_TYPE = 0;
-  static REGULAR_GAME_TYPE = 0;
-  static TIEBREAK_GAME_TYPE = 1;
 
   // Game properties
   type:              number;
@@ -48,7 +52,7 @@ export class Game {
 
   //set the game object properties from the given JSON object
   setGameProperties(gLog: GameData) : void {
-    this.type =           gLog.t  || Game.DEFAULT_GAME_TYPE;
+    this.type =           gLog.t  || DEFAULT_GAME_TYPE;
     this.noAd =           gLog.nA || false;
     this.playerScore =    gLog.pS || "0";
     this.opponentScore =  gLog.oS || "0";
@@ -64,7 +68,7 @@ export class Game {
   //add a new point to this game
   addNewPoint(newPoint: Point) : void {
     this.points.push(newPoint);
-    if(this.type == Game.TIEBREAK_GAME_TYPE){
+    if(this.type == TIEBREAK_GAME_TYPE){
       if(this.points.length % 2 == 1){ //odd number of points played, change serverId
         this.serverId = this.serverId == PLAYER_ID ? OPPONENT_ID : PLAYER_ID;
       }
@@ -145,8 +149,8 @@ export class Game {
     var numPoints = (position && (position.point != undefined)) ? position.point : this.points.length;
     var pScore = 0;
     var oScore = 0;
-    var ad = (this.noAd && (this.type == Game.REGULAR_GAME_TYPE)) ? 0 : 1;
-    var gamePtAt = this.type == Game.REGULAR_GAME_TYPE ? 3 : 6
+    var ad = (this.noAd && (this.type == REGULAR_GAME_TYPE)) ? 0 : 1;
+    var gamePtAt = this.type == REGULAR_GAME_TYPE ? 3 : 6
     var scores = ["0","15","30","40","AD","G"];
     var self = this;
 
@@ -166,7 +170,7 @@ export class Game {
       //now see if the game is over
       //if over, determine the winner and the score at the final game point
       switch(self.type){
-        case Game.REGULAR_GAME_TYPE:
+        case REGULAR_GAME_TYPE:
           if( ((pScore > gamePtAt) && (pScore > oScore+ad)) || 
               ((oScore > gamePtAt) && (oScore > pScore+ad)) ) {  //game over
             if(pScore > oScore) {  
@@ -212,7 +216,7 @@ export class Game {
             }
           }
           break;
-        case Game.TIEBREAK_GAME_TYPE:
+        case TIEBREAK_GAME_TYPE:
           self.playerScore = pScore;
           self.opponentScore  = oScore;
           if( ((pScore > gamePtAt) && (pScore > oScore+ad)) || ((oScore > gamePtAt) && (oScore > pScore+ad)) ) {
@@ -257,7 +261,7 @@ export class Game {
 
 
   // compute statistics for the game and return a result object
-  computeStats(statsIn: any): any {
+  computeStats(statsIn?: any): any {
     var self = this;
     var statsOut = statsIn ||  {      //define the stats object
       winnerId:       this.winnerId,
@@ -360,33 +364,33 @@ export class Game {
         if(p.opponentAtNet){statsOut.netPoints[1][0]++;}
       }
       statsOut.tpWon[w]++;              //count point won
-      if(p.pointEndedBy == Point.WINNER_POINT_ENDING){
+      if(p.pointEndedBy == WINNER_POINT_ENDING){
         statsOut.winners[w]++;          //count winner
         if(p.lastShotWing){             //note the wing
           if(p.lastShotWing == "F"){statsOut.fhWinners[w]++;}
           else{statsOut.bhWinners[w]++;}
         }
       }
-      if(p.pointEndedBy == Point.FORCED_ERROR_POINT_ENDING){
+      if(p.pointEndedBy == FORCED_ERROR_POINT_ENDING){
         statsOut.errForced[w]++;          //count forced
         if(p.lastShotWing){               //note the wing
           if(p.lastShotWing == "F"){statsOut.fhErrForced[w]++;}
           else{statsOut.bhErrForced[w]++;}
         }
       }
-      if(p.pointEndedBy == Point.UNFORCED_ERROR_POINT_ENDING){
+      if(p.pointEndedBy == UNFORCED_ERROR_POINT_ENDING){
         statsOut.unfErrors[l]++;          //count unforced on point loser
         if(p.lastShotWing){               //note the wing
           if(p.lastShotWing == "F"){statsOut.fhUnfErrors[l]++;}
           else{statsOut.bhUnfErrors[l]++;}
         }
-        if(p.unforcedErrorDetail == Point.UNFORCED_ERROR_DETAIL_SELECTION){
+        if(p.unforcedErrorDetail == UNFORCED_ERROR_DETAIL_SELECTION){
           statsOut.ufeSelection[l]++;
         }
-        if(p.unforcedErrorDetail == Point.UNFORCED_ERROR_DETAIL_POSITION){
+        if(p.unforcedErrorDetail == UNFORCED_ERROR_DETAIL_POSITION){
           statsOut.ufePosition[l]++;
         }
-        if(p.unforcedErrorDetail == Point.UNFORCED_ERROR_DETAIL_EXECUTION){
+        if(p.unforcedErrorDetail == UNFORCED_ERROR_DETAIL_EXECUTION){
           statsOut.ufeExecution[l]++;
         }
       }
@@ -422,7 +426,7 @@ export class Game {
             statsOut.bhFrInRatio[r][1]++;
           }
         }
-        if(p.pointEndedBy == Point.ACE_POINT_ENDING){
+        if(p.pointEndedBy == ACE_POINT_ENDING){
           statsOut.aces[s]++;         //count ace
         } else {
           if(p.returnIn == true){
@@ -438,7 +442,7 @@ export class Game {
         }
       }
       else {    ///SECOND SERVE
-        if(p.pointEndedBy == Point.DOUBLE_FAULT_POINT_ENDING){
+        if(p.pointEndedBy == DOUBLE_FAULT_POINT_ENDING){
           statsOut.dblFaults[s]++;      //count dbl
         }
         else { 
@@ -453,7 +457,7 @@ export class Game {
               statsOut.bhSrInRatio[r][1]++;
             }
           }
-          if(p.pointEndedBy == Point.ACE_POINT_ENDING){
+          if(p.pointEndedBy == ACE_POINT_ENDING){
             statsOut.aces[s]++;         //count ace (2nd sv)
           } 
           else {
@@ -473,7 +477,7 @@ export class Game {
           }
         }
       }
-      if(p.pointEndedBy != Point.DOUBLE_FAULT_POINT_ENDING){
+      if(p.pointEndedBy != DOUBLE_FAULT_POINT_ENDING){
         if(p.returnWing){     //count # of FH/BH returns won vs attempted
           if(p.returnWing == "F"){statsOut.fhRpWonRatio[r][1]++;}
           else{statsOut.bhRpWonRatio[r][1]++;}

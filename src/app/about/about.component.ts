@@ -1,7 +1,8 @@
 ﻿
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { UIROUTER_DIRECTIVES } from '@uirouter/angular';
-import { IMAGE_DIRECTORY, FORM_HEADER_ICON } from '../constants'
+import { IMAGE_DIRECTORY, FORM_HEADER_ICON } from '../constants';
+import { AboutStatus, UserInfo } from '../app.globals';
 
 export const HelpContextTitles = {
       UsingMatchLog       : 'Use MatchLog',
@@ -25,10 +26,29 @@ export const HelpContextTitles = {
     };
 
 @Component({
+  selector: '<about-container>',
   templateUrl: 'about.component.html'
 })
 export class AboutComponent {
+  icon : string = IMAGE_DIRECTORY + FORM_HEADER_ICON;
 
-aboutOpen : boolean = false;
+  constructor(private aboutStatus: AboutStatus, private userInfo: UserInfo){};
 
-};
+  aboutOpen = () => {
+    return this.aboutStatus.open;
+  }
+
+  closeAbout = () => {
+    this.aboutStatus.open = false;
+  }
+
+  // return current helpContext
+  helpContext = () => {
+    return this.aboutStatus.context;
+  }
+
+  // return the current helpContext title
+  helpContextTitle = () => {
+    return HelpContextTitles[this.helpContext()];
+  }
+}

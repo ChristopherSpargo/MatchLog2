@@ -2,30 +2,20 @@
 import { UIROUTER_DIRECTIVES } from '@uirouter/angular';
 import { StateService } from "@uirouter/core";
 
-import { ML_VERSION } from '../constants';
-import { UserInfo, SlideoutStatus } from '../app.globals';
+import { UserInfo, SlideoutStatus, AboutStatus } from '../app.globals';
 import { Profile } from '../model/profile'
-import { IMAGE_DIRECTORY, FORM_HEADER_ICON, MAIN_BACKGROUND } from '../constants';
-import { HelpContextTitles } from '../about/about.component';
+import { IMAGE_DIRECTORY, FORM_HEADER_ICON, ML_VERSION } from '../constants';
 import { UtilSvc } from '../utilities/utilSvc'
 
 @Component({
   templateUrl: 'home.component.html'
 })
 export class HomeComponent implements OnInit {
-  // ML_VERSION        : string  = "v2.0";
-  // slidenavOpen      : boolean = false;
-  // aboutMenuOpen     : boolean = false;
-  // accountMenuOpen   : boolean = false;
-  // logsMenuOpen      : boolean = false;
-  // listsMenuOpen     : boolean = false;
-  // aboutOpen         : boolean = false;
   formHeaderIcon    : string  = IMAGE_DIRECTORY+FORM_HEADER_ICON;
-  mainBackground    : string  = MAIN_BACKGROUND;
-  aboutTopic        : string  = "";
+  version           : string  = ML_VERSION;
 
   constructor(private sS: SlideoutStatus, private user: UserInfo, private stateService: StateService,
-      private utilSvc: UtilSvc){
+      private utilSvc: UtilSvc, private aboutStatus: AboutStatus){
   }
 
   ngOnInit() {
@@ -33,7 +23,7 @@ export class HomeComponent implements OnInit {
       this.user.profile = Profile.build();             //assign them the default profile values
     }
     this.utilSvc.displayUserMessages();
-    this.user.helpContext = "MatchLog"; // reset help context to base status
+    this.aboutStatus.context = "UsingMatchLog"; // reset help context to base status
     if(window.matchMedia("(min-width: 768px)").matches){
       this.closeSlidenav();
     }
@@ -64,26 +54,12 @@ export class HomeComponent implements OnInit {
   }
   
   aboutOpen = () => {
-    return this.sS.aboutOpen;
+    return this.aboutStatus.open;
   }
   
-  version = () => {
-    return ML_VERSION;
-  }
-
-  // return current helpContext
-  helpContext() : string {
-    return this.aboutTopic ? this.aboutTopic : this.user.helpContext;
-  }
-
   // return user email string
   userEmail() : string {
     return this.user.userEmail;
-  }
-
-  // return the current helpContext title
-  helpContextTitle() : string {
-    return HelpContextTitles[this.helpContext()];
   }
 
   // the user is logged in if authData is not null
@@ -117,70 +93,58 @@ export class HomeComponent implements OnInit {
   // Open the about (help) panel. Also, make sure the slidedown menu is closed.
   showAbout(topic : string) : void {
     this.closeSlidenav();
-    this.aboutTopic = topic;
-    this.openAbout();
-  }
-
-  toggleAbout() : void {
-    if (this.sS.aboutOpen) {
-      this.closeAbout();
-    }
-    else {
-      this.openAbout();
-    }
-  }
-
-  closeSlideouts() : void {
-    this.closeAbout();
-    this.closeSlidenav();
-  }
-
-  openAbout() : void {
-    this.sS.aboutOpen = true;
+    this.aboutStatus.context = topic;
+    this.aboutStatus.open = true;
   }
 
   toggleLogsMenu() : void {
-    this.sS.logsMenuOpen = !this.sS.logsMenuOpen;
+    this.sS.aboutMenuOpen = false;
+    this.sS.listsMenuOpen = false;
+    this.sS.accountMenuOpen = false;
+    setTimeout( () => {
+      this.sS.logsMenuOpen = !this.sS.logsMenuOpen;
+    }, 100);
   }
 
   toggleListsMenu() : void {
-    this.sS.listsMenuOpen = !this.sS.listsMenuOpen;
+    this.sS.aboutMenuOpen = false;
+    this.sS.logsMenuOpen = false;
+    this.sS.accountMenuOpen = false;
+    setTimeout( () => {
+      this.sS.listsMenuOpen = !this.sS.listsMenuOpen;
+    }, 100);
   }
 
   toggleAccountMenu() : void {
-    this.sS.accountMenuOpen = !this.sS.accountMenuOpen;
+    this.sS.aboutMenuOpen = false;
+    this.sS.listsMenuOpen = false;
+    this.sS.logsMenuOpen = false;
+    setTimeout( () => {
+      this.sS.accountMenuOpen = !this.sS.accountMenuOpen;
+    }, 100);
   }
 
   toggleAboutMenu() : void {
-    this.sS.aboutMenuOpen = !this.sS.aboutMenuOpen;
+    this.sS.accountMenuOpen = false;
+    this.sS.listsMenuOpen = false;
+    this.sS.logsMenuOpen = false;
+    setTimeout( () => {
+      this.sS.aboutMenuOpen = !this.sS.aboutMenuOpen;
+    }, 100);
   }
 
   // switch to the specified state.  Delay if menu open to wait for close animation
-  menuItemSelected (newState : string, task? : string) : void {
+  menuItemSelected (newState : string, fSelect? : string) : void {
     var delay = this.sS.slidenavOpen ? 500 : 0;
     this.closeSlidenav();
     setTimeout( () => {
-      if(task){
-        this.stateService.go(newState, {task: task});
+      if(fSelect){
+        this.stateService.go(newState, {task: fSelect});
       }
       else {
         this.stateService.go(newState);
       };
     }, delay);
-  }
-
-  // close the about (help) panel
-  // wait for animation to complete
-  closeAbout() : void {
-    if (this.sS.aboutOpen) {
-      this.sS.aboutOpen = false;
-      setTimeout( () => {
-        this.aboutTopic = "";
-        if(window.matchMedia("(min-width: 768px)").matches){
-          this.closeSlidenav();
-        }
-      }, 600);
-    }
   }
 
 }

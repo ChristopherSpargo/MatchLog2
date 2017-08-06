@@ -13,12 +13,12 @@ export class IconInputComponent implements OnInit {
   @Input() fName        : string;   // unique name for field
   @Input() fRef         : string;   // unique name for Template Reference Variable for this field
   @Input() fForm        : NgForm;   // name of Template Reference Variable for form this input belongs to
-  @Input() fRequired    : boolean;  // if input is required
-  @Input() fDisabled    : boolean;  // when input should be disabled
-  @Input() fReadonly    : boolean;  // if the field is readonly
+  @Input() fRequired    : boolean = false;  // if input is required
+  @Input() fDisabled    : boolean = false;  // when input should be disabled
+  @Input() fReadonly    : boolean = false;  // if the field is readonly
   @Input() fType        : string;   // input type (password, email,..)
   @Input() fLabel       : string;   // label for input
-  @Input() fIcon        : string;   // icon for input
+  @Input() fIcon        : string = "";   // icon for input
   @Input() fColor       : string;   // color for icon
   @Input() fValue       : string;   // model for this field
   @Input() fErrors      : string;   // array of error key names
@@ -30,6 +30,7 @@ export class IconInputComponent implements OnInit {
   @Input() fFocusFn     : Function; // function to execute on focus
   @Input() fOnInput     : Function; // function to execute on input
   @Input() fExtraCSS    : string;   // CSS classes to add to main div
+  @Input() fCapitalize  : boolean = false; // true if input should be capitalized
   @Output() fValueChange = new EventEmitter<string>();
 
 
@@ -55,6 +56,9 @@ export class IconInputComponent implements OnInit {
   }
 
   valueChange = ()=> {
+    if(this.fCapitalize){
+      this.fValue = this.fValue.charAt(0).toUpperCase()+this.fValue.substr(1); 
+    }
     this.fValueChange.emit(this.fValue);
     if(this.fOnInput){ this.fOnInput(); }
   }

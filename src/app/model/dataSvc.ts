@@ -4,30 +4,29 @@ import { UserInfo } from '../app.globals';
 import { UtilSvc } from '../utilities/utilSvc'
 import { FireBaseSvc } from '../utilities/fireBaseSvc'
 import { AWSModule } from './AWSModule';
-import { Profile } from './profile';
-import { Match } from './Match'
+import { Profile, RESTRICTION_WRITE } from './profile';
+import { Match, MatchData } from './match'
 
 interface ParamObj {
   TableName: string;
   [propName: string]: any;
 }
 
-@Injectable()
+      // CONSTANTS used by Data service
+export const PRIMARY_KEY_HASH =      'userId';
+export const PRIMARY_KEY_RANGE =     'sortDate';
+export const MATCH_TABLE_NAME =      'matchList';
+export const LOCATION_TABLE_NAME =   'locationList';
+export const EVENT_TABLE_NAME =      'eventList';
+export const TOURNAMENT_TABLE_NAME = 'tournamentList';
+export const PLAYER_TABLE_NAME =     'playerList';
 
+@Injectable()
 export class DataSvc {
 
     constructor(private user: UserInfo, private fireBaseSvc: FireBaseSvc, 
       private awsModule: AWSModule, private utilSvc: UtilSvc) {
     }
-
-      // CONSTANTS used by Data service
-      PRIMARY_KEY_HASH =      'userId';
-      PRIMARY_KEY_RANGE =     'sortDate';
-      MATCH_TABLE_NAME =      'matchList';
-      LOCATION_TABLE_NAME =   'locationList';
-      EVENT_TABLE_NAME =      'eventList';
-      TOURNAMENT_TABLE_NAME = 'tournamentList';
-      PLAYER_TABLE_NAME =     'playerList';
 
 //*******************************************************************************
 //    Functions that deal with the database
@@ -53,7 +52,7 @@ export class DataSvc {
             Item: item
         };
 
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve,reject) => {
             setTimeout(() => {
@@ -72,10 +71,10 @@ export class DataSvc {
             Key:{ "userId": id }
         };
 
-        if(table == this.MATCH_TABLE_NAME){
+        if(table == MATCH_TABLE_NAME){
           params.Key["sortDate"] = sortDate;
         }; 
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve,reject) => {
             setTimeout(() => {
@@ -92,7 +91,7 @@ export class DataSvc {
       queryMatchTable(id: string, filter?: any){
         var fExp = "";
         var params: ParamObj = {
-            TableName: this.MATCH_TABLE_NAME,
+            TableName: MATCH_TABLE_NAME,
             KeyConditionExpression: "userId = :v_iD",
             ExpressionAttributeValues: {
               ":v_iD": id
@@ -201,7 +200,7 @@ export class DataSvc {
       saveMatchLog(mLog : MatchData ) : Promise<any> {
 
         return new Promise((resolve, reject) => {
-          this.writeTableItem(this.MATCH_TABLE_NAME, mLog)
+          this.writeTableItem(MATCH_TABLE_NAME, mLog)
             .then((success) => {
                 resolve(success);}) 
             .catch((error) => {
@@ -214,7 +213,7 @@ export class DataSvc {
       deleteMatch(matchDate : string){
 
         return new Promise((resolve, reject) => {
-          this.deleteTableItem(this.MATCH_TABLE_NAME, this.user.authData.uid, matchDate)
+          this.deleteTableItem(MATCH_TABLE_NAME, this.user.authData.uid, matchDate)
           .then((success) => {
             resolve(success);}) 
           .catch((error) => {
@@ -224,7 +223,7 @@ export class DataSvc {
  
       // Add/Update/Remove the given item of the list in the given table
       // return: promise
-      updateList(table : string, item : any, action : string, index : number){
+      updateList(table : string, item : any, action : string, index? : number){
   
         return new Promise((resolve, reject) => {
           this.getList(table)
@@ -325,7 +324,7 @@ export class DataSvc {
         return new Promise((resolve, reject) => {
           Promise.all(pending)
           .then((success) => {
-            this.getList(this.PLAYER_TABLE_NAME)
+            this.getList(PLAYER_TABLE_NAME)
             .then((pList : any) => {
               for(var i=0; i<pList.length; i++){
                 if(pList[i].id == p.id){
@@ -343,7 +342,7 @@ export class DataSvc {
               else{
                 pList.push(p);          // Add player
               }
-              this.saveList(pList, this.PLAYER_TABLE_NAME)
+              this.saveList(pList, PLAYER_TABLE_NAME)
               .then((success) => {
                 resolve(success);})
               .catch((error) => {
@@ -351,7 +350,7 @@ export class DataSvc {
             })
             .catch((error) => {
               if(/INF/.test(error) && action == "Add"){
-                this.saveList([p], this.PLAYER_TABLE_NAME)
+                this.saveList([p], PLAYER_TABLE_NAME)
                 .then((success) => {
                   resolve(success);})
                 .catch((error) => {
@@ -372,8 +371,8 @@ export class DataSvc {
         var result = [];
 
         return new Promise((resolve, reject) => {
-          this.getList(this.PLAYER_TABLE_NAME)
-          .then(function(pList : any){
+          this.getList(PLAYER_TABLE_NAME)
+          .then((pList : any) => {
             for (var i=0; i<pList.length; i++) { 
               var p = pList[i];
               result.push({id: p.id, name: p.firstName+' '+p.lastName,
@@ -394,7 +393,7 @@ export class DataSvc {
       // update the given user profile, return a promise
       // returns: promise
       updateUserProfile(user : any){
-        if(user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -414,7 +413,7 @@ export class DataSvc {
       // read the given user profile properties, return a profile
       // returns: promise
       createUserProfile(user){
-        if(user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -428,7 +427,7 @@ export class DataSvc {
       // delete the profile associated with the given user
       // returns: promise
       removeUserProfile(user : any){
-        if(user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -442,7 +441,7 @@ export class DataSvc {
       // delete the account associated with the given email and password
       // returns: promise
       deleteAccount(email : string, password : string){
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -456,7 +455,7 @@ export class DataSvc {
       // change the email associated with the given email and password
       // returns: promise
       changeEmail(currEmail : string, password : string, newEmail : string){
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -483,7 +482,7 @@ export class DataSvc {
       // have FireBase send a message with a temporary password to the given email
       // returns: promise
       resetPassword(email : string){
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -496,8 +495,8 @@ export class DataSvc {
 
       // change the password associated with the given email
       // returns: promise
-      changePassword(email : string, currPassword : string, newPassword : string){
-        if(this.user.profile.hasRestriction(Profile.RESTRICTION_WRITE)){
+      changePassword(email : string, currPassword : string, newPassword : string) : Promise<any> {
+        if(this.user.profile.hasRestriction(RESTRICTION_WRITE)){
           this.utilSvc.setUserMessage("noWriteAccess");          
           return new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -514,10 +513,10 @@ export class DataSvc {
         var promises  = [];
         var id = aUser.authData.uid;
 
-        promises.push(this.deleteTableItem(this.EVENT_TABLE_NAME, id));
-        promises.push(this.deleteTableItem(this.TOURNAMENT_TABLE_NAME, id));
-        promises.push(this.deleteTableItem(this.LOCATION_TABLE_NAME, id));
-        promises.push(this.deleteTableItem(this.PLAYER_TABLE_NAME, id));
+        promises.push(this.deleteTableItem(EVENT_TABLE_NAME, id));
+        promises.push(this.deleteTableItem(TOURNAMENT_TABLE_NAME, id));
+        promises.push(this.deleteTableItem(LOCATION_TABLE_NAME, id));
+        promises.push(this.deleteTableItem(PLAYER_TABLE_NAME, id));
         return new Promise((resolve, reject) => {
           this.queryMatchTable(id)
           .then((data) => {

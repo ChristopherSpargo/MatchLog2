@@ -1,0 +1,22 @@
+    <!-- Template used for stat item display. 
+         Used with <app-stats-item-breakdown> COMPONENT -->
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <div class=" app-match-stats-player-value "
+           [class.app-disabled-text]="fShowOpponent">
+        {{!fShowOpponent ? (!fRatio ? (fValue[0] + fPct) : (fValue[0][0] + '/' + fValue[0][1])) : '...'}}
+      </div>
+      <button class="btn d-flex flex-row justify-content-center align-items-center 
+              app-match-stats-stat app-stat-breakdown " type="button"
+              (click)="toggleBreakdownOpen()">
+        {{fLabel}}
+        <i class="material-icons app-match-info-label">{{fBreakdownOpen ? 'expand_less' : 'expand_more'}}</i>
+      </button>
+      <div class=" app-match-stats-opponent-value"
+           [class.app-disabled-text]="fShowPlayer">
+        {{!fShowPlayer ? (!fRatio ? (fValue[1] + fPct) : (fValue[1][0] + '/' + fValue[1][1])) : '...'}}
+      </div>
+    </div>
+    <div class="d-flex flex-column app-match-stats-section-text"
+         [class.app-open]="fBreakdownOpen">
+      <ng-content></ng-content>
+    </div>

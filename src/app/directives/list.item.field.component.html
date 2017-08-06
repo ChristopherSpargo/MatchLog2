@@ -1,9 +1,9 @@
     <!-- Template used for gathering a list item. 
          Used with <app-list-item-field> DIRECTIVE -->
-<div class="d-flex flex-row">
-  <div class="app-icon-input-field-container">
+<!-- <div class="d-flex flex-row {{fExtraCSS}}"> -->
+  <div class="app-icon-input-field-container {{fExtraCSS}}">
     <label class="app-icon-input-field-label-sm" 
-          [class.has-value]="fValue != ''" 
+          [class.has-value]="fValue !== ''" 
           [class.has-focus]="focused" 
           [class.app-show-required]="fRequired">
           {{fLabel}}</label>
@@ -16,11 +16,14 @@
               [registerForm]="fForm" [registerModel]="fRef"
               (focus)="showFocused()" (blur)="showNotFocused()" (change)="valueChange()">
         <optgroup label="{{fLabel}}" class="app-form-theme-select-menu">
-          <ng-container *ngIf="fAllowNew">
-            <option class="app-form-theme-select-menu" value="999">New {{fLabel}}</option>
+          <ng-container *ngIf="fAllowNew || fShowNew">
+            <option  value="999">New {{fLabel}}</option>
+          </ng-container>
+          <ng-container *ngIf="fAllowAny">
+            <option value="0">Any {{fLabel}}</option>
           </ng-container>
           <ng-container *ngIf=" fListValue == 'index' ">
-            <option *ngFor="let item of fList; index as i;"
+            <option *ngFor="let item of fList; index as i;" 
                     value="{{i}}">
                     {{item}}
             </option>
@@ -42,16 +45,16 @@
     </div>
     <div class="app-field-messages" [style.visibility]="(fRef.touched || fForm.submitted) ? 'visible' : 'hidden'">
       <validation-messages [vField]="fRef" [vMultiple]="fErrorMulti">
-        <validation-message name="required">Required</validation-message>
+        <validation-message name="required">{{fLabel}} selecion is required.</validation-message>
       </validation-messages>
     </div>
   </div>
-</div>
+<!-- </div> -->
 
 <!-- New item description field -->
   
-<div *ngIf="fNewName" class="d-flex flex-row app-vertical-expand "
-     [ngClass]="{'app-vertical-expand-open': fValue != ''}">
+<div *ngIf="fAllowNew" class="d-flex flex-row app-vertical-expand "
+     [class.app-open]="(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))">
   <app-icon-input
       [fForm]       = "fForm" 
       fRef          = "{{fNewRef}}" 

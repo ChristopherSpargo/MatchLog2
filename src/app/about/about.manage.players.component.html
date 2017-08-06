@@ -1,0 +1,38 @@
+  <div>
+    <app-about-heading fIcon="list" fText="Managing Players"></app-about-heading>
+    &nbsp;&nbsp;The players list contains the names of the players that play in the matches you log.
+    This form allows you to add/remove/change entries in your players list.
+    Here's an explanation of the fields and buttons:<br />
+    <app-about-heading fIcon="face" fText="Player Name" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This is the name of a player.
+    From the drop-down list, select a player to change/remove them or select <b>New Player Name</b> to add
+    a new player name to the list.<br />
+    <app-about-heading fIcon="looks_one" fText="First Name" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field will display the first name of the player selected from the player list.
+     If you selected <b>New Player</b> from the Player list, enter a first name for the new player here.<br />
+    <app-about-heading fIcon="looks_two" fText="Last Name" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field will display the last name of the player selected from the player list.
+     If you selected <b>New Player</b> from the Player list, enter a last name for the new player here.<br />
+    <app-about-heading fIcon="swap_horiz" fText="Player Plays" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field is to indicate the predominant hand the player uses for playing.
+     Select left or right.<br />
+    <app-about-heading fIcon="wc" fText="Gender" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field is to indicate the gender of the player.
+     Select female or male.<br />
+    <app-about-heading fIcon="edit" fText="Notes" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field is for making notes about the player.
+     The character limit of the field is indicated below the input line.<br />
+    <app-about-heading fIcon="today" fText="Created On" fIconColor="app-light-brown"></app-about-heading>
+    &nbsp;&nbsp;This field indicates when the player was initially added to the player list. 
+    The date is set by the program.<br />
+    <app-about-heading fIcon="remove_circle" fText="Remove This Entry" fIconColor="app-warn"></app-about-heading>
+    &nbsp;&nbsp;Check this box to remove the selected player from the list.<br />
+    <app-about-heading fIcon="check_circle" fText="Submit Button" fIconColor="app-primary"></app-about-heading>
+    &nbsp;&nbsp;Press this button to submit your list update request.  If successful, you will
+    receive a brief notification.<br />
+    <app-about-heading fIcon="warning" fText="Tips and Warnings" fIconColor="app-checkbox" [fDivider]="true"></app-about-heading>
+    &nbsp;&nbsp;The <b>Remove</b> request will fail if the player is found in any of the match logs in your database.
+    You will be instructed to delete any matches containing that player.  To do this, go to <b>View Match Logs</b>
+     and search for matches with that player (as Player or Opponent).  When the menu of matches displays, delete each match by selecting
+    the <b>delete</b> button shown next to each menu item.  You can then return here to Remove the player.<br />
+  </div>

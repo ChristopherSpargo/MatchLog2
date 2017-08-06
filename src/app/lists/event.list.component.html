@@ -13,15 +13,15 @@
 
   <app-form-header  headerType        = "center" 
                     headerTitle       = "Manage Events" 
-                    headerTheme       = "app-form-header-theme"
+                    headerTheme       = "app-lists-header-theme"
                     closeButtonTheme  = "app-white"
                     [headerClose]     = "closeForm">
   </app-form-header>
 
                                               <!-- Start of Form -->
 
-  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-3 pt-2 pb-3">
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp" (swiperight)="closeForm()">
+    <div class="container app-form-theme px-2 py-3">
       <form #listForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(listForm)">
         <div class="d-flex flex-column">
@@ -35,6 +35,7 @@
               fLabel          = "Event Name" 
               fIcon           = "description" 
               fColor          = "app-light-brown "
+              [fRequired]     = "true"
               [fOnFocus]      = "clearRequestStatus"
               [fOnChange]     = "copyItemName"
               [fList]         = "itemList"
@@ -55,7 +56,6 @@
 
           <!-- Messages Area -->
           <app-form-messages 
-            [fHaveMessage]    = "haveStatusMessages()"
             [fWorkingOpen]    = "!haveStatusMessages() && working"
             [fMessageOpen]    = "haveStatusMessages() && !working"
             [fMessageObj]     = "requestStatus">

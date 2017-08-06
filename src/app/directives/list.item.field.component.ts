@@ -13,7 +13,7 @@ export class ListItemFieldComponent  {
   @Input() fRef         : string;   // unique name for Template Reference Variable (TRV) for this field
   @Input() fValue       : string;   // model for <select> field
   @Input() fList        : any[];    // array of list items for <select>
-  @Input() fListValue   : string;   // indicates how to structure <select> options
+  @Input() fListValue   : string = "";   // indicates how to structure <select> options
   @Input() fLabel       : string;   // label for <select>
   @Input() fIcon        : string;   // icon for <select>
   @Input() fColor       : string;   // color for icon
@@ -21,7 +21,9 @@ export class ListItemFieldComponent  {
   @Input() fDisabled    : string;   // indicates field is disabled
   @Input() fOnFocus     : Function; // function to execute on <select> focus
   @Input() fOnChange    : Function; // function to execute on <select> change
-  @Input() fAllowNew    : boolean = true;  // should <select> have a New Item entry at the top
+  @Input() fShowNew     : boolean = false; // allow a "New" selection but don't collect the new value
+  @Input() fAllowNew    : boolean = true;  // should <select> have a New Item (value '999') entry at the top
+  @Input() fAllowAny    : boolean = false;  // should <select> have a Any Item (value '') entry at the top
   @Input() fEqual       : boolean;  // how to test for required input field (equality or inequality)
   @Input() fNewTest     : string;   // string to test against for required input field check
   @Input() fNewValue    : string;   // location to store new item value
@@ -29,6 +31,7 @@ export class ListItemFieldComponent  {
   @Input() fNewRef      : string;   // unique name for TRV for new item field
   @Input() fNewItemCheck: string;   // when to show text input errors
   @Input() fErrorMulti  : string;   // 'true' if allow multiple error messages
+  @Input() fExtraCSS    : string = "";   // additional css classes to include on main div
   @Output() fValueChange = new EventEmitter<string>();
   @Output() fNewValueChange = new EventEmitter<string>();
 

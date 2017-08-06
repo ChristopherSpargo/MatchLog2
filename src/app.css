@@ -23,43 +23,47 @@ $primaryColor: #00897B;
 $accentColor: #9C27B0;
 $warnColor: #E53935;
 $checkboxColor: #E6B800;
+$blackTextColor: rgba(0,0,0,.87) !important;
 /*$infoLabelColor: rgb(57,115,172);*/
 $infoLabelColor: rgb(0,137,123);
 $inputLabelColor: rgba(0,137,123,.54);
 html {
-  overflow-x: hidden;
+  overflow: hidden;
   /*overflow-y: auto; */
-  height: 100%;}
+}
 body {
   /*setting overflow-x: hidden; causes the address bar to not scroll away on Android*/
-  /*overflow-x: hidden;*/
+   overflow-x: hidden; 
   /*overflow-y: auto; */
-  font-size: 16px;
-  min-height: 100%;}  
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image: url(Assets/Images/ballUnderRacquet.jpg);
+  background-position: left top;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;}  
   @media ($lg-screen) {
     body {
       font-size: 20px;}}
+body, html {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+}
+b, strong {
+  font-weight: bold;
+}
 /*this needs to be applied to things with -webkit-box-shadow due to ios8 bug */      
 .app-border-radius-hack { 
   border-radius: 1px;}
 .app-progress-indicator {
-  width: 100px;
-}
-.app-width-100pct {
-  width: 100% !important;}
+  width: 100px;}
 .app-inline-flex {
   display: -webkit-inline-flex;
   display: inline-flex;}
-.app-inline {
-  display: inline;}
-.app-inline-block {
-  display: inline-block;}
-.app-full-height {
-  height: 100%;}
 .app-invisible {
   visibility: hidden;}
-.app-display-none {
-  display: none;}
 .app-lt-border-right {
   border-right: 1px solid rgba(255,255,255, 0.19)}
 .app-menu-button {
@@ -67,8 +71,9 @@ body {
   margin-top: 0 !important;
   text-transform: none;
   color: inherit;}
-.app-short-button {
-  height: 36px !important;}
+  .app-menu-button:focus {
+  outline: none;
+  box-shadow: none;}
 .app-large-button {
   /*color: rgb(3,169,244) !important;*/
   margin-top: 0px;
@@ -77,192 +82,92 @@ body {
   min-width: 120px;
   font-size: 20px;
   border-radius: 20px;
-}
-.app-medium-button {
-  color: rgb(3,169,244) !important;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  min-height: 32px;
-  min-width: 90px;
-  font-size: 16px;
-  border-radius: 16px;
-}
-.app-height-auto {
-  height: auto !important;}
-.app-narrow-button {
-  min-width: 65px;}
-md-menu-item>button, md-menu-item>a, md-menu>button, md-toolbar, md-menu-bar, md-menu-content {
-  font-size: inherit !important;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;}
-md-menu>button {
-   padding-right: 16px!important;
-   height: 48px!important;}
-md-icon svg {
-  display: block;}
-.app-menu-item-left-padding {
-  padding-left: 10px !important;
-  font-size: 85% !important;
-  border-bottom: 1px solid lightgray;}
+  background-color: white;}
 .app-menu-item-icon {
+  font-size: 30px;
   margin-right: .25em;}
 .app-menu-item-icon-sm {
   height: 18px;
   width: 18px;
-  font-size: 18px;
-  margin-right: .35em;}
+  font-size: 24px;
+  margin: 0 .35em .25em 0;}
 .app-success {
   color: green;}
 .app-error {
   color: red;}
-.app-black-text {
-  color: rgba(0,0,0,.87)!important;}
-.app-black {
-  color: black!important;}
 .app-white {
   color: white!important;}
-.app-gray {
-  color: gray!important;}
 .app-green {
   color: green!important;}
-.app-field-label-gray {
-  color: rgba(0,0,0,.54) !important;}
 .app-transparent {
   background-color: transparent !important;
   color: inherit;}
-.app-semitransparent {
-  background-color: rgba(255,255,255,.35) !important;
-  color: inherit;}
-.app-semitransparent-dark {
-  background-color: rgba(255,255,255,.85) !important;
-  color: inherit;}
-.app-semiopaque {
-  background-color: rgba(0,0,0,.50) !important;
-  color: inherit;}
-.app-semiopaque-very-light {
-  background-color: rgba(0,0,0,.02) !important;
-  color: inherit;}
-.app-semiopaque-light {
-  background-color: rgba(0,0,0,.10) !important;
-  color: inherit;}
-.app-semiopaque-dark {
-  background-color: rgba(0,0,0,.65) !important;
-  color: inherit;}
-.app-divider-blue {
-  width: 100%;
-  border-bottom: 1px solid rgba(3,169,244,.3);}
-.app-divider-gray {
-  width: 100%;
-  border-bottom: 1px solid rgba(211,211,211,.25);}
-.app-card-corners {
-  border-radius: 2px !important;}
-.app-card-top-corners {
-  border-radius: 2px 2px 0px 0px !important;}
 .app-card-bottom-corners {
-  border-radius: 0px 0px 3px 3px !important;}
-.app-width-5 {
-  width: 5%;}
-.app-width-10 {
-  width: 10%;}
+  border-radius: 0px 0px 4px 4px !important;}
 .app-width-15 {
+  flex: 1 1 15%;
+  max-width: 15%;
   width: 15%;}
+.app-width-20 {
+  flex: 1 1 20%;
+  max-width: 20%;
+  width: 20%;}
 .app-width-25 {
+  flex: 1 1 25%;
+  max-width: 25%;
   width: 25%;}
-.app-width-30 {
-  width: 30%;}
+.app-width-40 {
+  flex: 1 1 40%;
+  max-width: 40%;
+  width: 40%;}
+.app-width-45 {
+  flex: 1 1 45%;
+  max-width: 45%;
+  width: 45%;}
+.app-width-50 {
+  flex: 1 1 50%;
+  max-width: 50%;
+  width: 50%;}
+.app-width-60 {
+  flex: 1 1 60%;
+  max-width: 60%;
+  width: 60%;}
 .app-width-70 {
+  flex: 1 1 70%;
+  max-width: 70%;
   width: 70%;}
-.app-width-80 {
-  width: 80%;}
 .app-width-100 {
+  flex: 1 1 100%;
+  max-width: 100%;
   width: 100%;}
+.app-offset-5 {
+  margin-left: 5%;}
 .app-lr-padding-8px {
   padding-left: 8px;
   padding-right: 8px;}
 .app-left-padding-16px {
   padding-left: 16px;}
-.app-lr-padding-16px {
-  padding-left: 16px;
-  padding-right: 16px;}
 .app-tb-padding-4px {
   padding-top: 4px;
   padding-bottom: 4px;}
-.app-double-padding {
-  padding-left: 16px;
-  padding-right: 8px;}
-.app-top-padding-8px {
-  padding-top: 8px;}
-.app-top-padding-16px {
-  padding-top: 16px;}
 .app-bottom-padding-8px {
   padding-bottom: 8px;}
-.app-bottom-padding-4px {
-  padding-bottom: 4px;}
-.app-bottom-padding-1px {
-  padding-bottom: 1px;}
 .app-all-paddings-8px {
   padding: 8px;}
-.app-all-paddings-16px {
-  padding: 16px;}
-.app-all-margins-8px {
-  margin: 8px;}
 .app-top-margin-4px {
   margin-top: 4px;}
-.app-top-margin-8px {
-  margin-top: 8px !important;}
-.app-bottom-margin-4px {
-  margin-bottom: 4px;}
 .app-bottom-margin-8px {
   margin-bottom: 8px !important;}
-.app-left-margin-4px {
-  margin-left: 4px;}
-.app-right-margin-4px {
-  margin-right: 4px;}
 .app-left-margin-8px {
   margin-left: 8px;}
-.app-added-right-margin {
-  margin-right: 8px;}
-.app-lr-margin-8px {
-  margin-left: 8px;
-  margin-right: 8px;}
 .app-no-margin {
   margin: 0!important;}
-.app-no-lr-padding {
-  padding-right: 0px !important;
-  padding-left: 0px !important;}
-.app-no-tb-margin {
-  margin-top: 0px !important;
-  margin-bottom: 0px !important;}
-.app-no-top-margin {
-  margin-top: 0px !important;}
-.app-no-bottom-margin {
-  margin-bottom: 0px !important;}
-.app-no-right-margin {
-  margin-right: 0px !important;}
-.app-no-left-margin {
-  margin-left: 0px !important;}
-.app-no-padding {
-  padding: 0px !important;}
-.app-no-top-padding {
-  padding-top: 0 !important;}
-.app-no-right-padding {
-  padding-right: 0 !important;}
-.app-no-bottom-padding {
-  padding-bottom: 0 !important;}
 .app-no-border {
   border: 0 !important;}
-.app-no-border1 {
-  border: 0;
-  margin: 0 !important;
-  padding: 0;
-  background-color: transparent;
-  box-shadow: none;}
 .app-no-overflow {
   overflow: hidden;}
-.app-no-overflowX {
+.app-no-overflow-x {
   overflow-x: hidden;}
-.app-no-overflowY {
-  overflow-y: hidden;}
 .app-slidedown-menu-button {
   background-color: transparent;
   border: 0;
@@ -273,8 +178,7 @@ md-icon svg {
   max-height: 36px!important;
   max-width: 36px!important;
   min-height: 36px!important;
-  min-width: 36px!important;
-}
+  min-width: 36px!important;}
 .app-slidedown-menu-icon {
   font-size: 36px;
   height: 36px!important;
@@ -283,10 +187,9 @@ md-icon svg {
   max-width: 36px!important;
   min-height: 36px!important;
   min-width: 36px!important;
-  display: inline-block!important;
-}
+  display: inline-block!important;}
 .app-bar-feature-icon {
-  font-size: 1.5em;
+  font-size: $appBarIconSize;
   height: $appBarIconSize;
   width: $appBarIconSize;
   max-height: $appBarIconSize;
@@ -303,25 +206,9 @@ md-icon svg {
   max-width: $appBarIconSize;
   min-height: $appBarIconSize;
   min-width: $appBarIconSize;}
-.app-size-24x24 {
-  height: 24px;
-  width: 24px;}
-.app-max-24px {
-  max-height: 24px;
-  max-width: 24px;
-  min-height: 24px;}
-.app-size-30x30 {
-  height: 30px;
-  width: 30px;}
-.app-max-30px {
-  max-height: 30px;
-  max-width: 30px;
-  min-height: 30px;}
-.app-field-label-font {
-  font-size: 12px !important;}
-  @media($lg-screen){
-    .app-field-label-font {
-      font-size: 15px !important;}}
+  .app-bar-feature-button:focus {
+    outline: none;
+    box-shadow: none;}
 .app-small-font {
   font-size: 90% !important;}
 .app-smaller-font {
@@ -330,14 +217,10 @@ md-icon svg {
   font-weight: normal;}
 .app-text-center {
   text-align: center!important;}
-.app-text-left {
-  text-align: left!important;}
-.app-text-right {
-  text-align: right!important;}
 .app-slide-left {
   z-index: 4;
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  transition: transform .5s ease-in-out;
+  -webkit-transition: -webkit-transform .4s ease-in-out;
+  transition: transform .4s ease-in-out;
   -webkit-transform: translateX(150%);
   transform: translateX(150%);}
   .app-slide-left.app-open {
@@ -345,16 +228,16 @@ md-icon svg {
     transform: translateX(0%);}
  .app-slide-right {
   z-index: 3;
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  transition: transform .5s ease-in-out;
-  -webkit-transform: translateX(-100%);
-  transform: translateX(-100%);}
+  -webkit-transition: -webkit-transform .4s ease-in-out;
+  transition: transform .4s ease-in-out;
+  -webkit-transform: translateX(-150%);
+  transform: translateX(-150%);}
   .app-slide-right.app-open {
     -webkit-transform: translateX(0%);
     transform: translateX(0%);}
 .app-expand-open {
-  -webkit-transition: -webkit-transform .5s ease-in-out;
-  transition: transform .5s ease-in-out;
+  -webkit-transition: -webkit-transform .4s ease-in-out;
+  transition: transform .4s ease-in-out;
   -webkit-transform: scale(0,0);
   transform: scale(0,0);}
   .app-expand-open.app-open {
@@ -368,18 +251,9 @@ md-icon svg {
   opacity: 0;
   -webkit-transition: max-height .5s, opacity .3s ease-in;
   transition: max-height .5s, opacity .3s ease-in;}
-  .app-vertical-expand.app-vertical-expand-open {
+  .app-vertical-expand.app-open {
     max-height: 200px;
     /*padding-top: 4px;*/
-    opacity: 1;}
-.app-vertical-expand-short {
-  overflow: hidden;
-  max-height: 0px;
-  opacity: 0;
-  -webkit-transition: max-height .5s, opacity .3s ease-iout;
-  transition: max-height .5s, opacity .3s ease-out;}
-  .app-vertical-expand-short.app-vertical-expand-open {
-    max-height: 100px;
     opacity: 1;}
 .app-fade-in {
   -webkit-transition: opacity .3s ease-in-out;
@@ -395,32 +269,10 @@ md-icon svg {
   .app-slide-down.app-open {
     -webkit-transform: translateY(0%);
     transform: translateY(0%);}
-.app-150ms-delay {
-  -webkit-transition-delay: .15s;
-  transition-delay: .15s;}
-.app-250ms-delay {
-  -webkit-transition-delay: .25s;
-  transition-delay: .25s;}
 /***************************************/
 /* STYLES MOSTLY RELATED TO: MAIN      */
 /***************************************/
 /* Themes */
-.app-main-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: -2;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;}
-    /*@media ($lg-screen) {
-      .app-main-background {
-        background-position: 0% 0%;
-      }}*/
-.app-bg-image-1 {
-  background-image: url(Assets/Images/ballUnderRacquet.jpg);}
 
   /* Darker toolbar theme */
 .app-toolbar-theme {
@@ -439,31 +291,15 @@ md-icon svg {
     .app-dropdown-disabled-text:hover {
       background-color: transparent !important;
     }
-  .app-toolbar-background {
-    /*background-color: rgba(0,0,0,.75) !important;}*/
-    background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.01 ))!important;}
   .app-toolbar-submenu-theme {
     padding-top: 0;
     border: 0;
     background-color: transparent !important;
     color: white !important;} 
-.app-default-text {
-  color: white !important;}
 .app-theme-inherit {
   background-color: inherit;
   color: inherit;}
 /* Main header and menus */
-.app-main-header {
-  width: 100%;}
-.app-main-header-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  position: relative;
-  bottom: 3px;
-  border: 0;
-  padding: 3px;
-  margin-right: 0;}
 .app-logo-area {
   width: 30%;
   padding-left: 5%;}
@@ -494,14 +330,11 @@ md-icon svg {
   height: 100%;
   background-color: transparent;}
 /*backdrop provides 'click outside' to close feature*/
-.app-waiting-screen {
-  height: 100%;
-  background-color: transparent;}
-.app-slideout-backdrop {
+.app-click-to-close-slidenav {
   position: fixed;
-  top: 0;
+  top: 60px;
   left: 0;
-  height: 100%;
+  height: calc(100% - 60px);
   width: 100%;
   z-index: 10;
   background-color: transparent;}
@@ -560,7 +393,7 @@ md-icon svg {
 .app-slide-menu-listitem:hover {
   background-color: rgb(211,211,211);}
 .app-subitem-spacing {
-  padding-left: 30px;
+  padding-left: 52px;
   margin-top: 0;
   margin-bottom: 0;
   line-height: 46px;
@@ -573,67 +406,13 @@ md-icon svg {
   -webkit-transition: max-height .5s ease-in-out;
   transition: max-height .5s ease-in-out;}
   .app-slidenav-submenu.app-open {
-    max-height: 200px;}
+    max-height: 300px;}
 /***************************************/
 /* STYLES MOSTLY RELATED TO: HOME      */
 /***************************************/
-.app-home-button {
-  margin-top: 50px!important;
-  min-height: 64px!important;
-  min-width: 200px!important;
-  background-color: rgba(0,0,0,.6);
-  font-size: 20px!important;
-  line-height: 64px!important;
-  border-radius: 32px!important;
-  color: white;
-}
-.app-home-image-button-container {
-  margin-top: 5%;}
-.app-home-image-button-text {
-  width: 120px;
-  height: 120px;
-  border-radius: 60px;
-  font-size: 20px;
-  font-weight: bold;
-  color: rgba(0,0,0,.6);
-  line-height: 20px;
-  position: relative;
-  bottom: 120px;
-  cursor: pointer;}
-  @media ($lg-screen) {
-    .app-home-image-button-text {
-      width: 160px;
-      height: 160px;
-      border-radius: 80px;
-      font-size: 24px;
-      line-height: 28px;
-      bottom: 160px;}}
-.app-home-image-button {
-  padding: 0px;
-  /*margin-top: 5%!important;*/
-  max-height: 120px!important;
-  max-width: 120px!important;
-  min-width: 120px!important;
-  min-height: 120px!important;}
-  .app-home-button-image {
-    width: 120px!important;
-    height: 120px!important;
-    border-radius: 50%;}
-    @media ($lg-screen) {
-      .app-home-image-button {
-        max-height: 160px!important;
-        max-width: 160px!important;
-        min-width: 160px!important;
-        min-height: 160px!important;}
-      .app-home-button-image {
-        width: 160px!important;
-        height: 160px!important;}}
 
 /*****************************************/
 /* STYLES MOSTLY RELATED TO: FORMS/CARDS */
-.app-working-msg {
-  font-size: 75% !important;
-  margin-left: .5em;}
 .app-form-input-divider-tall {
   border-top: 1px solid;
   margin-top: 4px;
@@ -642,11 +421,10 @@ md-icon svg {
   margin-right: auto;
   text-align: center;
   width: 100%;}
-.app-input-divider-gradient {
-  /*background: linear-gradient(rgba(211,211,211,.4),white);*/
-  /*border-top: 1px solid rgba(0,0,0,.12);*/
+.app-input-divider {
   margin-top: 4px;
   padding-top: 2px;
+  padding-left: 16px;
   width: 100%;}
 .app-form-input-divider {
   border-top: 1px solid;
@@ -657,15 +435,6 @@ md-icon svg {
   width: 100%;
   text-align: center;}
 
-  /*** Darker form theme ***/
-/*. eme {
-  background-color: rgb(66,66,66) !important;
-  color: white !important;}
-  .app-form-theme-text {
-    color: white !important;}
-  .app-form-theme-select-menu {
-    background-color: gray!important;
-    color: white!important;}*/
 
   /* Lighter form theme */
 .app-form-theme {
@@ -674,26 +443,26 @@ md-icon svg {
   border-color: rgba(211,211,211,.2);
   color: rgba(0,0,0,.87) !important;
   }
-  .app-form-header-theme {
+  .app-form-header-theme, .app-logs-header-theme, .app-account-header-theme, .app-lists-header-theme {
     font-size: 1.25em !important;
-    background-color: transparent;
+    background-color: white;
     color: white !important;
-    background: -webkit-linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.01))!important;
-    background: -moz-linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.01))!important;
-    background: -o-linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.01))!important;
-    background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.01))!important;
   }
-  .app-smaller-header-text {
-    font-size: 1.15em;}
-  .app-form-theme-background-color {
-  background-color: white;}
+  .app-logs-header-theme {
+    background-color: rgba(98,134,95,1);
+  }
+  .app-account-header-theme {
+    background-color: rgba(190,66,56,1);
+  }
+  .app-lists-header-theme {
+    background-color: rgba(204,153,102,1);
+  }
   .app-form-theme-text {
     color: rgba(0,0,0,.87) !important;}
   .app-form-theme-select-menu {
     background-color: gray!important;
+    font-size: .6em;
     color: white!important;}
-  .app-form-theme-font {
-    font-size: 1.25em!important;}
   .app-form-input-divider {
     border-color: rgba(211,211,211,.2);}
   .app-form-input-divider-tall {
@@ -726,27 +495,29 @@ md-icon svg {
       flex: 1 1 100%;
       flex-direction: column !important;
       color: rgba(0,0,0,.87) !important;
-      padding-top: 1em;
+      padding: 1em 0 .5em 0;
       position: relative;}
     .app-icon-input-field-label, .app-icon-input-field-label-sm {
       position: absolute;
-      left: 39px;
+      left: 30px;
       overflow: hidden;
       text-overflow: ellipsis;
-      transform: translate3d(0,0px,0) scale(1.2);
+      transform: translate3d(0,0px,0) scale(1);
       transition: .4s ease-out;
       margin-bottom: 0;
       color: $inputLabelColor !important;
       -webkit-order: 0 !important;
       order: 0!important;}
-      .app-icon-input-field-label-sm {
-        font-size: 75%!important;}
-      @media ($lg-screen) {
-        .app-icon-input-field-label, .app-icon-input-field-label-sm {
-          left: 50px;}}
+      .app-no-icon-label {
+        left: 0px;}
+       @media ($lg-screen) {
+         .app-icon-input-field-label, .app-icon-input-field-label-sm {
+          left: 40px;} 
+        .app-no-icon-label {
+          left: 0px;}} 
     .app-icon-input-field-label.has-value, .app-icon-input-field-label-sm.has-value,
     .app-icon-input-field-label.has-focus, .app-icon-input-field-label-sm.has-focus {
-        transform: translate3d(-8px,-1.5em,0) scale(1);}
+        transform: translate3d(-12.5%,-1.5em,0) scale(.75);}
     .app-show-required::after {
       content: "*";
       color: rgba(255,0,0,.8);
@@ -778,56 +549,46 @@ md-icon svg {
       height: .7em;
       margin-left: 31px;
       font-size: .6em;}
+      .app-no-icon-message {
+        margin-left: 0;}
       @media ($lg-screen) {
         .app-field-messages {
-          margin-left: 40px;}}
+          margin-left: 40px;}
+        .app-no-icon-message {
+          margin-left: 0;}}
 
-.app-icon-offset {
-  margin-left: 36px;}
 .app-icon-offset-width {
-  margin-left: 36px;
-  max-width: calc(100% - 36px) !important;}
+  margin-left: 30px;
+  max-width: calc(100% - 30px) !important;}
 .app-input-icon-area {
-  margin: 0px 6px 0px 0px;
+  margin: 0 6px 0 0;
   width: 24px;}
   @media ($lg-screen) {
     .app-input-icon-area {
-      margin: 0px 12px 0px 0px;
+      margin: 0 12px 0 0;
       width: 24px;}}
 .app-form-input-label-opacity {
   opacity: .54;}
-.app-input-container {
-  padding-bottom: 26px;}
-.app-short-input-container {
-  padding-bottom: 14px;}
 .app-match-info-input-container {
   margin: 0;
   padding-left: 2px !important;
   background-color: white !important;
   padding-bottom: 4px;}
-.app-form-radio-group {
-  padding-top: 8px;
-  padding-bottom: 0px;}
 .app-form-radio-control {
-  margin: 11px 6px 0 0;}
+  margin: 0 6px 0 0;}
   @media($lg-screen) {
     .app-form-radio-control {
-      margin: 14px 8px 0 0;}}
+      margin: 0 8px 0 0;}}
 .app-add-subtract-input-control {
   -webkit-order: 0 !important;
   order: 0 !important;
-  width: 50% !important;
+  width: 30% ;
+  border-width: 0 0 1px;
   text-align: center;}
 .app-form-switch-control {
   font-size: 90%;
   margin: 0px 0px !important;
   padding: 4px 8px 6px 8px;}
-.app-form-switch-control .md-label {
-  margin-left: 20px !important;}
-md-switch.app-form-switch-control .md-label {
-  margin-left: 2px !important;}
-.app-password-icon {
-  color: green;}
 .app-form-header-padding {
   padding: 4px 0px;}
 .app-form-image-button {
@@ -876,27 +637,34 @@ $appFormCloseSizeLg: 40px !important;
         font-size: $appFormCloseSizeLg;
         width: $appFormCloseSizeLg;
         height: $appFormCloseSizeLg}}
+.app-form-close-button:focus {
+  box-shadow: none;
+  outline: none;}
 .app-add-subtract-button {
-  margin: 0px!important;
-  padding: 0px!important;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
   max-width: 40px;
   min-width: 40px;
   max-height: 40px;
   min-height: 40px;}
+  .app-add-subtract-button:focus {
+    outline: none;
+    box-shadow: none;}
   .app-add-subtract-icon {
-    vertical-align: top;
-    width: 40px;
-    height: 40px;}
+    font-size: 40px;}
 .app-action-button {
   margin: 0px!important;
   padding: 0px!important;
   background-color: white;
   border: 0;
+  touch-action: manipulation;
   max-width: 48px;
   min-width: 48px;
   max-height: 48px;
   min-height: 48px;}
   .app-action-button:focus {
+    box-shadow: none;
     outline: none;}
   .app-action-icon {
     vertical-align: top;
@@ -909,20 +677,15 @@ $appFormCloseSizeLg: 40px !important;
   font-size: 1.25em;
   text-align: center!important;
   font-weight: normal;}
-.app-compact-radio {
-  font-size: 70%;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 8px;}
 .app-noscroll-frame-center {  
   width: 100%;
   overflow: hidden;}
 .app-scroll-frame-center {
   width: 100%;
   max-height: calc(100% - 53px);
+  touch-action: pan-y !important ;
   -webkit-overflow-scrolling: touch;
-  overflow: auto;}
+  overflow-y: auto;}
   @media ($lg-screen) {
     .app-scroll-frame-center {
       max-height: calc(100% - 61px);}}
@@ -956,26 +719,11 @@ $appFormCloseSizeLg: 40px !important;
 .app-scrollable {
   -webkit-overflow-scrolling: touch;
   overflow: auto !important;}
+.app-pan-y {
+  touch-action: pan-y !important;}
 .app-frame {
   width: 100%;
   max-height: 100%;}
-.app-central-frame {
-  width: 100%;
-  max-height: 100%;}
-.app-noscroll-frame-right {
-  width: 100%;
-  overflow: hidden;}
-.app-scroll-frame-right {
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;}
-.app-form-field-error {
-  color: rgb(197,17,98);
-  font-size: 12px;
-  line-height: 14px;
-  overflow: hidden;
-  padding-top: 5px;
-}
 .app-form-message-area {
   font-size: .9em;
   overflow: hidden;
@@ -990,20 +738,25 @@ $appFormCloseSizeLg: 40px !important;
 
   /* Lighter About panel theme */
 .app-about-header-theme {
-  background-color:  $helpHeaderColor !important;
+  padding: 4px 0;
+    background-color:  $helpHeaderColor;  
   color: white;}
   .app-about-body-theme {
     background-color: white;
+    line-height: 1.15em;
+    padding: 0 8px 16px 8px;
     color: rgba(0,0,0,.87);}
 .app-about-title1 {
   margin-bottom: 0px;
   margin-top: 0px;
   font-size: 1em;
+  line-height: 1.2;
   text-align: center!important;
   font-weight: normal;}
 .app-about-title2 {
   margin-bottom: 0px;
   margin-top: 0px;
+  line-height: 1.2;
   font-size: 1.25em;
   text-align: center!important;
   font-weight: normal;}
@@ -1021,58 +774,45 @@ $appFormCloseSizeLg: 40px !important;
   vertical-align: middle;
   font-size: 80%;}
 .app-about-text-icon {
-  max-height: 18px;
-  max-width: 18px;
-  min-height: 18px;
-  min-width: 18px;
-  margin: -2px 0 0 0;}
+  font-size: 18px;
+  position: relative;
+  top: 3px;}
   @media ($lg-screen) {
     .app-about-text-icon {
-      max-height: 24px;
-      max-width: 24px;
-      min-height: 24px;
-      min-width: 24px;
-      margin: -4px 0 0 0;}}
+      font-size: 24px;
+      top: 4px;}}
 .app-about-text-fab {
-  max-height: 20px;
-  max-width: 20px;
-  min-height: 20px;
-  min-width: 20px;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);
+  max-height: 24px;
+  max-width: 24px;
+  min-height: 24px;
+  min-width: 24px;
   border-radius: 50%;
   padding: 0 !important;
   margin: -2px 4px 0 0;
   display: inline;}
   @media ($lg-screen) {
     .app-about-text-fab {
-      max-height: 24px;
-      max-width: 24px;
-      min-height: 24px;
-      min-width: 24px;
+      max-height: 30px;
+      max-width: 30px;
+      min-height: 30px;
+      min-width: 30px;
       margin: -3px 6px 0 0;}}
 .app-about-fab-icon {
-  max-height: 16px;
-  max-width: 16px;
-  min-height: 16px;
-  min-width: 16px;}
+  position: relative;
+  font-size: 23px;}
   @media ($lg-screen) {
     .app-about-fab-icon {
-      max-height: 18px;
-      max-width: 18px;
-      min-height: 18px;
-      min-width: 18px;}}
+      font-size: 30px;}}
 .app-about-icon {
   cursor: text !important;
-  max-height: 18px;
-  max-width: 18px;
-  min-height: 18px;
-  min-width: 18px;
+  font-size: 24px;
+  max-height: 24px;
   margin: 0 6px 0 0;}
   @media ($lg-screen) {
     .app-about-icon {
-      max-height: 24px;
-      max-width: 24px;
-      min-height: 24px;
-      min-width: 24px;
+      font-size: 30px;
+      max-height: 30px;
       margin: 0 6px 0 0;}}
 .app-about-icon-color {
   color: $helpHeaderColor;}
@@ -1082,6 +822,7 @@ $appFormCloseSizeLg: 40px !important;
   top: 0px;
   z-index: 80;
   width: 95%;
+  background-color: white;
   bottom: 0px;}
   @media (min-width: 600px) {
     .app-about-container {
@@ -1092,38 +833,31 @@ $appFormCloseSizeLg: 40px !important;
   @media (min-width: 1200px) {
     .app-about-container {
       width: 33%;}}
-.app-noscroll-frame-left {
- width: 100%;
-  overflow: hidden;}
 .app-scroll-frame-left {
   width: 100%;
   bottom: 0px;
   -webkit-overflow-scrolling: touch;
-  overflow: auto;
+  overflow-y: auto;
+  touch-action: pan-y !important;
   background-color: white;}
-.app-screen-shot {
-  padding: 4px;
-  background-color: #f2f2f2;}
+.app-click-to-close-about {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background-color: transparent;}
 /*******************************************/
 /* STYLES MOSTLY RELATED TO: CREATE LOG    */
 /*******************************************/
-.app-point-input-label {
-  margin: auto;
-  font-size: 80%;}
 .app-special-point {
   font-size: 80%;}
-.app-log-match-tabs-background {
-  background-color: rgb(190,66,56);}
-.app-edit-fab-container {
-  position: relative;}
-.app-point-edit-fab {
-  margin-top: -10px;
-  margin-right: -10px;}
 /*********************************************/
 /* STYLES MOSTLY RELATED TO: SHOW MATCH LOGS */
 /*********************************************/
 .app-match-stats-divider {
-  width: calc(100% - 16px);
+  width: 100%;
   margin: 2px auto 2px auto;
   border-bottom: 1px solid;}
 .app-match-stats-divider-32 {
@@ -1135,82 +869,39 @@ $appFormCloseSizeLg: 40px !important;
   margin: 2px auto 2px auto;
   border-bottom: 1px solid;}
 
-  /* Darker View Logs theme */
-
-/*.app-viewlogs-theme {
-  background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.15))!important;
-  border-color: rgba(211,211,211,.12);
-  color: white !important;}
-  .app-viewlogs-background {
-    background: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.15))!important;}
-  .app-viewlogs-text {
-    color: white !important;}
-  .app-match-stats-divider {
-    border-color: rgba(211,211,211,.2);}
-  .app-show-filter-action {
-    border-bottom: 1px solid rgba(0,0,0,.8);}
-.app-viewlogs-button-theme {
-  color: white !important;
-  background-color: rgba(0,0,0,.8) !important;}
-  .app-viewlogs-button-theme.app-stats-selected {
-    color: #ced629!important;}
-  .app-viewlogs-button-text {
-    color: #ced629!important;}*/
-
   /* Lighter View Logs theme */
-
-.app-viewlogs-theme {
-  background: linear-gradient(lightgray, white)!important;
-  border-color: rgba(0,0,0,.12);
-  color: rgba(0,0,0,.87) !important;}
-  .app-viewlogs-background {
-    background: linear-gradient(lightgray, white)!important;}
-  .app-viewlogs-text {
+.app-viewlogs-text {
     color: rgba(0,0,0,.87) !important;}
-  .app-match-stats-divider,.app-match-stats-divider-50,.app-match-stats-divider-32 {
+.app-match-stats-divider,.app-match-stats-divider-50,.app-match-stats-divider-32 {
     border-color: rgba(0,0,0,.12);}
-  .app-show-filter-action {
-    border-bottom: 1px solid rgba(0,0,0,.8);}
 .app-viewlogs-button-theme {
+  cursor: pointer;
   color: rgba(0,0,0,.87) !important;
+  margin: 0 8px 0 0;
+  padding: 0px 6px;
+  font-size: 14px;
+  border-radius: 3px;
   background-color: lightgray !important;}
+  .app-viewlogs-button-theme:focus {
+    box-shadow: none;
+    outline: none;}
   .app-viewlogs-button-theme.app-stats-selected {
     color: rgb(3,169,244)!important;}
   .app-viewlogs-button-text {
     color: rgba(0,0,0,.87)!important;}
-
-.app-show-filter-button {
-  margin-top: 0px !important;
-  padding-left: 12px;
-  /*border-bottom: 1px solid #333333;*/
-  margin-bottom: 0px;
-  margin-right: 0px;
-  border-left:  1px solid rgba(0,0,0,.8);
-  border-top:  1px solid rgba(0,0,0,.8);
-  border-right:  1px solid rgba(0,0,0,.8);
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
 .app-stats-selected {
-  /*border: 1px solid #ced629!important;}*/
-  /*border: 1px solid rgb(3,169,244)!important;}*/
   border: 1px solid rgb(190,66,56)!important;}
 .app-match-stats-frame {
   min-height: 100%;
   width: 100%;}
-.app-light-top-border {
-  border-top: 1px solid lightgray;}
-.app-light-bottom-border {
-  border-bottom: 1px solid lightgray;}
 .app-matches-menu-select-all {
-  font-size: 70%;
-  margin-top: 8px !important;
-  margin-left: 12px !important;}
+  width: 36px;
+  margin: 0 4px .33rem 0;}
 .app-matches-menu-ul {
   width: 100%;
   min-height: 100%;
   list-style: none;
-  padding: 0px!important;
+  padding: 0 0 16px 0!important;
   margin: 0px!important;}
 .app-matches-menu-listitem {
   display: block;
@@ -1219,44 +910,47 @@ $appFormCloseSizeLg: 40px !important;
   padding-left: 8px;
   padding-right: 8px;
   border-radius: 0px;
+  cursor: pointer;
+  background-color: white;
   color: inherit;
   margin: 0px!important;
   align-items: center;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid rgba(0,0,0,.12);
   width: 100%;
+  overflow: hidden;   
   line-height: 56px;}
 .app-match-menu-delete-button {
   margin-left: 0px;
   margin-right: 4px;
-  min-width: 36px;
-  max-width: 36px;}
-.app-match-menu-delete-icon {
+  padding: 0;
+  background-color: white;
+  cursor: pointer;
   max-height: 36px;
   min-height: 36px;
-  max-width: 36px;
-  min-width: 36px;}
+  min-width: 36px;
+  max-width: 36px;}
+  .app-match-menu-delete-button:focus,
+  .app-matches-menu-listitem:focus {
+    box-shadow: none;
+    outline: none;}
+.app-match-menu-delete-icon {
+  font-size: 36px;}
+.app-matches-menu-listitem + .app-match-menu-delete-button {
+  margin-left: 4px;
+  margin-right: 0px;}
 .app-matches-menu-line1 {
   margin-top: 0px;
   margin-bottom: 0px;
   text-align: center;
   font-style: italic;
-  line-height: 20px;
+  line-height: 16px;
   font-size: 1.1em;}
 .app-matches-menu-line2 {
   font-weight: normal;
-  line-height: 28px;
+  line-height: 24px;
   margin-bottom: 0px;
   font-size: 1.5em;
   text-align: center;}
-.app-viewlogs-filter-form {
-  border-top: 2px solid blue;}
-.app-filter-form-heading {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  font-size: .75em;
-  font-weight: bold;}
-.app-show-filter-matches {
-  margin-left: 8px;}
 .app-match-display-header {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1270,26 +964,12 @@ $appFormCloseSizeLg: 40px !important;
   font-weight: normal;
   line-height: 16px;
   font-size: 1.1em;}
-.app-match-display-location {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  text-align: center;
-  font-style: italic;
-  line-height: 14px;
-  font-size: .8em;}
 .app-match-score {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
   display: -ms-flexbox;
   display: flex;}
-.app-match-service-img {
-  height: 16px;
-  width: 16px;
-  min-height: 16px;
-  min-width: 16px;
-  border-radius: 50%;
-  margin: auto 0 auto 0;}
 .app-match-stats-service-img {
   height: 16px;
   width: 16px;
@@ -1313,22 +993,12 @@ $appFormCloseSizeLg: 40px !important;
   height: 28px;
   padding: 0px 0px 0px 0px;}
 .app-match-display-set-button {
-  margin-right: 0px;
   border: 1px solid transparent;
   line-height: 28px;
   min-width: 40px;}
 .app-match-display-back-button {
   margin-right: 0px;
   min-width: 30px;}
-.app-match-back-button-icon {
-  height: 30px;
-  width: 30px;
-  vertical-align: top;}
-.app-match-stats-header {
-  font-weight: normal;
-  line-height: 36px;
-  font-size: 1.1em;
-  text-align: center;}
 .app-match-stats-title1 {
   font-weight: normal;
   line-height: 18px;
@@ -1338,11 +1008,6 @@ $appFormCloseSizeLg: 40px !important;
   font-weight: normal;
   line-height: 20px;
   font-size: .9em;
-  text-align: center;}
-.app-match-stats-center {
-  font-weight: normal;
-  line-height: 24px;
-  font-size: 1.1em;
   text-align: center;}
 .app-match-winner-check-icon {
   width: 1em;
@@ -1361,30 +1026,37 @@ $appFormCloseSizeLg: 40px !important;
   margin-right: 0;
   line-height: 1.1em;
   font-size: 1.1em;}
-.app-match-stats-section {
+.app-match-stats-section-button {
+  cursor: pointer;
   text-transform: none;
   color: $infoLabelColor;
-  padding-left: 16px;
+  padding: 0 0 0 8px;
+  background-color: white;
   border-radius: 0px;
-  font-size: .8em !important;
-  margin: 0px!important;
+  font-size: .8em;
+  margin: 0;
   line-height: 1em;}
 .app-match-stats-text-button {
+  cursor: pointer;
   text-transform: none;
   color: $infoLabelColor;
-  padding-left: 16px;
+  padding: 0;
+  background-color: white;
   border-radius: 0px;
-  font-size: .6em !important;
-  margin: 0px!important;
+  font-size: .6em;
+  margin: 0;
   line-height: 1em;}
+.app-match-stats-section:focus, .app-match-stats-text-button:focus {
+  outline: none;
+  box-shadow: none;}
 .app-match-stats-section-text {
   display: block;
   position: relative;
   overflow: hidden;
   max-height: 0px;
   opacity: 0;
-  -webkit-transition: max-height .6s, opacity .5s ease-in;
-  transition: max-height .6s, opacity .5s ease-in;}
+  -webkit-transition: max-height .3s, opacity .3s ease-in;
+  transition: max-height .3s, opacity .3s ease-in;}
   .app-match-stats-section-text.app-open {
     opacity: 1;
     max-height: 375px;}
@@ -1394,8 +1066,8 @@ $appFormCloseSizeLg: 40px !important;
   overflow: hidden;
   max-height: 0px;
   opacity: 0;
-  -webkit-transition: max-height .8s, opacity .6s ease-in;
-  transition: max-height .8s, opacity .6s ease-in;}
+  -webkit-transition: max-height .6s, opacity .4s ease-in;
+  transition: max-height .6s, opacity .4s ease-in;}
   .app-match-stats-section-data.app-open {
     opacity: 1;
     max-height: 1000px;}
@@ -1413,6 +1085,8 @@ $appFormCloseSizeLg: 40px !important;
   text-transform: none !important;
   font-weight: normal;
   width: 40%;
+  padding: 0;
+  background-color: white;
   min-height: 0px;
   text-align: center;
   line-height: 1em;
@@ -1434,6 +1108,13 @@ $appFormCloseSizeLg: 40px !important;
   margin-left: 8px;
   line-height: 1em;
   font-size: .7em;}
+.app-stat-breakdown {
+  cursor: pointer;
+  color: $infoLabelColor;
+  margin: 0;}
+.app-stat-breakdown:focus {
+  box-shadow: none;
+  outline: none;}
 .app-point-info-name {
   font-weight: normal;
   width: 30%;
@@ -1454,19 +1135,75 @@ $appFormCloseSizeLg: 40px !important;
   margin-left: 1%;
   line-height: 24px;
   font-size: 1.0em;}
-.app-match-info-date-time {
-  width: 25%;
+/************************************************************/
+/* STYLES MOSTLY RELATED TO: FAB BUTTONS AND FAB SPEED DIAL */
+/************************************************************/
+.app-fab-button {
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  max-width: 48px;
+  min-width: 48px;
+  max-height: 48px;
+  min-height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
+.app-fab-button.app-fab-click {
+  animation: app-click .4s;}
+@keyframes app-click {
+    0%   {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
+    10%  {box-shadow: none; transform: scale(.97, .97);}
+    100% {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26); transform: scale(1,1);}
 }
-.app-winner-end {
-  color: green;}
-.app-error-end {
-  color: red;}
-.app-min-height-100 {
-  min-height: 100%!important;}
-.app-show-action-button {
-  margin-top: 0px !important;
-  margin-bottom: 2px !important;}
-
+.app-fab-button:focus {
+  outline: none;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
+.app-fab-sm {
+  max-width: 40px;
+  min-width: 40px;
+  max-height: 40px;
+  min-height: 40px;}
+.app-fab-icon-sm {
+  font-size: 30px;}
+.app-fab-lg {
+  max-width: 56px;
+  min-width: 56px;
+  max-height: 56px;
+  min-height: 56px;}
+.app-fab-icon-lg {
+  font-size: 34px;}
+.app-fab-speed-dial {
+  background-color: transparent;
+  z-index: 20;
+  top: 20px;
+  right: 20px;
+  bottom: auto;
+  left: auto;
+  position: absolute;}
+.app-speed-dial-trigger {
+  background-color: transparent;
+  order: 2;}
+.app-fab-actions {
+  background-color: transparent;
+  order: 1;}
+.app-edit-fab-container {
+  position: relative;}
+.app-point-edit-fab {
+  margin-top: -10px;
+  margin-right: -10px;}
+.app-delay-1 {
+  transition-delay: 60ms;}
+.app-delay-2 {
+  transition-delay: 120ms;}
+.app-delay-3 {
+  transition-delay: 180ms;}
+.app-delay-4 {
+  transition-delay: 240ms;}
+.app-delay-5 {
+  transition-delay: 300ms;}
 /***************************************/
 /* STYLES MOSTLY RELATED TO: UTILITIES */
 /***************************************/
@@ -1481,29 +1218,8 @@ $appFormCloseSizeLg: 40px !important;
 .app-dialog-header {
   border: 0;
   padding: 0;
-  border-radius: .3em .3em 0 0;
-  background-color: gray;
-  color: white;}
-/*modifications for bootstrap modal*/
-.modal-dialog {
-  margin: 40% 10%;}
-  @media ($lg-screen) {
-    .modal-dialog {
-      margin: 10% auto;}}
-.modal-content {   
-  background-color: transparent;
-  border: 0;}
-.modal-footer {
-  padding: 10px;
-  border-top: 1px solid gray;}
-#toast-container > div {
-  width: 22em !important;}
-  @media($lg-screen) {
-    #toast-container > div {
-      width: 25em !important;}}
-.app-toast-msg {
-  font-style: italic;}
-
+  border-radius: .3em .3em 0 0;}
+  
 /***************************************/
 /* STYLES MOSTLY RELATED TO: COLORS    */
 /***************************************/
@@ -1516,6 +1232,14 @@ $appFormCloseSizeLg: 40px !important;
   color: rgb(166,166,166) !important;}
 .app-transparent-text {
   color: transparent !important;}
+.app-lists-color {
+  color: rgba(204,153,102,1);}
+.app-logs-color {
+  color: rgba(98,134,95,.9);}
+.app-accounts-color {
+  color: rgba(190,66,56,.9);}
+.app-about-color {
+  color: rgba(156,39,176,1);}
 .app-match-info-label {
   color: $infoLabelColor;}
 .app-court-green {
@@ -1524,49 +1248,18 @@ $appFormCloseSizeLg: 40px !important;
   color: rgba(98,134,95,.9);}
 .app-court-red {
   color: rgb(190,66,56);}
-.app-court-ltred {
-  color: rgba(190,66,56,.9);}
 .app-check-green {
   color: #59b300!important;}
 .app-check-red {
   color: #ff0000!important;}
   .app-check-green.app-check-red {
     color: #ff0000!important;}
-.app-arrow-green {
-  color: #8ef520!important;}
-.app-arrow-red {
-  color: #fb2020!important;}
-.app-bg-brite-red {
-  background-color: #ff8080;
-  color: inherit;}
-.app-retro-cream {
-  color: #fef7e6;}
-.app-bg-retro-cream {
-  background-color: #fef7e6;}
-.app-retro-dark-cream {
-  color: #ffe8b3;}
-.app-bg-retro-dark-cream {
-  background-color: #ffe8b3!important;}
 .app-retro-red {
   color: #a61e1e!important;}
-.app-bg-retro-red {
-  background-color: #a61e1e;
-  color: inherit;}
 .app-retro-green {
   color: #669900!important;}
-.app-bg-retro-green {
-  background-color: #669900!important;
-  color: inherit;}
 .app-retro-ltgreen {
   color: #7cc7a2;}
-.app-bg-retro-ltgreen {
-  background-color: #7cc7a2!important;
-  color: inherit;}
-.app-retro-blue {
-  color: #239ac2!important;}
-.app-bg-retro-blue {
-  background-color: #239ac2!important;
-  color: inherit;}
 .app-retro-ltblue {
   color: #7cc7e2;}
 .app-bg-retro-ltblue {
@@ -1579,19 +1272,19 @@ $appFormCloseSizeLg: 40px !important;
   color: inherit;}
 .app-light-brown {
   color: #cc9966!important;}
-.app-brite-blue {
-  color: #33ccff;}
-.app-bg-brite-blue {
-  background-color: #33ccff!important;
-  color: inherit;}
 .app-brite-orange {
   color: #ff9100!important;}
 .app-bg-brite-orange {
   background-color: #ff9100!important;
   color: inherit;}
-.app-bg-brite-white {
-  background-color: white!important;
-  color: inherit;}
+.app-retro-cream {
+  color: #fef7e6;}
+.app-bg-retro-cream {
+  background-color: #fef7e6;}
+.app-retro-dark-cream {
+  color: #ffe8b3;}
+.app-bg-retro-dark-cream {
+  background-color: #ffe8b3!important;}
 .app-bg-white {
   background-color: white !important;}
 .app-bg-fab-gray {
@@ -1600,14 +1293,56 @@ $appFormCloseSizeLg: 40px !important;
   background-color: rgba(255,229,127,1)!important;}
 .app-warn {
   color: $warnColor !important;}
-.app-accent {
-  color: $accentColor !important;}
 .app-primary {
   color: $primaryColor !important;}
+.app-bg-primary {
+  background-color: $primaryColor !important;}
 .app-checkbox {
   color: $checkboxColor !important;}
 
-.app-stats-graph {
-  padding-left: 8px;
-  padding-right: 8px;
+/**********************************************/
+/* STYLES MOSTLY RELATED TO: ngb-bootstrap    */
+/**********************************************/
+.app-flex-1 {
+  flex: 1;}
+.app-flex-wrap {
+  flex-wrap: wrap;}
+/*modifications for ngb-bootstrap modal*/
+.modal-dialog {
+  margin: 40% 10%;}
+  @media ($lg-screen) {
+    .modal-dialog {
+      margin: 10% auto;}}
+.modal-content {   
+  background-color: transparent;
+  border: 0;}
+.modal-footer {
+  padding: 10px;
+  border-top: 1px solid gray;}
+#toast-container > div {
+  width: 20em !important;}
+  @media($lg-screen) {
+    #toast-container > div {
+      width: 25em !important;}}
+.app-toast-msg {
+  font-style: italic;}
+/*modifications for ngb-bootstrap tabs*/
+.nav-link {
+  padding: .25em .5em;}
+.nav-tabs .nav-link.active {
+  color: #0275D8;}
+.nav-tabs .nav-link {
+  color: #464A4C;}
+.nav-tabs .nav-link, .nav-tabs .nav-link.disabled {
+  background-color: lightyellow;
+  border-color: #ddd #ddd;}
+.app-tab-title {
+  font-size: .75em;}
+  @media($lg-screen) {
+    .app-tab-title {
+      font-size: .85em;}}
+ngb-tabset {
+  width: 100%;}
+.btn {
+  font-size: 14px;
 }

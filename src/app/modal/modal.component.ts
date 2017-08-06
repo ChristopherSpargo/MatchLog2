@@ -15,6 +15,23 @@ export class ModalComponentTemplate {
   @Input() openModal  : boolean;
 
   constructor(public activeModal: NgbActiveModal) {}
+
+  // call the resolve method after waiting for closing animation
+  close = () => {
+    this.openModal = false;
+    setTimeout( () => {
+      this.activeModal.close("OK");
+    }, 400)
+  }
+
+  // call the resolve method after waiting for closing animation
+  dismiss = () => {
+    this.openModal = false;
+    setTimeout( () => {
+      this.activeModal.dismiss("CANCEL");
+    }, 400)
+  }
+
 }
 
 @Component({

@@ -1,28 +1,14 @@
-<!--<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <p>One fine body&hellip;</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-  </div>
-</ng-template>-->
 <!--dialog template used for basic NOTICES and CONFIRMATIONS-->
 <div class="app-fade-in app-dialog-container" [class.app-open]="openModal">
-  <div class="modal-header app-dialog-header">
+  <div class="modal-header app-dialog-header bg-info text-white">
     <div class="modal-title d-flex flex-row justify-content-start align-items-center app-all-paddings-8px">
-      <div class=" app-form-title app-text-center ">{{title}}</div>
+      <div class="app-form-title">{{title}}</div>
     </div>
   </div>
   <div class="modal-body app-confirm-dialog-content app-form-theme app-all-paddings-8px">{{content}}</div>
   <div class="modal-footer d-flex flex-row justify-content-center align-items-center">
-    <button *ngIf="!notifyOnly" type="button" (click)="activeModal.dismiss('CANCEL')" 
+    <button *ngIf="!notifyOnly" type="button" (click)="dismiss()" 
             class="btn btn-sm app-green ">{{cancelText}}</button>
-    <button type="button" (click)="activeModal.close('OK')" class="btn btn-sm app-green">{{okText}}</button>
+    <button type="button" (click)="close()" class="btn btn-sm app-green">{{okText}}</button>
   </div>
 </div>

@@ -6,9 +6,9 @@ import { Component, Input } from '@angular/core';
 })
 export class FormMessagesComponent  {
 
-  @Input() fHaveMessage       : boolean;    // indicates if messages are available
-  @Input() fWorkingOpen       : boolean;    // expression that is true if "Working" status to be shown
-  @Input() fMessageOpen       : boolean;    // expression that is true if "Message" display open
+  @Input() fHaveMessage       : boolean = true;    // true if message area should be open
+  @Input() fWorkingOpen       : boolean;    // true if "Working" status to be shown
+  @Input() fMessageOpen       : boolean;    // true if "Messages" display open
   @Input() fMessageObj        : { [key: string]: any };        // object containing message keys
 
   constructor() {

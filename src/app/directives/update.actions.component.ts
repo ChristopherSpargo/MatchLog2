@@ -6,8 +6,9 @@ import { Component, Input } from '@angular/core';
 })
 export class UpdateActionsComponent  {
 
-  @Input() fDeleteCheck : boolean;  // indicates delete button should be shown
-  @Input() fAddCheck    : boolean;  // indicates add button should be shown
+  @Input() fDeleteCheck : boolean = false;  // true if delete button should be shown
+  @Input() fAddCheck    : boolean = false;  // true if add button should be shown
+  @Input() fDisabled    : boolean = false;  // true if button disabled
 
   constructor() {
   };

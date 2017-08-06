@@ -5,7 +5,7 @@
 *.json
 *.js
 README.md
-/src/tests.ts
+/src/test.ts
 /src/polyfills.ts
 /src/matchlog.min.css
 /src/app/Model/AWSModule.ts

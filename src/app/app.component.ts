@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {UIROUTER_DIRECTIVES} from '@uirouter/angular';
+import { Component, OnInit } from '@angular/core';
+import { UIROUTER_DIRECTIVES } from '@uirouter/angular';
 import { ToasterConfig } from 'angular2-toaster';
 
 
@@ -8,22 +8,19 @@ import { ToasterConfig } from 'angular2-toaster';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css']
 })
-export class AppComponent {
-  dialogOpen : boolean = false;
+export class AppComponent implements OnInit {
+
   public toastConfig : ToasterConfig = new ToasterConfig({
     positionClass: 'toast-bottom-left'
   });
 
-  constructor(){
-    window.addEventListener("openDialog", this.openDialog);
-    window.addEventListener("closeDialog", this.closeDialog);
-  };
+  constructor(){};
 
-  openDialog(){
-    this.dialogOpen = true;
+  ngOnInit() {
+    document.addEventListener("tryit", this.onTryit);
   }
 
-  closeDialog(){
-    this.dialogOpen = false;
+  onTryit = (e) => {
+    alert(e.detail.serve);
   }
 }

@@ -1,15 +1,16 @@
     <!-- Template used to show "Working" status or form status messages. 
          Used with <app-form-messages> COMPONENT -->
-    <div class=" app-form-message-area app-open app-no-overflow mt-1">
+    <div class=" app-form-message-area app-no-overflow mt-1"
+        [class.app-open]="fHaveMessage">
       <div class="d-flex flex-row justify-content-center align-items-center app-form-message-area app-fade-in"
-           [ngClass]="{'app-open': fWorkingOpen}">
+           [class.app-open]="fWorkingOpen">
         <div class="progress app-progress-indicator" >
           <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
                 role="progressbar" aria-valuenow="100" 
                 aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">Working...</div>
         </div>                
       </div>
-      <div *ngIf="fHaveMessage" class="app-form-message-area app-fade-in" [ngClass]="{'app-open': fMessageOpen}">
+      <div class="app-form-message-area app-fade-in" [class.app-open]="fMessageOpen">
         <app-messages [mList]="fMessageObj" [mMax]="2">
           <app-message name="formHasErrors" class="app-error">
             Please correct the fields with errors.
@@ -19,6 +20,63 @@
           </app-message>
           <app-message name="updateSuccess" class="app-success">
             List update successful.
+          </app-message>
+          <app-message name="dateConflict" class="app-error">
+            Given date restrictions confilct.
+          </app-message>
+          <app-message name="emailChangeFail" class="app-error">
+            Unable to change email address.
+          </app-message>
+          <app-message name="emailInvalid" class="app-error">
+            New email address is invalid.
+          </app-message>
+          <app-message name="emailInUse" class="app-error">
+            New email address already in use.
+          </app-message>
+          <app-message name="unrecognizedEmail" class="app-error">
+            No account for current email.
+          </app-message>
+          <app-message name="incorrectPassword" class="app-error">
+            Password value is incorrect.
+          </app-message>
+          <app-message name="passwordChangeFail" class="app-error">
+            Unable to change password.
+          </app-message>
+          <app-message name="deleteFail" class="app-error">
+            Unable to delete account.
+          </app-message>
+          <app-message name="createSuccess" class="app-success">
+            Success!
+          </app-message>
+          <app-message name="createFail" class="app-error">
+            Unable to create new account.
+          </app-message>
+          <app-message name="weirdProblem" class="app-error">
+            Some weird problem occurred.
+          </app-message>
+          <app-message name="authFail" class="app-error">
+            Unable to sign in.
+          </app-message>
+          <app-message name="accountCreated" class="app-success">
+            Your new account has been created, press Submit to Sign In.
+          </app-message>
+          <app-message name="passwordResetSent" class="app-success">
+            Password reset email sent.
+          </app-message>
+          <app-message name="enterTempPassword" class="app-success">
+            Enter the password from that email.
+          </app-message>
+          <app-message name="passwordResetFail" class="app-error">
+            Unable to reset password.
+          </app-message>
+          <app-message name="questionableShotCount" class="app-error">
+            Wrong number of shots for indicated result.
+          </app-message>
+          <app-message name="zeroShotCount" class="app-error">
+            Cannot have zero shot count.
+          </app-message>
+          <app-message name="noWinner" class="app-error">
+            No winner specified.
           </app-message>
         </app-messages>
       </div>

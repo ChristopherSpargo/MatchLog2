@@ -1,8 +1,8 @@
                 <!--Form used to provide the PLAYER MANAGEMENT feature-->
 <!--<app-waiting-indicator [fOpen]="formOpen && formWasOpen"></app-waiting-indicator>-->
 
-<div 
-  class=" app-central-container app-fade-in"
+<div
+  class=" app-central-container app-fade-in mb-2"
   [ngClass]="{'app-open': formOpen}"
   (swiperight)="closeForm()"
   >
@@ -10,15 +10,16 @@
 
   <app-form-header  headerType="center" 
                     headerTitle="Manage Players" 
-                    headerTheme="app-form-header-theme"
+                    headerTheme="app-lists-header-theme"
                     closeButtonTheme="app-white"
                     [headerClose]="closeForm">
   </app-form-header>
 
        <!-- Start of Form -->
 
-  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-3 pt-2 pb-3">
+  <div id="view-container"
+       class="app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp" (swiperight)="closeForm()">
+    <div class="container app-form-theme px-2 py-3">
       <form #playerForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(playerForm)">
         <div class="d-flex flex-column">
@@ -37,6 +38,8 @@
             [fOnFocus]      = "clearRequestStatus"
             [fOnChange]     = "setItemFields"
             [fList]         = "itemList"
+            [fShowNew]      = "true"
+            [fAllowNew]     = "false"
             fListValue      = "player">
           </app-list-item-field>
 
@@ -57,7 +60,7 @@
             fMaxLength    = "30"
             fErrors       = "required|pattern"
             fErrorMsgs    = "A first name is required.|Invalid first name character/format."
-            fExtraCSS     = "pb-1"
+            fExtraCSS     = "pb-2"
             [fFocusFn]    = "clearRequestStatus">
           </app-icon-input>
 
@@ -84,35 +87,29 @@
 
           <!-- Handed field -->
 
-          <div class="d-flex flex-column app-form-theme-text ">
-            <label class="app-form-icon-input-label-sm">Player Plays</label>
-            <div class="d-flex flex-row justify-content-start align-items-end">
-              <i class="material-icons app-input-icon-area app-light-brown">swap_horiz</i>
-              <div class="d-flex flex-row">
-                <input type="radio" value="Right" name="handed" class="app-inline-flex app-form-radio-control"
-                    [(ngModel)]="item.handed">Right
-                <input type="radio" value="Left" name="handed" class="app-inline-flex app-form-radio-control ml-4"
-                    [(ngModel)]="item.handed">Left
-              </div>
-            </div>
-          </div>
-          <div class=" app-form-input-divider-tall app-icon-offset-width "></div>
+          <app-radio-group 
+            fTitle      = "Player Plays"
+            fIcon       = "swap_horiz"
+            fIconColor  = "app-light-brown"
+            [(fModel)]  = "item.handed" 
+            [fOnFocus]  = "clearRequestStatus"
+            fValues     = "Right|Left" 
+            fLabels     = "Right|Left" 
+            fName       = "handed">
+          </app-radio-group>
 
           <!-- Gender field -->
 
-          <div class="d-flex flex-column app-form-theme-text ">
-            <label class="app-form-icon-input-label-sm">Gender</label>
-            <div class="d-flex flex-row justify-content-start align-items-end">
-              <i class="material-icons app-input-icon-area app-light-brown">wc</i>
-              <div class="d-flex flex-row">
-                <input type="radio" value="Male" name="gender" class="app-inline-flex app-form-radio-control"
-                    [(ngModel)]="item.gender">Male
-                <input type="radio" value="Female" name="gender" class=" app-inline-flex app-form-radio-control ml-4"
-                    [(ngModel)]="item.gender">Female
-              </div>
-            </div>
-          </div>
-          <div class=" app-form-input-divider-tall app-icon-offset-width "></div>
+          <app-radio-group 
+            fTitle      = "Gender"
+            fIcon       = "wc"
+            fIconColor  = "app-light-brown"
+            [(fModel)]  = "item.gender" 
+            [fOnFocus]  = "clearRequestStatus"
+            fValues     = "Male|Female" 
+            fLabels     = "Male|Female" 
+            fName       = "gender">
+          </app-radio-group>
 
           <!-- Player Notes field -->
 
@@ -158,7 +155,6 @@
 
           <!-- Messages Area -->
           <app-form-messages 
-            [fHaveMessage]  ="haveStatusMessages()"
             [fWorkingOpen]  ="!haveStatusMessages() && working"
             [fMessageOpen]  ="haveStatusMessages() && !working"
             [fMessageObj]   ="requestStatus">

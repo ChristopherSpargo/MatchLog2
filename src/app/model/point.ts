@@ -1,5 +1,20 @@
 import { PLAYER_ID, OPPONENT_ID } from '../constants'
 
+// CONSTANT values used by the Point class
+export const POINT_ENDINGS = ["Ace","Double Fault","Winner","Error Forced","Error","Bad Call"];
+export const ACE_POINT_ENDING = 0;
+export const DOUBLE_FAULT_POINT_ENDING = 1;
+export const WINNER_POINT_ENDING = 2;
+export const FORCED_ERROR_POINT_ENDING = 3;
+export const UNFORCED_ERROR_POINT_ENDING = 4;
+export const BAD_CALL_POINT_ENDING = 5;
+export const DEFAULT_POINT_ENDING = 4;
+export const UNFORCED_ERROR_DETAILS = ["Selection","Positioning","Execution"];
+export const UNFORCED_ERROR_DETAIL_SELECTION = 0;
+export const UNFORCED_ERROR_DETAIL_POSITION = 1;
+export const UNFORCED_ERROR_DETAIL_EXECUTION = 2;
+export const DEFAULT_UNFORCED_ERROR_DETAIL = 2;
+
 // this is the record stored for a Point in the database
 export interface PointData {
 s:    number;       // number of shots in the point (counting serve)
@@ -21,21 +36,6 @@ gP:   boolean;      // point was a game point for server
 
 export class Point {
   
-  // CONSTANT values used by the Point class
-  static POINT_ENDINGS = ["Ace","Double Fault","Winner","Error Forced","Error","Bad Call"];
-  static ACE_POINT_ENDING = 0;
-  static DOUBLE_FAULT_POINT_ENDING = 1;
-  static WINNER_POINT_ENDING = 2;
-  static FORCED_ERROR_POINT_ENDING = 3;
-  static UNFORCED_ERROR_POINT_ENDING = 4;
-  static BAD_CALL_POINT_ENDING = 5;
-  static DEFAULT_POINT_ENDING = 4;
-  static UNFORCED_ERROR_DETAILS = ["Selection","Positioning","Execution"];
-  static UNFORCED_ERROR_DETAIL_SELECTION = 0;
-  static UNFORCED_ERROR_DETAIL_POSITION = 1;
-  static UNFORCED_ERROR_DETAIL_EXECUTION = 2;
-  static DEFAULT_UNFORCED_ERROR_DETAIL = 2;
-
   //Point properties
   shots:                  number;
   playerScore:            string;
@@ -123,7 +123,7 @@ export class Point {
       serve:          this.firstServeIn ? "1st" : "2nd",
       firstServeIn:   this.firstServeIn ? "In" : "Out",
       returnIn:       this.returnIn ? "In" : "Out",
-      pointEndedBy:   Point.POINT_ENDINGS[this.pointEndedBy],
+      pointEndedBy:   POINT_ENDINGS[this.pointEndedBy],
       breakPoint:     this.breakPoint,
       gamePoint:      this.gamePoint
     };
@@ -141,10 +141,10 @@ export class Point {
     if(this.lastShotWing != undefined){
       result.lastShotWing = this.lastShotWing == "F" ? "Forehand" : "Backhand";
     }
-    if(this.pointEndedBy == Point.UNFORCED_ERROR_POINT_ENDING){
-      result.errorDetail = Point.UNFORCED_ERROR_DETAILS[this.unforcedErrorDetail];
+    if(this.pointEndedBy == UNFORCED_ERROR_POINT_ENDING){
+      result.errorDetail = UNFORCED_ERROR_DETAILS[this.unforcedErrorDetail];
     }
-    if(this.pointEndedBy == Point.DOUBLE_FAULT_POINT_ENDING){
+    if(this.pointEndedBy == DOUBLE_FAULT_POINT_ENDING){
       result.secondServeIn = "Out";
       result.serve = "Double";
       result.returnIn = "";          
@@ -154,20 +154,20 @@ export class Point {
     }
     result.endedByForceOrAce = result.endedByAce = result.endedByForce = false;
     switch(this.pointEndedBy){
-      case Point.ACE_POINT_ENDING:
+      case ACE_POINT_ENDING:
         result.returnIn = ""; 
         result.endedByAce = true;         
-      case Point.FORCED_ERROR_POINT_ENDING:
+      case FORCED_ERROR_POINT_ENDING:
         result.endedByForceOrAce = true;
         if(!result.endedByAce){result.endedByForce = true;}
-      case Point.BAD_CALL_POINT_ENDING:
-      case Point.WINNER_POINT_ENDING:
+      case BAD_CALL_POINT_ENDING:
+      case WINNER_POINT_ENDING:
         result.enderId = this.winnerId;
         result.endedByWinner = true;
         break;
-      case Point.DOUBLE_FAULT_POINT_ENDING:
+      case DOUBLE_FAULT_POINT_ENDING:
         result.returnIn = "";          
-      case Point.UNFORCED_ERROR_POINT_ENDING:
+      case UNFORCED_ERROR_POINT_ENDING:
         result.enderId = 0;
         result.endedByWinner = false;
         break;

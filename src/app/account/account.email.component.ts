@@ -97,7 +97,7 @@ export class AccountEmailComponent implements OnInit {
 
   //indicate whether there are any status messages
   haveStatusMessages = () => {
-    return this.requestStatus !== {};
+    return Object.keys(this.requestStatus).length !== 0;
   }
 
   //set form closed flag, wait for animation to complete before changing states to 'home'

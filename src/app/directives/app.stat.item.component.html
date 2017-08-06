@@ -1,0 +1,18 @@
+    <!-- Template used for stat item display. 
+         Used with <app-stats-item> COMPONENT -->
+    <div class="d-flex flex-row justify-content-center align-items-center">
+      <div class=" app-match-stats-player-value "
+           [ngClass]="{'app-disabled-text': fShowOpponent,
+                      'app-stats-subitem': fSubitem}">
+        {{!fShowOpponent ? (!fRatio ? (fValue[0] + fPct) : (fValue[0][0] + '/' + fValue[0][1])) : '...'}}
+      </div>
+      <div class=" app-match-stats-stat app-match-info-label "
+           [class.app-stats-subitem]="fSubitem">
+      {{fLabel}}
+      </div>
+      <div class=" app-match-stats-opponent-value"
+           [ngClass]="{'app-disabled-text': fShowPlayer,
+                      'app-stats-subitem': fSubitem}">
+        {{!fShowPlayer ? (!fRatio ? (fValue[1] + fPct) : (fValue[1][0] + '/' + fValue[1][1])) : '...'}}
+      </div>
+    </div>

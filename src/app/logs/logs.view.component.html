@@ -1,0 +1,72 @@
+<!--Template for view in view-logs state-->
+<!-- <app-waiting-indicator awi-open="!vC.viewOpen && !vC.viewWasOpen"></app-waiting-indicator> -->
+
+<div id="app-view-top"
+		 class="d-flex flex-column app-central-container-130 app-fade-in mb-2"
+     [class.app-open]="viewOpen">
+
+  <!-- Form Header -->
+
+  <app-form-header  headerType        = "center" 
+                    headerTitle       = "{{headerTitle}}" 
+                    headerTheme       = "app-logs-header-theme"
+                    closeButtonTheme  = "app-white"
+                    [headerClose]     = "closeView">
+  </app-form-header>
+
+  	<!-- Tab set for View Match Logs -->
+  <div class="app-form-theme app-flex-1 pt-1 app-card-bottom-corners" >
+    <ngb-tabset #viewTabs="ngbTabset" (tabChange)="tabChange($event)" 
+                [destroyOnHide]="false" justify="center">
+      <ngb-tab id="menuTab"
+                [disabled]="!logsReady">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme" 
+              (click)="toggleSortOrder()">menu</i>
+            <div class="app-tab-title ml-1">{{matchesMessage}}</div>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the menu of matches from search -->
+          <app-logs-view-menu
+            [matchMenuOpen]             = "matchMenuOpen"
+            [playerName]                = "playerName"
+            [constructMatchesMessage]   = "constructMatchesMessage">
+          </app-logs-view-menu>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="viewTab"
+                [disabled]="!selectedMatch()">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme" 
+              (click)="toggleEventInfo()">assignment</i>
+            <div class="app-tab-title mx-1">VIEW</div>
+            <!-- <i class="material-icons app-form-text-theme">{{eventInfoOpen ? 'expand_less' : 'expand_more'}}</i> -->
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the selected match -->
+          <app-logs-display
+            [matchViewOpen]             = "matchViewOpen">
+          </app-logs-display>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="searchTab">
+        <ng-template ngbTabTitle>
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-form-text-theme">search</i>
+            <div class="app-tab-title ml-1">SEARCH</div>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <!-- Component to display the match search form -->
+          <app-logs-view-search
+            [searchFormOpen] = "searchFormOpen">
+          </app-logs-view-search>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

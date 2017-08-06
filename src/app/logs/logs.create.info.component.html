@@ -1,0 +1,439 @@
+  <!--Form used to gather match description information-->
+
+<div *ngIf="MIFormOpen && viewReady" class="container px-2 py-3 app-pan-y"
+    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+
+  <!-- Start of Form -->
+
+  <form #matchInfoForm = "ngForm" role="form" novalidate
+        (submit)="submitMatchInfo(matchInfoForm)">
+
+    <!-- Date field -->
+     <div class="d-flex flex-column pb-2" >
+      <label class=" app-form-icon-input-label-sm ">Match Date</label>
+      <div class="d-flex flex-row align-items-center">
+        <i class="material-icons app-court-ltgreen">today</i>
+        <div class="d-flex flex-row app-icon-offset">
+          <button class="btn app-add-subtract-button" type="button"
+                      [disabled]="matchSaved"
+                      (click)="subtractADay()">
+            <i aria-label="previous day"
+                      class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
+          </button>
+          <input type="text" name="matchDate" autocomplete="off" 
+                  class=" app-add-subtract-input-control app-form-theme-text"
+                  aria-label="match date"
+                  [(ngModel)]="matchInfo.date" readonly
+                  (focus)="clearRequestStatus()">
+          <button class="btn app-add-subtract-button" type="button"
+                      [disabled]="matchSaved"
+                      (click)="addADay()">
+            <i aria-label="next day"
+                      class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
+          </button>
+        </div>
+      </div>
+    </div> 
+
+    <!-- Time field -->
+     <div class="d-flex flex-column pb-2" >
+      <label class="app-form-icon-input-label-sm">Match Time</label>
+      <div class="d-flex flex-row align-items-center">
+        <i class="material-icons app-court-ltgreen ">access_time</i>
+        <div class="d-flex flex-row app-icon-offset" >
+          <button class="btn app-add-subtract-button" type="button"
+                      [disabled]="matchSaved"
+                      (click)="subtractTime()">
+            <i aria-label="previous minute"
+                      class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
+          </button>
+            <input type="text" name="matchTime" autocomplete="off" 
+                    aria-label="match time"
+                    class="app-add-subtract-input-control app-form-theme-text"
+                    [(ngModel)]="matchInfo.time" readonly 
+                    (focus)="clearRequestStatus()">
+          <button class="btn app-add-subtract-button" type="button"
+                      [disabled]="matchSaved"
+                      (click)="addTime()">
+            <i aria-label="next minute"
+                      class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
+          </button>
+        </div>
+      </div>
+    </div> 
+
+    <!-- Tournament field -->
+     <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "tournamentName"
+      fRef            = "tName"
+      [(fValue)]      = "matchInfo.tournament"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Tournament" 
+      fIcon           = "group" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fList]         = "tournamentList"
+      fNewTest        = "999"
+      [fEqual]        = "true"
+      fNewName        = "newTName"
+      fNewRef         = "nTName"
+      [(fNewValue)]   = "matchInfo.newTournamentName">
+    </app-list-item-field> 
+
+    <!-- Location field -->
+     <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "locationName"
+      fRef            = "lName"
+      [(fValue)]      = "matchInfo.location"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Location" 
+      fIcon           = "place" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fList]         = "locationList"
+      [fEqual]        = "true"
+      fNewTest        = "999"
+      fNewName        = "newLName"
+      fNewRef         = "nLName"
+      [(fNewValue)]   = "matchInfo.newLocationName">
+    </app-list-item-field> 
+
+    <!-- Event description -->
+     <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "eventName"
+      fRef            = "eName"
+      [(fValue)]      = "matchInfo.event"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Event" 
+      fIcon           = "description" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fList]         = "eventList"
+      fNewTest        = "999"
+      [fEqual]        = "true"
+      fNewName        = "newEName"
+      fNewRef         = "nEName"
+      [(fNewValue)]   = "matchInfo.newEventName">
+    </app-list-item-field> 
+
+    <!-- Round description -->
+     <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "roundName"
+      fRef            = "rName"
+      [(fValue)]      = "matchInfo.round"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Round" 
+      fIcon           = "label" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fList]         = "roundList"
+      [fAllowNew]     = "false">
+    </app-list-item-field> 
+
+    <!-- Match format field -->         
+    <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "formatName"
+      fRef            = "fName"
+      [(fValue)]      = "matchInfo.format"
+      [fRequired]     = "true"
+      [fDisabled]     = "pointsLogged()"
+      fLabel          = "Match Format" 
+      fIcon           = "view_quilt" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fList]         = "matchFormats"
+      fListValue      = "index"
+      fExtraCSS       = "pb-1"
+      [fAllowNew]     = "false">
+    </app-list-item-field>
+
+    <!-- NoAd scoring field -->          
+    <app-radio-group 
+      fTitle      = "Scoring Method"
+      fIcon       = "repeat_one"
+      fIconColor  = "app-court-ltgreen"
+      [fOnFocus]  = "clearRequestStatus"
+      [fDisabled] = "pointsLogged()"
+      [(fModel)]  = "matchInfo.noAd" 
+      fValues     = "false|true" 
+      fLabels     = "Ad|No Ad" 
+      fName       = "sMethod">
+    </app-radio-group>
+
+    <!-- Player field -->
+    <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "playerName"
+      fRef            = "pName"
+      [(fValue)]      = "matchInfo.playerId"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Player" 
+      fIcon           = "face" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fOnChange]     = "filterPlayerLists"
+      [fList]         = "playerSelectList"
+      fListValue      = "player"
+      [fShowNew]      = "true"
+      [fAllowNew]     = "false">
+    </app-list-item-field>
+
+    <!-- New Player information area --> 
+
+    <div class="d-flex flex-column app-vertical-expand"
+          [class.app-open]="matchInfo.playerId == '999'">
+      <!-- New Player firstName field -->
+      <div class="d-flex flex-row">
+        <div class="app-width-45 d-flex flex-row">
+          <app-icon-input
+            [fForm]       = "matchInfoForm" 
+            fName         = "pFirst" 
+            fRef          = "pF" 
+            [fRequired]   = "matchInfo.playerId == '999'" 
+            fType         = "text" 
+            fLabel        = "First Name"  
+            fIcon         = "add"
+            fColor        = "app-court-ltgreen" 
+            [(fValue)]    = "newPlayer.firstName" 
+            fPattern      = "^[ \w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "Required|Invalid"
+            [fCapitalize] = "true"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+        </div>
+
+        <!-- New Player lastName field -->
+        <div class="app-width-50 app-offset-5 d-flex flex-row">
+          <app-icon-input
+            [fForm]       = "matchInfoForm" 
+            fName         = "pLast" 
+            fRef          = "pL" 
+            [fRequired]   = "matchInfo.playerId == '999'" 
+            fType         = "text" 
+            fLabel        = "Last Name"  
+            [(fValue)]    = "newPlayer.lastName" 
+            fPattern      = "^[ \/-\w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "Required|Invalid"
+            [fCapitalize] = "true"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+        </div>
+      </div>
+
+      <div class="d-flex flex-row">
+
+        <!-- New Player Handed Field -->
+        <div class="app-width-45 d-flex flex-row app-icon-offset" >
+          <app-radio-group 
+            fTitle      = "Player Plays"
+            [fIconSpace]= "true"
+            [fOnFocus]  = "clearRequestStatus"
+            [(fModel)]  = "newPlayer.handed" 
+            fValues     = "Right|Left" 
+            fLabels     = "Right|Left" 
+            [fDividerAfter] = "false"
+            [fVertical] = "true"
+            fName       = "pHanded">
+          </app-radio-group>
+        </div>
+
+        <!-- New Player Gender Field -->
+        <div class="d-flex flex-row app-width-50 app-offset-5" >
+          <app-radio-group 
+            fTitle      = "Gender"
+            [fOnFocus]  = "clearRequestStatus"
+            [(fModel)]  = "newPlayer.gender" 
+            fValues     = "Female|Male" 
+            fLabels     = "Female|Male" 
+            [fDividerAfter] = "false"
+            [fVertical] = "true"
+            fName       = "pGender">
+          </app-radio-group>
+        </div>
+      </div>
+      <div class=" app-form-input-divider-tall app-icon-offset-width "></div> 
+    </div>
+
+    <!-- Opponent field -->
+    <app-list-item-field 
+      [fForm]         = "matchInfoForm"
+      fName           = "opponentName"
+      fRef            = "oName"
+      [(fValue)]      = "matchInfo.opponentId"
+      [fRequired]     = "true"
+      [fDisabled]     = "!canSubmitSettings()"
+      fLabel          = "Opponent" 
+      fIcon           = "person" 
+      fColor          = "app-court-ltgreen"
+      [fOnFocus]      = "clearRequestStatus"
+      [fOnChange]     = "filterPlayerLists"
+      [fList]         = "opponentSelectList"
+      fListValue      = "player"
+      [fShowNew]      = "true"
+      [fAllowNew]     = "false">
+    </app-list-item-field>
+
+    <!-- New Opponent information area -->
+
+    <div class="d-flex flex-column app-vertical-expand"
+          [class.app-open]="matchInfo.opponentId == '999'">
+      <!-- New Opponent firstName field -->
+      <div class="d-flex flex-row">
+        <div class="app-width-45 d-flex flex-row">
+          <app-icon-input
+            [fForm]       = "matchInfoForm" 
+            fName         = "oFirst" 
+            fRef          = "oF" 
+            [fRequired]   = "matchInfo.opponentId == '999'" 
+            fType         = "text" 
+            fLabel        = "First Name"  
+            fIcon         = "add"
+            fColor        = "app-court-ltgreen" 
+            [(fValue)]    = "newOpponent.firstName" 
+            fPattern      = "^[ \w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "Required|Invalid"
+            [fCapitalize] = "true"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+        </div>
+
+        <!-- New Opponent lastName field -->
+        <div class="app-width-50 app-offset-5 d-flex flex-row">
+          <app-icon-input
+            [fForm]       = "matchInfoForm" 
+            fName         = "oLast" 
+            fRef          = "oL" 
+            [fRequired]   = "matchInfo.opponentId == '999'" 
+            fType         = "text" 
+            fLabel        = "Last Name"  
+            [(fValue)]    = "newOpponent.lastName" 
+            fPattern      = "^[ /-\w]{1,}$"
+            fMaxLength    = "30"
+            fErrors       = "required|pattern"
+            fErrorMsgs    = "Required|Invalid"
+            [fCapitalize] = "true"
+            [fFocusFn]    = "clearRequestStatus">
+          </app-icon-input>
+        </div>
+      </div>
+      
+      <!-- New Opponent Handed Field -->
+      <div class="d-flex flex-row">
+        <div class="app-width-45 d-flex flex-row app-icon-offset" >
+          <app-radio-group 
+            fTitle      = "Opponent Plays"
+            [fIconSpace]= "true"
+            [fOnFocus]  = "clearRequestStatus"
+            [(fModel)]  = "newOpponent.handed" 
+            fValues     = "Right|Left" 
+            fLabels     = "Right|Left" 
+            [fDividerAfter] = "false"
+            [fVertical] = "true"
+            fName       = "oHanded">
+          </app-radio-group>
+        </div> 
+
+        <!-- New Opponent Gender Field -->
+        <div class="app-width-50 app-offset-5 d-flex flex-row" >
+          <app-radio-group 
+            fTitle      = "Gender"
+            [fOnFocus]  = "clearRequestStatus"
+            [(fModel)]  = "newOpponent.gender" 
+            fValues     = "Female|Male" 
+            fLabels     = "Female|Male" 
+            [fDividerAfter] = "false"
+            [fVertical] = "true"
+            fName       = "oGender">
+          </app-radio-group>
+        </div> 
+      </div>
+      <div class=" app-form-input-divider-tall app-icon-offset-width "></div>
+    </div>
+
+    <!-- First-to-serve field -->
+    <app-radio-group 
+      fTitle      = "First to Serve"
+      fIcon       = "room_service"
+      fIconColor  = "app-court-ltgreen"
+      [fVertical] = "true"
+      [fOnFocus]  = "clearRequestStatus"
+      [(fModel)]  = "matchInfo.serverId" 
+      [fDisabled] = "!matchInfo.playerId || !matchInfo.opponentId || pointsLogged()"
+      fValues     = "{{PLAYER_ID + '|' + OPPONENT_ID}}" 
+      fLabels     = "{{playerName(matchInfo.playerId,'P') + '|' + playerName(matchInfo.opponentId,'O')}}" 
+      [fDividerAfter] = "false"
+      fName       = "fServer">
+    </app-radio-group>
+
+    <!-- Messages Area -->
+
+    <app-form-messages 
+      [fWorkingOpen]  ="!haveStatusMessages() && working"
+      [fMessageOpen]  ="haveStatusMessages() && !working"
+      [fMessageObj]   ="requestStatus">
+    </app-form-messages>                    
+
+    <!-- Actions Area -->
+
+    <app-update-actions
+      [fDisabled]     = "!canSubmitSettings()">
+    </app-update-actions>
+  </form>
+</div>
+
+          <!-- Menu for list of paused matches -->
+
+<div *ngIf="resumeMenuOpen && viewReady" class="container px-2 py-3 app-pan-y"
+    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+  <div class="d-flex flex-column justify-content-start align-items-start app-frame">
+    <ul class=" app-matches-menu-ul ">
+      <li *ngFor="let m of pausedMatches; index as i; last as l">
+        <div class="d-flex flex-row align-items-center">
+          <button class="btn app-matches-menu-listitem {{l ? 'app-no-border' : ''}}" type="button"
+                      (click)="resumePausedMatch(pausedMatches[i])">
+            <div class="hidden-sm-down app-matches-menu-line1 ">
+              {{m.date+' - '+m.tournament}}
+            </div>
+            <div  class="hidden-md-up app-matches-menu-line1 ">
+              {{m.date}}
+            </div>
+            <div  class="hidden-md-up app-matches-menu-line1 ">
+              {{m.tournament}}
+            </div>
+            <div  class="hidden-sm-down app-matches-menu-line2 ">
+              {{playerName(m.playerId) + ' .vs. ' + playerName(m.opponentId)}}
+            </div>
+            <div  class="hidden-md-up app-matches-menu-line2 ">
+              {{playerName(m.playerId) + ' .vs.'}}
+            </div>
+            <div  class="hidden-md-up app-matches-menu-line2 ">
+              {{playerName(m.opponentId)}}
+            </div>
+          </button>
+          <button (click)="deletePausedMatch(pausedMatches[i])" aria-label="delete match"
+                      class="btn app-match-menu-delete-button" type="button">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              <i class="material-icons app-warn app-match-menu-delete-icon ">remove_circle</i>
+            </div>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

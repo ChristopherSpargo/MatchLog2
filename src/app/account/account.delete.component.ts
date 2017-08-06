@@ -29,7 +29,7 @@ export class AccountDeleteComponent implements OnInit {
     else{
       this.userEmail = this.user.userEmail;
       //update the current help context and open the Email Change form
-      this.utilSvc.setCurrentHelpContext("ChangePassword"); //note current state
+      this.utilSvc.setCurrentHelpContext("DeleteAccount"); //note current state
       this.utilSvc.displayUserMessages();
       setTimeout( () => { this.formOpen = true; }, 300 );
     }
@@ -94,7 +94,7 @@ export class AccountDeleteComponent implements OnInit {
 
   //indicate whether there are any status messages
   haveStatusMessages = () => {
-    return this.requestStatus !== {};
+    return Object.keys(this.requestStatus).length !== 0;
   }
 
   //set form closed flag, wait for animation to complete before changing states to 'home'

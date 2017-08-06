@@ -1,0 +1,623 @@
+ <div class="container px-2 py-3 app-pan-y"
+      [class.app-open]="matchViewOpen">  
+  <div *ngIf="viewTabOpen()" class=" app-no-scroll ">
+    <div class="app-theme-inherit">
+      <div class="d-flex flex-column">
+        <!-- Describe the dataset. Allow swiping left/right to change tabs in this area -->
+        <div class="d-flex flex-column app-vertical-expand app-tb-padding-4px 
+                    app-match-display-header app-lr-padding-8px app-pan-y"
+            (swipeleft)="nextTab()" (swiperight)="prevTab()"
+            [class.app-open]="getEventInfoOpen()">
+
+          <!-- section for single match situations -->
+          <!-- Display the tournament date and location -->
+
+          <div *ngIf="singleMatch() && selectedMatch()">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              {{selectedMatch().tournament}}
+            </div>
+            <div class="d-flex flex-row">
+              <div class="app-width-20 app-match-info-label">Location:</div>
+              <div class="app-match-display-tournament">
+                {{selectedMatch().location}}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="app-width-20 app-match-info-label">Date:</div>
+              <div class="app-width-40 app-match-display-tournament">
+                {{selectedMatch().date}}
+              </div>
+              <div class="app-width-15 app-match-info-label">Time:</div>
+              <div class="app-width-25 app-match-display-tournament">
+                {{selectedMatch().time}}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="app-width-20 app-match-info-label">Event:</div>
+              <div class="app-match-display-tournament">
+                {{selectedMatch().event+' ('+selectedMatch().round+')'}}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="app-width-20 app-match-info-label">Format:</div>
+              <div class="app-width-40 app-match-display-tournament">
+                {{matchFormats[selectedMatch().format]}}
+              </div>
+              <div class="app-width-20 app-match-info-label">Scoring:</div>
+              <div class="app-width-20 app-match-display-tournament">
+                {{selectedMatch().noAd ? 'No Ad' : 'Ad'}}
+              </div>
+            </div>
+            <div class="d-flex flex-row">
+              <div class="app-width-20 app-match-info-label">Duration:</div>
+              <div class="app-match-display-tournament">
+                {{matchDuration()}}
+              </div>
+            </div>
+          </div>
+
+          <!-- section for multiple match situations -->
+          <!-- Display display type, date range, number of opponents in the data, etc. -->
+
+          <div *ngIf="!singleMatch()">
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              {{displayTrend() ? 'Trend Graphs For' : 'Combined Statistics For'}}
+            </div>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              {{selectedMatchCount() + ' Matches'}}
+            </div>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              {{getOpponentsLabel()}}
+            </div>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+              {{'From: ' + getSelectionsDateRange()}}
+            </div>
+          </div>
+        </div>
+
+        <!-- Display the player's names and the score of each set.
+              Can't allow swipe left/right to change tabs here because we need
+              to scroll these button lists left and right -->
+        <div class=" app-match-score app-scrollable ">
+          <div class="d-flex flex-row">
+            <button class="btn app-viewlogs-button-theme " type="button"
+                [class.app-cursor-default]="!selectedSet()" (click)="showMatchLevel()">
+              <div class="d-flex flex-column">
+                <div class="app-match-display-score-names">
+                  {{stats.playerNameAndInitial}}
+                </div>
+                <div class="app-match-display-score-names">
+                  {{stats.opponentNameAndInitial}}
+                </div>
+              </div>
+            </button>
+            <div *ngIf="singleMatch()" class="d-flex flex-row">
+              <button *ngFor="let s of selectedMatch().score; index as i" 
+                      (click)="setSelectedSet(i)" type="button" 
+                      class="btn d-flex flex-column justify-content-center align-items-center 
+                            app-match-display-set-button app-viewlogs-button-theme" 
+                      [class.app-stats-selected]="selectedSet() == selectedMatch().sets[i]">
+                <div class=" app-match-display-score-set ">
+                  {{s[0]}}
+                </div>
+                <div class=" app-match-display-score-set ">
+                  {{s[1]}}
+                </div> 
+              </button> 
+
+              <!--display the score in the current game, if any-->
+              <button *ngIf="selectedMatch().currGame" type="button"
+                      class="btn d-flex flex-column justify-content-center align-items-center
+                            app-match-display-set-button app-cursor-default app-transparent app-check-green ">
+                <div class="app-match-display-score-set">
+                  {{selectedMatch().currGame[0]}}
+                </div>
+                <div class="app-match-display-score-set">
+                  {{selectedMatch().currGame[1]}}
+                </div>
+              </button>
+
+              <!--display a button to jump to the end of the log-->
+              <button (click)="selectLastPoint()" aria-label="select last point" type="button"
+                      class="btn d-flex flex-column justify-content-center align-items-center 
+                            app-match-display-set-button app-viewlogs-button-theme app-bg-white"> 
+                <i class="material-icons app-match-display-back-button app-primary ">last_page</i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Display the games of a set when selected -->
+        <div id="gamesDisplay" class=" app-match-score app-scrollable">
+          <div *ngIf="selectedSet()" class="d-flex flex-row mt-2">
+            <ng-container *ngIf="selectedSet().games">
+              <button *ngFor="let g of selectedSet().games; index as i" 
+                      (click)="setSelectedGame(i)" aria-label="select game" type="button"
+                      class="btn d-flex flex-column justify-content-center align-items-center 
+                            app-match-display-set-button app-viewlogs-button-theme" 
+                      [class.app-stats-selected]="selectedGame() == g">
+                <i *ngIf="g.playerWon" class="material-icons app-match-set-winner-icon" 
+                      [ngClass]="{'app-check-green': g.playerServed, 
+                                  'app-check-red': !g.playerServed}">
+                  check</i>
+                <div *ngIf="!g.playerWon" class=" app-match-display-score-set">
+                  {{g.playerScore}}
+                </div>
+                <i *ngIf="g.opponentWon" class="material-icons app-match-set-winner-icon" 
+                        [ngClass]="{'app-check-green': g.opponentServed,
+                                    'app-check-red': !g.opponentServed}">
+                  check</i>
+                <div *ngIf="!g.opponentWon" class="app-match-display-score-set">
+                  {{g.opponentScore}}
+                </div>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="selectedSet().points">
+              <button	*ngFor="let p of selectedSet().points; index as i" 
+                      (click)="setSelectedPoint($index)" aria-label="select game" type="button"
+                      class="btn d-flex flex-column justify-content-center align-items-center 
+                            app-match-display-set-button app-viewlogs-button-theme" 
+                      [class.app-stats-selected]="selectedPoint() == p">
+                <div class="app-match-display-score-set" 
+                      [ngClass]="{'app-check-green': playerHeldThisPoint(p),
+                                  'app-check-red': playerBrokeThisPoint(p)}">
+                  {{p.playerScore}}
+                </div>
+                <div class="app-match-display-score-set" 
+                      [ngClass]="{'app-check-green': opponentHeldThisPoint(p),
+                                  'app-check-red': opponentBrokeThisPoint(p)}">
+                  {{p.opponentScore}}
+                </div>
+              </button>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Display points of a game when selected -->
+        <div id="pointsDisplay" class=" app-match-score app-scrollable">
+          <div *ngIf="selectedGame()" class="d-flex flex-row mt-2">
+            <button *ngFor="let p of selectedGame().points; index as i" type="button"
+                    (click)="setSelectedPoint(i)" aria-label="select point"
+                    class="btn d-flex flex-column justify-content-center align-items-center 
+                            app-match-display-set-button app-viewlogs-button-theme" 
+                    [class.app-stats-selected]="selectedPoint() == p">
+              <div class="app-match-display-score-set" 
+                    [ngClass]="{'app-check-green': playerHeldThisPoint(p),
+                                'app-check-red': playerBrokeThisPoint(p)}">
+                {{p.playerScore}}
+              </div>
+              <div class="app-match-display-score-set" 
+                    [ngClass]="{'app-check-green': opponentHeldThisPoint(p),
+                                'app-check-red': opponentBrokeThisPoint(p)}">
+                {{p.opponentScore}}
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Display player names, current display item label and maybe a serving indicator
+              and a who won indicator.  Also, allow user to swipe left/right to change tabs in this area -->
+        <div class="d-flex flex-row app-no-overflow app-pan-y py-1" 
+              (swipeleft)="nextTab()" (swiperight)="prevTab()">
+            <div class="d-flex flex-row justify-content-center align-items-end app-match-stats-player-name app-flex-1">
+              <img class=" app-match-stats-service-img " [src]="ballImage" 
+                  [class.app-invisible]="!playerServed && (!playerServing || opponentServed)"/>
+              <div>
+                {{stats?.shortPlayerName}}
+              </div>
+              <i class="material-icons app-match-winner-check-icon"
+                [ngClass]="{'app-check-green': playerWon,
+                      'app-transparent-text': !playerWon,
+                      'app-check-red': playerBroke}">
+                check</i>
+            </div>
+          <div class="d-flex flex-column justify-content-end align-items-center app-flex-1">
+            <div class="app-match-stats-title1 app-match-info-label">
+              {{stats?.title1}}
+            </div>
+            <div class="app-match-stats-title2 app-match-info-label">
+              {{stats?.title2}}
+            </div>
+          </div>
+            <div class="d-flex flex-row justify-content-center align-items-end app-match-stats-opponent-name app-flex-1">
+              <img class=" app-match-stats-service-img " [src]="ballImage" 
+                  [class.app-invisible]="!opponentServed && (!opponentServing || playerServed)"/>
+              <div>
+                {{stats?.shortOpponentName}}
+              </div>
+              <i class="material-icons app-match-winner-check-icon" 
+                  [ngClass]="{'app-check-green': opponentWon,
+                          'app-transparent-text': !opponentWon,
+                        'app-check-red': opponentBroke}">
+                check</i>
+            </div>
+        </div>
+        <div class=" app-match-stats-divider ">
+        </div>
+      </div>
+    </div>
+  </div>
+	
+	<!-- Display the stats section of a match log view -->
+
+	<div *ngIf="viewTabOpen()" class=" app-match-stats-frame " >
+   	<div class="app-theme-inherit app-bottom-padding-8px app-pan-y"
+						(swipeleft)="nextTab()" (swiperight)="prevTab()">
+      <div *ngIf="selectedMatch() && !selectedPoint()" 
+           class="d-flex flex-column app-viewlogs-text ">
+<!-- Synopsis -->
+        <app-stat-category fLabel="Synopsis" [(fOpenFlag)]="synopsisOpen" 
+        									 [(fTextFlag)]="synopsisTextOpen" [fTextOnly]="selectedGame()">
+        	<!-- Text Section -->
+			    <div class="d-flex flex-column app-match-stats-section-text "
+			    		 [class.app-open]="synopsisTextOpen || selectedGame()">
+			    	<app-stat-item fLabel="Serves Won" [fValue]="stats.spWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item fLabel="Returns Won" [fValue]="stats.rpWonRatio" [fRatio]="true"
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item fLabel="Risk Rewarded" [fValue]="stats.weRatio" [fRatio]="true"></app-stat-item> 
+			    	<app-stat-item fLabel="Big Points" [fValue]="stats.bigRatio" [fRatio]="true"></app-stat-item> 
+			    </div>
+        	<!-- Graph Section -->
+	    	  <div *ngIf="!displayTrend() && !selectedGame()"> 
+		    		<canvas id="synopsisGraph" height="175"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="synopsisTrend1" height="275"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="synopsisTrend2" height="275"></canvas>
+		    	</div>
+        </app-stat-category>
+<!-- Serving -->
+        <app-stat-category fLabel="Serving" [(fOpenFlag)]="serveStatsOpen"
+        									 [(fTextFlag)]="servesTextOpen" [fTextOnly]="selectedGame()">
+        	<!-- Text Section -->
+			    <div class="d-flex flex-column app-match-stats-section-text "
+			    		 [class.app-open]="servesTextOpen || selectedGame()">
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="1st Serves In" [fValue]="stats.fsInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="1st Serves In" [fValue]="stats.fsInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"
+			    								 [fBreakdownOpen]="firstServesBreakdownOpen">
+				    	<app-stat-item fLabel="To Forehand" [fValue]="stats.fhFsIn" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+				    	<app-stat-item fLabel="To Backhand" [fValue]="stats.bhFsIn" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="1st Serves Won" [fValue]="stats.fsWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="2nd Serves In" [fValue]="stats.ssInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="2nd Serves In" [fValue]="stats.ssInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"
+			    								 [fBreakdownOpen]="secondServesBreakdownOpen">
+				    	<app-stat-item fLabel="To Forehand" [fValue]="stats.fhSsIn" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+				    	<app-stat-item fLabel="To Backhand" [fValue]="stats.bhSsIn" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="2nd Serves Won" [fValue]="stats.ssWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="Total Won" [fValue]="stats.spWonRatio" [fRatio]="true"
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Total Won" [fValue]="stats.spWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed" 
+			    								 [fBreakdownOpen]="servesBreakdownOpen">
+				    	<app-stat-item fLabel="To Forehand" [fValue]="stats.fhSpWonRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+				    	<app-stat-item fLabel="To Backhand" [fValue]="stats.bhSpWonRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="playerServed" [fSubitem]="true"
+				    								 [fShowOpponent]="opponentServed"></app-stat-item>
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="Game Points Won" [fValue]="stats.gpWon" [fRatio]="true" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item fLabel="Aces" [fValue]="stats.aces" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item fLabel="Double Faults" [fValue]="stats.dblFaults" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    </div>
+        	<!-- Graph Section -->
+		    	<div *ngIf="!displayTrend() && !selectedGame()">
+		    		<canvas id="servesGraph" height="175"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="servesTrend1" height="300"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="servesTrend2" height="300"></canvas>
+		    	</div>
+		    </app-stat-category>
+<!-- Returning -->
+        <app-stat-category fLabel="Returning" [(fOpenFlag)]="returnStatsOpen"
+        									 [(fTextFlag)]="returnsTextOpen" [fTextOnly]="selectedGame()">
+        	<!-- Text Section -->
+			    <div class="d-flex flex-column app-match-stats-section-text "
+			    		 [class.app-open]="returnsTextOpen || selectedGame()">
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="1st Returns In" [fValue]="stats.frInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="1st Returns In" [fValue]="stats.frInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"
+			    								 [fBreakdownOpen]="firstReturnsBreakdownOpen">
+				    	<app-stat-item fLabel="Forehand" [fValue]="stats.fhFrInRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    	<app-stat-item fLabel="Backhand" [fValue]="stats.bhFrInRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="1st Returns Won" [fValue]="stats.frWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="2nd Returns In" [fValue]="stats.srInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="2nd Returns In" [fValue]="stats.srInRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"
+			    								 [fBreakdownOpen]="secondReturnsBreakdownOpen">
+				    	<app-stat-item fLabel="Forehand" [fValue]="stats.fhSrInRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    	<app-stat-item fLabel="Backhand" [fValue]="stats.bhSrInRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="2nd Returns Won" [fValue]="stats.srWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="Total Won" [fValue]="stats.rpWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Total Won" [fValue]="stats.rpWonRatio" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"
+			    								 [fBreakdownOpen]="returnsBreakdownOpen">
+				    	<app-stat-item fLabel="Forehand" [fValue]="stats.fhRpWonRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    	<app-stat-item fLabel="Backhand" [fValue]="stats.bhRpWonRatio" [fRatio]="true" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    	<app-stat-item fLabel="Double Faults" [fValue]="stats.revDblFaults" 
+				    								 [fShowPlayer]="opponentServed" [fSubitem]="true"
+				    								 [fShowOpponent]="playerServed"></app-stat-item> 
+				    </app-stat-item-breakdown>
+			    	<app-stat-item fLabel="Break Points Won" [fValue]="stats.bpWon" [fRatio]="true" 
+			    								 [fShowPlayer]="opponentServed"
+			    								 [fShowOpponent]="playerServed"></app-stat-item> 
+			    </div>
+        	<!-- Graph Section -->
+		    	<div *ngIf="!displayTrend() && !selectedGame()">
+		    		<canvas id="returnsGraph" height="175"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="returnsTrend1" height="300"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="returnsTrend2" height="300"></canvas>
+		    	</div>
+		    </app-stat-category>
+<!-- Risk -->
+        <app-stat-category fLabel="Risk" [(fOpenFlag)]="riskStatsOpen"
+        									 [(fTextFlag)]="riskTextOpen" [fTextOnly]="selectedGame()">
+        	<!-- Text Section -->
+			    <div class="d-flex flex-column app-match-stats-section-text "
+			    		 [class.app-open]="riskTextOpen || selectedGame()">
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="Winners" [fValue]="stats.winners"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Winners" [fValue]="stats.winners"
+			    								 [fBreakdownOpen]="winnersBreakdownOpen">
+				    	<app-stat-item fLabel="Forehand" [fValue]="stats.fhWinners" [fSubitem]="true">
+				    	</app-stat-item> 
+				    	<app-stat-item fLabel="Backhand" [fValue]="stats.bhWinners" [fSubitem]="true">
+				    	</app-stat-item> 			    	
+			    	</app-stat-item-breakdown> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="Errors Forced" [fValue]="stats.errForced"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Errors Forced" [fValue]="stats.errForced"
+			    								 [fBreakdownOpen]="errForcedBreakdownOpen">
+				    	<app-stat-item fLabel="To Forehand" [fValue]="stats.fhErrForced" [fSubitem]="true">
+				    	</app-stat-item> 
+				    	<app-stat-item fLabel="To Backhand" [fValue]="stats.bhErrForced" [fSubitem]="true">
+				    	</app-stat-item> 
+			    	</app-stat-item-breakdown> 
+			    	<app-stat-item fLabel="Aces" [fValue]="stats.aces" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item fLabel="Double Faults" [fValue]="stats.dblFaults" 
+			    								 [fShowPlayer]="playerServed"
+			    								 [fShowOpponent]="opponentServed"></app-stat-item> 
+			    	<app-stat-item *ngIf="dataVersion() < 2.0"
+			    								 fLabel="Unforced Errors" [fValue]="stats.unfErrors"></app-stat-item> 
+			    	<app-stat-item-breakdown *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Errors" [fValue]="stats.unfErrors"
+			    								 [fBreakdownOpen]="unfErrorsBreakdownOpen">
+				    	<app-stat-item fLabel="Forehand" [fValue]="stats.fhUnfErrors" [fSubitem]="true">
+				    	</app-stat-item> 
+				    	<app-stat-item fLabel="Backhand" [fValue]="stats.bhUnfErrors" [fSubitem]="true">
+				    	</app-stat-item> 
+			    	</app-stat-item-breakdown> 
+			    	<app-stat-item *ngIf="dataVersion() > 1.9"
+			    								 fLabel="Net Points" [fValue]="stats.netPoints" [fRatio]="true">
+			    	</app-stat-item> 
+			    	<app-stat-item fLabel="Total Points Won" [fValue]="stats.tpWon"></app-stat-item> 
+			    	<app-stat-item fLabel="Average Rally" [fValue]="stats.avgRally"></app-stat-item> 
+			    	<app-stat-item fLabel="Longest Rally" [fValue]="stats.maxRally"></app-stat-item> 
+			    </div>
+        	<!-- Graph Section -->
+		    	<div *ngIf="!displayTrend() && !selectedGame()">
+		    		<canvas id="riskGraph" height="175"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="riskTrend1" height="300"></canvas>
+		    	</div>
+		    	<div *ngIf="displayTrend()">
+		    		<canvas id="riskTrend2" height="300"></canvas>
+		    	</div>
+		    </app-stat-category>
+	    </div>
+	    <div *ngIf="selectedPoint()" class="d-flex flex-column app-edit-fab-container ">
+		    <app-point-item fLabel="Shots:" [fValue]="pointInfo.shots"></app-point-item> 
+		    <app-point-item fLabel="Serve:" [fValue]="pointInfo.serve"></app-point-item>
+		    <app-point-item *ngIf="pointInfo.endedByAce"
+		    								fLabel="Return:" [fValue]="pointInfo.returnIn">
+		    </app-point-item> 
+		    <app-point-item *ngIf="!pointInfo.endedByAce"
+		    								fLabel="Return:" [fValue]="pointInfo.returnIn"
+		    								[fWing]="pointInfo.returnWing">
+		    </app-point-item> 
+		    <app-point-item *ngIf="!pointInfo.endedByAce"
+		    								fLabel="Last Shot:" [fValue]="pointInfo.pointEndedBy"
+		    								[fWing]="pointInfo.lastShotWing">
+		    </app-point-item> 
+		    <app-point-item *ngIf="pointInfo.endedByAce"
+		    								fLabel="Last Shot:" [fValue]="pointInfo.pointEndedBy"
+		    								[fTargetWing]="pointInfo.returnWing">
+		    </app-point-item> 
+		    <app-point-item *ngIf="pointInfo.endedByWinner"
+		    								fLabel="By:" [fValue]="pointInfo.endedByName"
+		    								[fAtNet]="pointInfo.winnerAtNet"
+		    								fColor="app-check-green">
+		    </app-point-item> 
+		    <app-point-item *ngIf="!pointInfo.endedByWinner"
+		    								fLabel="By:" [fValue]="pointInfo.endedByName"
+		    								[fAtNet]="pointInfo.loserAtNet"
+		    								fColor="app-check-red">
+		    </app-point-item> 
+		    <app-point-item *ngIf="pointInfo.errorDetail"
+                        fLabel="Cause:" [fValue]="pointInfo.errorDetail">
+        </app-point-item> 
+
+        <!-- Point editing controls -->
+        <div        *ngIf="canEdit()" 
+                    class="app-fab-speed-dial d-flex flex-row justify-content-end align-items-center 
+                          app-point-edit-fab" >
+          <div      class="app-speed-dial-trigger">
+            <app-fab 
+                    fType       = "button"
+                    fButtonCSS  = "app-fab-lg app-bg-retro-cream"
+                    [fOnClick]  = "toggleSpeedDial"
+                    fAria       = "menu"
+                    fIcon       = "menu"
+                    fIconCSS    = "app-fab-icon-lg">
+            </app-fab>
+          </div>
+          <div      class="app-fab-actions d-flex flex-row-reverse justify-content-start align-items-center">
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "speedDialOpen"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-1"
+                    [fOnClick]  = "closeSDMoveRight"
+                    fAria       = "move right"
+                    fIcon       = "chevron_right"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-retro-brown">
+            </app-fab>
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "speedDialOpen"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-2"
+                    [fOnClick]  = "closeSDInsert"
+                    fAria       = "add"
+                    fIcon       = "add"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-retro-green">
+            </app-fab>
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "speedDialOpen"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-3"
+                    [fOnClick]  = "closeSDMoveLeft"
+                    fAria       = "move left"
+                    fIcon       = "chevron_left"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-retro-brown">
+            </app-fab>
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "speedDialOpen"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-4"
+                    [fOnClick]  = "closeSDDelete"
+                    fAria       = "delete"
+                    fIcon       = "remove_circle"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-retro-red">
+            </app-fab>
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "speedDialOpen"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-5"
+                    [fOnClick]  = "closeSDEdit"
+                    fAria       = "edit"
+                    fIcon       = "edit"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-brite-orange">
+            </app-fab>
+            <!-- <button aria-label="move right" type="button" 
+                    (click)="closeSDMoveRight()"
+                    class="btn d-flex flex-row justify-content-center align-items-center
+                          app-fab-button app-fab-sm app-bg-fab-gray app-expand-open mr-2"
+                    [class.app-open]="speedDialOpen">
+              <i    class="material-icons app-fab-icon-sm app-retro-brown ">chevron_right</i>
+            </button> -->
+            <!-- <md-button aria-label="Add" 
+                        ng-click="closeEditFab('insertPoint')"
+                        class="md-fab md-mini app-bg-fab-gray ">
+              <md-icon md-svg-src="add" aria-label="add" class=" app-retro-green "></md-icon>
+            </md-button>
+            <md-button aria-label="move left" 
+                        ng-click="closeEditFab('movePointLeft')"
+                        class="md-fab md-mini app-bg-fab-gray ">
+              <md-icon md-svg-src="chevronLeft" aria-label="add" class=" app-retro-brown "></md-icon>
+            </md-button>
+            <md-button aria-label="Delete"
+                        ng-click="closeEditFab('deletePoint')"
+                        class="md-fab md-mini app-bg-fab-gray">
+              <md-icon md-svg-src="removeCircle" aria-label="delete" class=" app-retro-red "></md-icon>
+            </md-button>
+            <md-button aria-label="edit"
+                        ng-click="closeEditFab('editPoint')"
+                        class="md-fab md-mini app-bg-fab-gray">
+              <md-icon md-svg-src="edit" aria-label="edit" class=" app-brite-orange "></md-icon>
+            </md-button> -->
+          </div>
+        </div> 
+	    </div>
+   	</div>
+  </div>
+</div>

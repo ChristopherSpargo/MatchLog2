@@ -1,0 +1,134 @@
+<div id="view-top" class="container px-2 py-3 app-pan-y"
+    [class.app-open]="searchFormOpen" 
+    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+
+  <!-- Form for search filtering options -->
+
+  <form #searchForm = "ngForm" role="form" novalidate
+        (ngSubmit)="submitFilter(searchForm)">
+    <div class="d-flex flex-column">
+
+      <!-- Player Field -->
+
+      <app-list-item-field 
+        [fForm]         = "searchForm"
+        fName           = "playerName"
+        fRef            = "pName"
+        [(fValue)]      = "playerId"
+        fLabel          = "Player"
+        fIcon           = "face" 
+        fColor          = "app-court-ltgreen"
+        [fOnFocus]      = "clearRequestStatus"
+        [fOnChange]     = "filterPlayerLists"
+        [fList]         = "playerSelectList"
+        fListValue      = "player"
+        [fAllowAny]     = "true"
+        [fAllowNew]     = "false">
+      </app-list-item-field>
+
+      <!-- Result Field -->
+
+      <app-radio-group 
+        fTitle      = "Player's Result"
+        fIcon       = "thumbs_up_down"
+        fIconColor  = "app-court-ltgreen"
+        [fOnFocus]  = "clearRequestStatus"
+        [(fModel)]  = "wonLost" 
+        fValues     = "Won|Lost|" 
+        fLabels     = "Won|Lost|Either" 
+        fName       = "pResult">
+      </app-radio-group>
+
+      <!-- Opponent Field -->
+
+      <app-list-item-field 
+        [fForm]         = "searchForm"
+        fName           = "opponentName"
+        fRef            = "oName"
+        [(fValue)]      = "opponentId"
+        fLabel          = "Opponent"
+        fIcon           = "person" 
+        fColor          = "app-court-ltgreen"
+        [fOnFocus]      = "clearRequestStatus"
+        [fOnChange]     = "filterPlayerLists"
+        [fList]         = "opponentSelectList"
+        fListValue      = "player"
+        [fAllowAny]     = "true"
+        [fAllowNew]     = "false">
+      </app-list-item-field>
+
+      <!-- Handed Field -->
+
+      <app-radio-group 
+        fTitle      = "Opponent Plays"
+        fIcon       = "swap_horiz"
+        fIconColor  = "app-court-ltgreen"
+        [(fModel)]  = "handed" 
+        [fOnFocus]      = "clearRequestStatus"
+        [fOnChange] = "filterPlayerLists"
+        fValues     = "Right|Left|" 
+        fLabels     = "Right|Left|Either" 
+        fName       = "oHanded">
+      </app-radio-group>
+
+      <!-- Tournament Field -->
+
+      <app-list-item-field 
+        [fForm]         = "searchForm"
+        fName           = "tournamentName"
+        fRef            = "tName"
+        [(fValue)]      = "tournament"
+        fLabel          = "Tournament"
+        fIcon           = "group" 
+        fColor          = "app-court-ltgreen"
+        [fOnFocus]      = "clearRequestStatus"
+        [fList]         = "tournamentList"
+        [fAllowAny]     = "true"
+        [fAllowNew]     = "false">
+      </app-list-item-field>
+
+      <!-- Start Date Field -->
+
+      <app-icon-input
+        [fForm]       = "searchForm" 
+        fRef          = "dS" 
+        fName         = "dStart" 
+        fType         = "date" 
+        fLabel        = "Matches Since"  
+        fIcon         = "insert_invitation"
+        fColor        = "app-court-ltgreen" 
+        [(fValue)]    = "sDate" 
+        fExtraCSS     = "mb-0"
+        [fFocusFn]    = "clearRequestStatus">
+      </app-icon-input>
+
+      <!-- End Date Field -->
+
+      <app-icon-input
+        [fForm]       = "searchForm" 
+        fRef          = "dE" 
+        fName         = "dEnd" 
+        fType         = "date" 
+        fLabel        = "Matches Before"  
+        fIcon         = "today"
+        fColor        = "app-court-ltgreen" 
+        [(fValue)]    = "eDate" 
+        fExtraCSS     = "mb-0"
+        [fFocusFn]    = "clearRequestStatus">
+      </app-icon-input>
+
+      <!-- Messages Area -->
+
+      <app-form-messages 
+        [fWorkingOpen]  ="!haveStatusMessages() && working"
+        [fMessageOpen]  ="haveStatusMessages() && !working"
+        [fMessageObj]   ="requestStatus">
+      </app-form-messages>                    
+
+      <!-- Actions Area -->
+
+      <app-update-actions></app-update-actions>
+
+    </div>
+  </form>
+</div>

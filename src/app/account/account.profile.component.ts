@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo } from '../app.globals';
 import { DataSvc } from '../model/dataSvc'
-import { Player } from '../model/player'
+import { Player, PlayerData, DEFAULT_GENDER_TYPE } from '../model/player'
 
     // COMPONENT for PROFILE UPDATE feature
 
@@ -30,13 +30,13 @@ export class AccountProfileComponent implements OnInit {
     else{
       // set initial values for form fields
       this.profile.defaultPlayerId = this.user.profile.defaultPlayerId.toString() || "";
-      this.profile.defaultOpponentGender = this.user.profile.defaultOpponentGender || Player.DEFAULT_GENDER_TYPE;
+      this.profile.defaultOpponentGender = this.user.profile.defaultOpponentGender || DEFAULT_GENDER_TYPE;
 
       // update the current help context and open the Profile Update form
       this.utilSvc.setCurrentHelpContext("ProfileUpdate"); //note current state
       this.dataSvc.getPlayers()
-      .then((list) => {
-        this.playerList = <PlayerData[]>list;
+      .then((list : PlayerData[]) => {
+        this.playerList = list;
         this.playerList.sort((a,b) : number => {return a.lastName < b.lastName ? -1 : 1;});
         this.playerMenuLabel = this.playerList.length == 0 ? "No Players" : "Players";
         this.utilSvc.displayUserMessages();
@@ -78,7 +78,7 @@ export class AccountProfileComponent implements OnInit {
 
   //indicate whether there are any status messages
   haveStatusMessages = () => {
-    return this.requestStatus.length !== 0;
+    return Object.keys(this.requestStatus).length !== 0;
   }
 
   // set form closed flag, wait for animation to complete before changing states to 'home'

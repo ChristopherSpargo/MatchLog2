@@ -1,0 +1,19 @@
+    <!-- Template used for stat section display. 
+         Used with <app-stat-category> COMPONENT -->
+    <div class="d-flex flex-row justify-content-between align-items-center">
+      <button class="btn d-flex flex-row align-items-center app-match-stats-section-button " type="button"
+              (click)="toggleOpenFlag()">
+        {{fLabel}}
+          <i class="material-icons app-match-info-label">{{fOpenFlag ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>
+      </button>
+      <button *ngIf="fOpenFlag && !fTextOnly" type="button"
+              class="btn d-flex flex-row align-items-center app-match-stats-text-button  " 
+              (click)="toggleTextFlag()">
+        Text
+          <i class="material-icons app-match-info-label">{{fTextFlag ? 'arrow_drop_up' : 'arrow_drop_down'}}</i>
+      </button>
+    </div >
+    <div class="d-flex flex-column app-match-stats-section-data"
+         [class.app-open]="fOpenFlag">
+      <ng-content></ng-content>
+    </div>

@@ -1,0 +1,10 @@
+    <!-- Template used to display a fab 
+         Used with <app-fab> COMPONENT -->
+      <button  type="{{fType}}"  
+              class="btn d-flex flex-row justify-content-center align-items-center app-fab-button {{fButtonCSS}}" 
+              [class.app-fab-click]="clicked" [attr.aria-label]="fAria"
+              [class.app-open]="fOpen"
+              [disabled]="fDisabled"
+              (click)="fabClicked()">
+        <i class="material-icons {{fIconCSS}} {{fIconColor}}">{{fIcon}}</i>        
+      </button>

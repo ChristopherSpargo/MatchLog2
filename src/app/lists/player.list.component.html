@@ -4,7 +4,7 @@
 <div
   class=" app-central-container app-fade-in mb-2"
   [ngClass]="{'app-open': formOpen}"
-  (swiperight)="closeForm()"
+  (swipeleft)="closeForm()" (swiperight)="closeForm()"
   >
        <!-- Form Header -->
 
@@ -18,7 +18,7 @@
        <!-- Start of Form -->
 
   <div id="view-container"
-       class="app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp" (swiperight)="closeForm()">
+       class="app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
     <div class="container app-form-theme px-2 py-3">
       <form #playerForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(playerForm)">

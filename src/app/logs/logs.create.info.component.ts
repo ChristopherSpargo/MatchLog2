@@ -70,8 +70,8 @@ export class LogsCreateInfoComponent implements OnInit {
   requestStatus      : {[key: string] :any} ={};
   matchSaved         : boolean = false;
   selectedMatch      : Match = undefined;
-  playerSelectList   : any[];
-  opponentSelectList : any[];
+  playerSelectList   : any[] = [];
+  opponentSelectList : any[] = [];
 
 
   constructor(private userInfo : UserInfo, private utilSvc : UtilSvc, private dataSvc : DataSvc,
@@ -83,6 +83,7 @@ export class LogsCreateInfoComponent implements OnInit {
     this.setMessageResponders();
     // pre-fill some fields and pre-fetch some tables that will be needed
     this.matchInfo.date = this.utilSvc.formatDate();
+    this.currentMatch.pointsLogged = 0;
     if(this.userInfo.profile){
       this.matchInfo.playerId = this.userInfo.profile.defaultPlayerId.toString();
       this.newPlayer.gender = this.newOpponent.gender = 
@@ -93,21 +94,21 @@ export class LogsCreateInfoComponent implements OnInit {
         this.tournamentList = list;
       })
     .catch((error) => {
-        this.utilSvc.returnToHomeMsg("noTournamentsFound");
+        this.utilSvc.displayThisUserMessage("noTournamentsFound");
     });
     this.dataSvc.getList(LOCATION_TABLE_NAME)
     .then((list : string[]) => {
         this.locationList = list;
     })
     .catch((error) => {
-        this.utilSvc.returnToHomeMsg("noLocationsFound");
+        this.utilSvc.displayThisUserMessage("noLocationsFound");
     });
     this.dataSvc.getList(EVENT_TABLE_NAME)
     .then((list : string[]) => {
         this.eventList = list;
     })
     .catch((error) => {
-        this.utilSvc.returnToHomeMsg("noEventsFound");
+        this.utilSvc.displayThisUserMessage("noEventsFound");
     });
   }
   ngOnDestrow() {
@@ -306,7 +307,7 @@ export class LogsCreateInfoComponent implements OnInit {
 
   //return whether the points stream has been initiated for this match
   pointsLogged = () => {
-    return this.currentMatch.pointsLogged;
+    return this.currentMatch.pointsLogged !== 0;
   }
 
   private getFormattedTime(ms: number) : string { //given milliseconds, return LocaleTimeString without the seconds
@@ -385,7 +386,7 @@ export class LogsCreateInfoComponent implements OnInit {
 
   //verify the validity of entries from the form and report any errors
   private checkForProblems(form: any, player: string, opponent: string) : boolean {
-    if(!form.$valid){
+    if(form.invalid){
       this.setStatusMessage("formHasErrors");
     }
     if((player && (player != "999")) && (opponent == player)){
@@ -470,7 +471,7 @@ export class LogsCreateInfoComponent implements OnInit {
       this.dataSvc.deleteMatch(m.sortDate)
       .then((success) => {
           this.emit('removeResponders');
-          this.stateService.go('logs-create',{task: 'Resume'},{reload: true});
+          this.stateService.go('logsResume',{task: 'Resume'},{reload: true});
         })
       .catch((error) => {
           this.utilSvc.displayThisUserMessage("errorDeletingMatch");

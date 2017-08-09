@@ -517,6 +517,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
             pi.unforcedErrorDetail = this.DEFAULT_ERROR_DETAIL;
           }
       }
+      if(!pi.lastShotWing){ pi.lastShotWing = 'F';}
     }
     else {
       this.setStatusMessage("noWinner");

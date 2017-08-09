@@ -1,0 +1,108 @@
+  <div>
+    <app-about-heading fIcon="search" fText="Viewing Match Statistics"></app-about-heading>
+    &nbsp;&nbsp;The <b>Log Review</b> tab displays all point information from the match log currently
+    being recorded in statistical form.  Individual points can be edited on this tab.<br />
+
+    <app-about-heading fIcon="dashboard" fText="Display Layout"></app-about-heading>
+    &nbsp;&nbsp;This tab is organized in three sections: 
+    <b>Setup</b> <b>Information</b>, <b>Menu</b> and <b>Statistics</b>.<br/>
+
+    <app-about-heading fIcon="assignment" fText="Setup Information Section"></app-about-heading>
+    &nbsp;&nbsp;This section displays general information about the     match such as tournament name, date, time, match format, etc.<br /> 
+    &nbsp;&nbsp;To toggle the display of this section, tap the <b>View</b> button at the top of the tab display.<br/>
+
+    <app-about-heading fIcon="menu" fText="Menu Section"></app-about-heading>
+    &nbsp;&nbsp;This section displays a menu for selecting the level of information you want to see. The stats can be viewed at the Match, Set, Game and Point level.<br />
+    &nbsp;&nbsp;The Match level shows the players names on a button with <b>Set</b> buttons to the 
+    right showing the score of each set. There is also a button 
+    <app-about-text-icon fIcon="last_page" fColor="app-primary"></app-about-text-icon>
+     which will automatically switch the display to show detail information for the final point in the log.<br />
+    &nbsp;&nbsp;Selecting a set button displays a row of buttons each representing a game in
+    the selected set or a point in the selected set in the case of a Tiebreak set.<br /> 
+    The statistics graphs/text change to reflect the chosen set.<br /> 
+    &nbsp;&nbsp;<b>Game</b> buttons display a check mark and a score.  
+    The check indicates the winner, red for break and green for hold.  
+    The score represents the loser's score when the game finished.<br />
+    &nbsp;&nbsp;Selecting a game button displays a 
+    row of buttons each representing a point in the selected game.<br />
+    &nbsp;&nbsp;The statistics header will now display a small ball next to the
+    player's name that served that game and the set score when that game began.<br />
+    &nbsp;&nbsp;Graphs are not displayed at the game level, only the
+    text for the game statistics is shown.<br />
+    &nbsp;&nbsp;<b>Point</b> buttons display each player's score when the point started. Also, the 
+    colored score on the button indicates who won that point, red for returner, green for server.<br />
+    &nbsp;&nbsp;Finally, selecting a point button displays an account of that point which includes all relevant
+    information from the <b>Log Point</b> tab.<br />
+
+    <app-about-heading fIcon="edit" fText="Point Editing"></app-about-heading>
+    &nbsp;&nbsp;Also displayed at the point level is the<br /> 
+    <app-about-text-icon fIcon="menu" fColor="app-about-fab-icon-sm app-form-theme-text"
+                         [fFab]="true" fFabColor="app-bg-fab-accent"></app-about-text-icon> 
+    <b>Edit Menu</b> button which offers the following point editing options:<br /><br />
+    <app-about-text-icon fIcon="chevron_right" fColor="app-retro-brown"
+                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Move Right</b>: 
+    This allows the selected point to be moved one position later in the point sequence.<br /><br />
+    <app-about-text-icon fIcon="add" fColor="app-retro-green"
+                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Add</b>: 
+    This allows a new point to be added just prior the selected point.  To add a point to the end, add the point before
+    the current last point then use the <b>Move Right</b> function.<br /><br />
+    <app-about-text-icon fIcon="chevron_left" fColor="app-retro-brown"
+                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Move Left</b>: 
+    This allows the selected point to be moved one position earlier in the point sequence.<br /><br />
+    <app-about-text-icon fIcon="remove_circle" fColor="app-warn"
+                         fFab="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Delete</b>: 
+    This allows the selected point to be deleted.<br /><br />
+    <app-about-text-icon fIcon="edit" fColor="app-brite-orange"
+                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Edit</b>: 
+    This allows the information for selected point to be edited.
+    <br />
+
+    <app-about-heading fIcon="search" fText="Statistics Section"></app-about-heading>
+    &nbsp;&nbsp;Here is where the actual statistics are displayed.<br />
+    &nbsp;&nbsp;This section begins with a header that shows the players names
+    on their side of the statistics display.<br />
+    &nbsp;&nbsp;sIn the middle of the header is a description of the information level and the score when that
+    game/point began if appropriate.<br />
+    &nbsp;&nbsp;A check mark will display after the name of the player that won that level, red if returning and green
+    otherwise.<br />
+    &nbsp;&nbsp;At the game and point levels, a small tennis ball will be displayed before the name of the server.<br />
+    &nbsp;&nbsp;The header is followed by four subsections:<br />
+    <b>Synopsis</b>, <b>Serving</b>, <b>Returning</b> and <b>Risk</b>.<br /> 
+    Each sub-section can be displayed or hidden by tapping the<br /><span class="app-about-text-button app-primary">Section Name</span> 
+    <app-about-text-icon fIcon="arrow_drop_down" fColor="app-primary"></app-about-text-icon> button 
+    at the top-left of the section.  The text 
+    representation of the data can be displayed or hidden by tapping the<br /><span class="app-about-text-button app-primary">Text</span> 
+    <app-about-text-icon fIcon="arrow_drop_down" fColor="app-primary"></app-about-text-icon> button at the top-right of the
+    section.<br/>
+
+    <app-about-heading fButton="Synopsis" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Synopsis Display"></app-about-heading>
+    &nbsp;&nbsp;The synopsis section gives you an overview of how each player is performing. 
+    The text display shows data as ratios or counts whereas the graph display shows data as percentages. In general, to be doing
+    well a player's performance should be over <b>50%</b> in every category on this graph.<br />
+
+    <app-about-heading fButton="Serving" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Serving Display"></app-about-heading>
+    &nbsp;&nbsp;The serving section gives you information of how well each player is serving. Information includes counts of 
+    serves in play and won, aces, double faults and Game points won.  The text display shows data as ratios or counts whereas 
+    the graph display shows data as percentages. In general, to be doing
+    well a player's performance should be over <b>50%</b> in most of the percentage categories on this graph.<br />
+
+    <app-about-heading fButton="Returning" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Returning Display"></app-about-heading>
+    &nbsp;&nbsp;The returning section gives you information of how well each player is returning serve. Information includes counts of 
+    returns in play and won and Break points won. The text display shows data as ratios or counts whereas the graph display shows 
+    data as percentages. In general, to be doing
+    well a player's performance should be near <b>50%</b> in most of the categories on this graph.<br />
+
+    <app-about-heading fButton="Risk" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Risk Display"></app-about-heading>
+    &nbsp;&nbsp;The risk section gives you information of how aggressively each player is playing. Information includes counts of 
+    winners, errors forced, aces, double faults, unforced errors, points at net, total points won, average rally length and longest rally.
+    Both the Graph and Text displays in this section show data as ratios or counts.<br />
+    &nbsp;&nbsp;In general, higher numbers of winners and/or unforced
+    errors along with shorter rallies and possibly coming to net indicates more aggressive play whereas lower winners/unforced errors 
+    and longer rallies while staying back shows more conservative play.<br />
+
+    <app-about-heading fIcon="warning" fText="Tips and Warnings" fIconColor="app-checkbox" [fDivider]="true"></app-about-heading>
+    &nbsp;&nbsp;Graphs are displayed only for the <b>Match</b> and <b>Set</b> levels.  Also, some information
+    shown in the Text display is not shown in the Graphs.<br />
+    &nbsp;&nbsp;Items on a graph can be excluded or included by tapping their entry in the legend.<br />
+    &nbsp;&nbsp;Touching the graph will display a pop-up with the information being displayed at that position, if any.
+  </div> 

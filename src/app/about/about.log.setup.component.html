@@ -1,0 +1,42 @@
+  <div>
+    <app-about-heading fIcon="settings" fIext="Match Log Setup"></app-about-heading>
+    &nbsp;&nbsp;The <b>Log Setup</b> form allows you to specify information to identify a match you
+    want to log at this time.
+    Here's an explanation of the fields and buttons:<br />
+    <app-about-heading fIcon="today" fText="Match Date" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the date the match is being played. The program fills in today's date. Date can be
+    adjusted in <b>1-day</b> increments.<br />
+    <app-about-heading fIcon="access_time" fText="Match Time" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the time the match is being played. The program fills in the current time to the
+    nearest 15 minutes. Time can be adjusted in <b>15-minute</b> increments.<br />
+    <app-about-heading fIcon="group" fText="Tournament" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the name of the tournament. Select a tournament from your drop-down list 
+    or select <b>New Tournament</b> to add a new item to your list.<br />
+    <app-about-heading fIcon="place" fText="Location" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the location of the tournament. Select a location from your drop-down list
+    or select <b>New Location</b> to add a new item to your list.<br />
+    <app-about-heading fIcon="description" fText="Event" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the name of the event in the tournament. Select an event from your drop-down list
+    or select <b>New Event</b> to add a new item to your list.<br />
+    <app-about-heading fIcon="label" fText="Round" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the round of the event. Select a round from the provided drop-down list.<br />
+    <app-about-heading fIcon="view_quilt" fText="Match Format" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the format for the match. Select a format from the provided drop-down list.<br />
+    <app-about-heading fIcon="repeat_one" fText="Scoring Method" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the scoring method being used for the match. Select <b>Ad</b> or <b>No Ad</b>.<br />
+    <app-about-heading fIcon="face" fText="Player" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the name of the main player participating in the match. This is the player you are primarily
+    interested in or usually log. The player specified in your profile is automatically filled in.  You can also select
+    a player from your drop-down list or select <b>New Player</b> to add a new item to your list.<br />
+    <app-about-heading fIcon="person" fText="Opponent" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;This is the name of the other player participating in the match. Select a player from 
+    your dropdown list or select <b>New Opponent</b> to add a new item to your list.<br />
+    <app-about-heading fIcon="room_service" fText="First to Serve" fIconColor="app-court-green"></app-about-heading>
+    &nbsp;&nbsp;Indicate which player will be first to serve.<br />
+    <app-about-heading fIcon="check_circle" fText="Submit Button" [fFab]="true" fIconColor="app-primary"></app-about-heading>
+    &nbsp;&nbsp;Press this button to submit the setup information and switch to the <b>Log Point</b> tab.<br />
+    <app-about-heading fIcon="warning" fText="Tips and Warnings" fIconColor="app-checkbox" [fDivider]="true"></app-about-heading>
+    &nbsp;&nbsp;Once points have been logged, <b>Match Format</b>, <b>Scoring Method</b> 
+    and <b>First to Serve</b> can no longer be changed. A match that has been Paused can no longer have its 
+    <b> Match Date</b> or <b>Match Time</b> changed.
+  </div>

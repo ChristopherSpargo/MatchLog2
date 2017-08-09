@@ -10,7 +10,8 @@
                 class="app-inline-flex app-form-radio-control"
                 [disabled]=fDisabled
                 [(ngModel)]="fModel" (change)="valueChange()" (focus)="onFocus()">
-          <label for="{{fName+i}}" class="mb-0 {{!l ? 'mr-4' : ''}}">{{aLabels[i]}}</label>
+          <label for="{{fName+i}}" class="mb-0 {{!l ? 'mr-4' : ''}}"
+                [class.app-disabled-text]="fDisabled">{{aLabels[i]}}</label>
         </div>
       </ng-container>
     </div>

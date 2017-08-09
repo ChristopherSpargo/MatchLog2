@@ -26,7 +26,7 @@ export class AppFabComponent  {
     this.clicked = true;
     setTimeout( () => {
       this.clicked = false;
-    }, 1000);
-    if(this.fOnClick) { this.fOnClick(this.fParam);}
+      if(this.fOnClick) { this.fOnClick(this.fParam);}
+    }, 300);
   }
 }

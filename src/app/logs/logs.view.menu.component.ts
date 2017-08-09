@@ -47,7 +47,6 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
       this.dataSvc.deleteMatch(m.sortDate)
       .then((success) => {
         this.menuMatchList.splice(index, 1);    //remove item from menuMatchList array
-        this.currentMatch.matchList.splice(index, 1);    //remove item from original matchList array
         this.matchSelectFlags.splice(index, 1);
         this.constructMatchesMessage(this.menuMatchList.length);
       })

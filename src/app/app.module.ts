@@ -26,6 +26,13 @@ import { AboutAccountProfileComponent } from './about/about.account.profile.comp
 import { AboutAccountEmailComponent } from './about/about.account.email.component'
 import { AboutAccountPasswordComponent } from './about/about.account.password.component'
 import { AboutAccountDeleteComponent } from './about/about.account.delete.component'
+import { AboutLogSearchComponent } from './about/about.log.search.component'
+import { AboutLogViewMenuComponent } from './about/about.log.view.menu.component'
+import { AboutLogResumeComponent } from './about/about.log.resume.component'
+import { AboutLogPointInfoComponent } from './about/about.log.pointInfo.component'
+import { AboutLogViewComponent } from './about/about.log.view.component'
+import { AboutLogReviewEditComponent } from './about/about.log.review.edit.component'
+import { AboutLogSetupComponent } from './about/about.log.setup.component'
 import { LoginComponent } from './account/login.component';
 import { EventListComponent } from './lists/event.list.component';
 import { PlayerListComponent } from './lists/player.list.component';
@@ -83,7 +90,9 @@ let INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormHea
   AboutAccountPasswordComponent, AboutAccountDeleteComponent, LogsViewComponent, LogsViewMenuComponent,
   LogsViewSearchComponent, LogsDisplayComponent, AppStatItemComponent, AppStatCategoryComponent,
   AppPointItemComponent, AppStatItemBreakdownComponent, RadioGroupComponent, LogsCreateComponent,
-  LogsCreateInfoComponent, LogsPointInfoComponent ];
+  LogsCreateInfoComponent, LogsPointInfoComponent, AboutLogSearchComponent, AboutLogViewMenuComponent,
+  AboutLogResumeComponent, AboutLogPointInfoComponent, AboutLogReviewEditComponent, AboutLogViewComponent,
+  AboutLogSetupComponent ];
 
 @NgModule({
   declarations: INITIAL_COMPONENTS,

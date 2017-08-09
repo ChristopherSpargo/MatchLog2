@@ -24,6 +24,7 @@ $accentColor: #9C27B0;
 $warnColor: #E53935;
 $checkboxColor: #E6B800;
 $blackTextColor: rgba(0,0,0,.87) !important;
+$disabledTextColor: rgb(166,166,166);
 /*$infoLabelColor: rgb(57,115,172);*/
 $infoLabelColor: rgb(0,137,123);
 $inputLabelColor: rgba(0,137,123,.54);
@@ -238,11 +239,11 @@ b, strong {
 .app-expand-open {
   -webkit-transition: -webkit-transform .4s ease-in-out;
   transition: transform .4s ease-in-out;
-  -webkit-transform: scale(0,0);
-  transform: scale(0,0);}
+  -webkit-transform: scale(0);
+  transform: scale(0);}
   .app-expand-open.app-open {
-    -webkit-transform: scale(1,1);
-    transform: scale(1,1);}
+    -webkit-transform: scale(1);
+    transform: scale(1);}
 .app-vertical-expand {
   overflow: hidden;
   display: block;
@@ -533,11 +534,13 @@ b, strong {
     .app-form-input {
       border-width: 0 0 1px;
       background-color: transparent;
-      color: inherit !important;
+      color: inherit;
       z-index: 2;
       width: 100%;
       border-color: rgba(0,0,0,.12);
       line-height: 1em;}
+      .app-form-input:disabled{
+        color: $disabledTextColor;}
       .app-form-input:focus {
         border-color: rgb(3,169,244);
         border-width: 0 0 2px;
@@ -585,6 +588,8 @@ b, strong {
   width: 30% ;
   border-width: 0 0 1px;
   text-align: center;}
+.app-add-subtract-input-control:disabled {
+  color: $disabledTextColor;}
 .app-form-switch-control {
   font-size: 90%;
   margin: 0px 0px !important;
@@ -667,10 +672,15 @@ $appFormCloseSizeLg: 40px !important;
     box-shadow: none;
     outline: none;}
   .app-action-icon {
-    vertical-align: top;
+    vertical-align: middle;
     font-size: 48px;
     width: 48px;
     height: 48px;}
+  .app-action-icon-sm {
+    vertical-align: middle;
+    font-size: 36px;
+    width: 36px;
+    height: 36px;}
 .app-form-title {
   margin-bottom: 0px;
   margin-top: 0px;
@@ -798,12 +808,20 @@ $appFormCloseSizeLg: 40px !important;
       min-height: 30px;
       min-width: 30px;
       margin: -3px 6px 0 0;}}
+.app-about-text-fab:focus {
+  outline: none;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);
+}
 .app-about-fab-icon {
   position: relative;
   font-size: 23px;}
   @media ($lg-screen) {
     .app-about-fab-icon {
-      font-size: 30px;}}
+      font-size: 30px;}
+    .app-about-fab-icon-sm {
+      font-size: 20px;}}
+.app-about-fab-icon-sm {
+  font-size: 16px;}
 .app-about-icon {
   cursor: text !important;
   font-size: 24px;
@@ -1141,7 +1159,7 @@ $appFormCloseSizeLg: 40px !important;
 .app-fab-button {
   margin: 0px;
   padding: 0px;
-  background-color: white;
+  background-color: ghostwhite;
   border: 0;
   cursor: pointer;
   touch-action: manipulation;
@@ -1155,8 +1173,8 @@ $appFormCloseSizeLg: 40px !important;
   animation: app-click .4s;}
 @keyframes app-click {
     0%   {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
-    10%  {box-shadow: none; transform: scale(.97, .97);}
-    100% {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26); transform: scale(1,1);}
+    10%  {box-shadow: none; transform: scale(.97);}
+    100% {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26); transform: scale(1);}
 }
 .app-fab-button:focus {
   outline: none;
@@ -1227,9 +1245,9 @@ $appFormCloseSizeLg: 40px !important;
   cursor: default;}
 .app-disabled {
   cursor: default !important;
-  color: rgb(166,166,166) !important;}
+  color: $disabledTextColor !important;}
 .app-disabled-text {
-  color: rgb(166,166,166) !important;}
+  color: $disabledTextColor !important;}
 .app-transparent-text {
   color: transparent !important;}
 .app-lists-color {

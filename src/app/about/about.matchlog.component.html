@@ -1,6 +1,4 @@
 <div>
-    <app-about-text-icon fIcon="edit" fColor="app-brite-orange"
-                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Edit</b>: <br/>
     <app-about-heading fIcon="assignment" fText="What is MatchLog?"></app-about-heading>
     &nbsp;&nbsp;MatchLog is a website where you can log point information during a tennis match and 
     view that information    as statistics.<br/>&nbsp;&nbsp;Coaches can use this information to pinpoint 
@@ -16,7 +14,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;- Enter an email address and password<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;- Check the <b>Create new account</b> box<br/>
     &nbsp;&nbsp;&nbsp;&nbsp;- Enter the same password again<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;- Finally, tap <app-about-text-icon fIcon="check_circle" fColor="app-primary"></app-about-text-icon><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;- Finally, tap <app-about-text-icon fIcon="check_circle" [fFab]="true" fColor="app-primary"></app-about-text-icon><br/>
     &nbsp;&nbsp;Thats it!
     <app-about-heading [fImage]="icon" fText="Getting Help"></app-about-heading>
     &nbsp;&nbsp;By the way, if at any time you are unsure of what to do just tap the tennis ball in the upper 
@@ -46,9 +44,9 @@
     also be added on the <b>SETUP</b> tab.<br/>&nbsp;&nbsp;Choices for <b>Round</b>, 
     <b>Match Format</b> and <b>Scoring Method</b> are made from preset lists. 
     <app-about-heading fIcon="edit" fText="Logging the Points"></app-about-heading>
-    &nbsp;&nbsp;Once the <b>SETUP</b> tab is complete and submitted 
-    (<app-about-text-icon fIcon="check_circle" fColor="app-primary"></app-about-text-icon>),
-     MatchLog switches to the <b>LOG</b> (Log Point) tab to allow you to start recording points.<br/>
+    &nbsp;&nbsp;Once the information on the <b>SETUP</b> tab is <br/>complete and submitted 
+    (<app-about-text-icon fIcon="check_circle" [fFab]="true" fColor="app-primary"></app-about-text-icon>),
+     MatchLog switches to the <b>LOG</b> tab to allow you to start recording points.<br/>
      Detailed information on how to record point information is on the help panel for that tab.<br/>
       <app-about-heading fIcon="search" fText="Viewing the Stats"></app-about-heading>
     &nbsp;&nbsp;As you record points, the two other tabs, <b>REVIEW</b> and <b>SETUP</b>,

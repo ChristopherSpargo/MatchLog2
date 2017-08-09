@@ -47,6 +47,7 @@ export class LogsViewSearchComponent implements OnInit {
               private graphsSvc : GraphsSvc, private currentMatch: CurrentMatch){};
 
   ngOnInit() {
+    if(!this.userInfo.authData) { return; }
     this.dataSvc.getList(TOURNAMENT_TABLE_NAME) //read current list of tournaments
     .then((tList) => {
       this.tournamentList = <string[]>tList;

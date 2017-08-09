@@ -5,12 +5,12 @@
     <!-- About (Help) Panel -->
     <!-- The appropriate help component based on the current helpContext-->
 
-  <div class="d-flex flex-column app-about-container app-slide-right"
+  <div class="d-flex flex-column app-about-container app-slide-right app-whiteframe-2dp"
        [class.app-open]="aboutOpen()">
 
        <!-- Card Header -->
 
-    <div class="md-whiteframe-2dp">
+    <div class="app-whiteframe-2dp">
       <div (swipeleft)="closeAbout()" class="app-about-header-theme app-pan-y">
           <div class="d-flex flex-row">
             <div class="d-flex flex-row justify-content-start align-items-center app-width-15">
@@ -36,7 +36,7 @@
 
     <!--Section for context specific help information-->
 
-    <div class="app-scroll-frame-left md-whiteframe-2dp app-about-body-theme" 
+    <div class="app-scroll-frame-left app-about-body-theme" 
          (swipeleft)="closeAbout()">
       <div *ngIf="helpContext() === 'UsingMatchLog'"        ><app-about-matchlog></app-about-matchlog></div>
       <div *ngIf="helpContext() === 'ContactUs'"            ><app-about-contact-us></app-about-contact-us></div> 
@@ -49,13 +49,13 @@
       <div *ngIf="helpContext() === 'ChangePassword'"       ><app-about-account-password></app-about-account-password></div>
       <div *ngIf="helpContext() === 'DeleteAccount'"        ><app-about-account-delete></app-about-account-delete></div>
       <div *ngIf="helpContext() === 'Login'"                ><app-about-login></app-about-login></div>
-      <div *ngIf="helpContext() === 'MatchLogSearch'"       app-about-log-search></div>
-      <div *ngIf="helpContext() === 'MatchLogMenu'"         app-about-log-select></div>
-      <div *ngIf="helpContext() === 'ViewMatchStatistics'"  app-about-log-view></div>
-      <div *ngIf="helpContext() === 'MatchInformation'"     app-about-log-setup></div>
-      <div *ngIf="helpContext() === 'PointInformation'"     app-about-log-point></div>
-      <div *ngIf="helpContext() === 'ReviewEditMatchLog'"   app-about-log-review-edit></div>
-      <div *ngIf="helpContext() === 'ResumeMatchLog'"       app-about-log-resume></div> 
+      <div *ngIf="helpContext() === 'MatchLogSearch'"       ><app-about-log-search></app-about-log-search></div>
+      <div *ngIf="helpContext() === 'MatchLogMenu'"         ><app-about-log-view-menu></app-about-log-view-menu></div>
+      <div *ngIf="helpContext() === 'ViewMatchStatistics'"  ><app-about-log-view></app-about-log-view></div>
+      <div *ngIf="helpContext() === 'MatchInformation'"     ><app-about-log-setup></app-about-log-setup></div>
+      <div *ngIf="helpContext() === 'PointInformation'"     ><app-about-log-point></app-about-log-point></div>
+      <div *ngIf="helpContext() === 'ReviewEditMatchLog'"   ><app-about-log-review-edit></app-about-log-review-edit></div>
+      <div *ngIf="helpContext() === 'ResumeMatchLog'"       ><app-about-log-resume></app-about-log-resume></div> 
     </div>
   </div>
 

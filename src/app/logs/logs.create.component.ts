@@ -68,6 +68,7 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
     this.currentMatch.pointsLogged =  0;
     this.currentMatch.editActive =    false;
     this.currentMatch.insertActive =  false;
+    this.currentMatch.startTimer = 0;
 
     // make the user log in to create match logs
     if (!this.userInfo.authData) {
@@ -78,16 +79,13 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
       this.dataSvc.getPlayers()                            // get the current list of players
       .then((pList : any[]) => {
         this.currentMatch.playerList = this.playerList = pList;
-        this.currentMatch.startTimer = 0;
-        this.pausedMatches = [];
         this.emit('playerListReady')
         if(this.currentMatch.mode == 'Resume'){         // are we resuming a paused match?
           this.dataSvc.getMatches({status: "Paused"})  // get the list of paused match logs
           .then((list : Match[]) => {
             if(list.length){
               this.pausedMatches = list;            // found something
-              this.selectMatchTab();
-              this.viewOpen = true;
+              this.finishInit();
             } else{
              this.utilSvc.returnToHomeMsg("noMatchLogsToResume", 400);
             }
@@ -98,20 +96,28 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
         }
         else {    // user wants to create a new match log
           this.appBarItems = this.createModeBarItems;
-          this.utilSvc.displayUserMessages();
-          // the next line will call openMIForm from the on-select handler of the TABS element
-          this.selectMatchTab(); 
-          this.viewOpen = true;
+          this.finishInit();
         }
       })
       .catch((error) => {
-        this.utilSvc.returnToHomeMsg("noPlayersFound", 400);
+        this.utilSvc.setUserMessage("noPlayersFound");
+        this.currentMatch.playerList = this.playerList = [];
+        this.emit('playerListReady')
+        this.finishInit();
       });
     };
   }
 
   ngOnDestroy() {
     this.deleteMessageResponders();
+  }
+
+  // finish the init process
+  private finishInit() {
+    this.utilSvc.displayUserMessages();
+    // the next line will call openMIForm from the on-select handler of the TABS element
+    this.selectMatchTab(); 
+    this.viewOpen = true;
   }
 
   //set up the message responders for this module
@@ -294,7 +300,7 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
   }
 
   openMIForm = () => {
-    if(this.currentMatch.mode == 'Create'){
+    if(this.currentMatch.mode == 'Create' || this.currentMatch.mode == 'Review'){
       this.closeMatchReview();
       this.headerTitle = "Log Setup";
       this.utilSvc.setCurrentHelpContext("MatchInformation");

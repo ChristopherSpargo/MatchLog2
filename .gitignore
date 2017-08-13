@@ -10,6 +10,8 @@ README.md
 /src/matchlog.min.css
 /src/app/Model/AWSModule.ts
 /src/favicon.ico
+/src/app/app.component.css
+/src/app/app.component.spec.ts
 
 # compiled output
 /dist

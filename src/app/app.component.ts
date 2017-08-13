@@ -5,10 +5,9 @@ import { ToasterConfig } from 'angular2-toaster';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css']
+  templateUrl: 'app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   public toastConfig : ToasterConfig = new ToasterConfig({
     positionClass: 'toast-bottom-left'
@@ -16,11 +15,4 @@ export class AppComponent implements OnInit {
 
   constructor(){};
 
-  ngOnInit() {
-    document.addEventListener("tryit", this.onTryit);
-  }
-
-  onTryit = (e) => {
-    alert(e.detail.serve);
-  }
 }

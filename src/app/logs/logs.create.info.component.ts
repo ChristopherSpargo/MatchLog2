@@ -463,7 +463,7 @@ export class LogsCreateInfoComponent implements OnInit {
   }
 
   // delete a match that was pausedd
-  deletePausedMatch(m: any) : void {
+  deletePausedMatch = (m: Match) => {
     var msg = 'Delete ' + this.playerName(m.playerId) + ' .vs. ' + this.playerName(m.opponentId) +
             ' on '+ m.date + ' ?';
     this.utilSvc.getConfirmation('Delete Match', msg, 'Delete')

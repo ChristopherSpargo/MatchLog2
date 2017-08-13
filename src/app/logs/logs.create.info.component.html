@@ -428,12 +428,21 @@
               {{playerName(m.opponentId)}}
             </div>
           </button>
-          <button (click)="deletePausedMatch(pausedMatches[i])" aria-label="delete match"
+              <app-fab
+                fType         = "button"
+                fIcon         = "remove_circle"
+                fIconColor    = "app-warn"
+                fButtonCSS    = "app-match-menu-delete-fab"
+                fIconCSS      = "app-match-menu-delete-icon"
+                [fOnClick]    = "deletePausedMatch"
+                [fParam]      = "pausedMatches[i]">
+              </app-fab>
+          <!-- <button (click)="deletePausedMatch(pausedMatches[i])" aria-label="delete match"
                       class="btn app-match-menu-delete-button" type="button">
             <div class="d-flex flex-row justify-content-center align-items-center">
               <i class="material-icons app-warn app-match-menu-delete-icon ">remove_circle</i>
             </div>
-          </button>
+          </button> -->
         </div>
       </li>
     </ul>

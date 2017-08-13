@@ -44,7 +44,7 @@ export class ModalComponent {
   constructor(private modalService: NgbModal) {}
 
   open(title: string, content: string, cancelText: string, okText: string) : Promise<any> {
-    const modalRef = this.modalService.open(ModalComponentTemplate, {size: 'sm'});
+    const modalRef = this.modalService.open(ModalComponentTemplate, {size: 'lg'});
     modalRef.componentInstance.title      = title;
     modalRef.componentInstance.content    = content;
     modalRef.componentInstance.cancelText = cancelText;

@@ -16,7 +16,7 @@
           <li *ngFor="let log of menuMatchList; index as i; last as l">
             <div class="d-flex flex-row align-items-center">
               <button type="button" (click)="toggleMatchSelect(i)" aria-label="select item"
-                          class="btn d-flex flex-row justify-content-center align-items-center app-match-menu-delete-button " >
+                          class="btn d-flex flex-row justify-content-center align-items-center app-match-menu-delete-checkbox " >
                 <i class="material-icons app-check-green app-match-menu-delete-icon">
                   {{matchSelected(i) ? 'check_box' : 'check_box_outline_blank'}}</i>
               </button>
@@ -42,10 +42,19 @@
                   {{playerName(log.opponentId)}}
                 </div>
               </button>
-              <button type="button" (click)="deleteMatchMenuItem(i)" aria-label="delete item"
-                          class="btn d-flex flex-row justify-content-center align-items-center app-match-menu-delete-button " >
+              <app-fab
+                fType         = "button"
+                fIcon         = "remove_circle"
+                fIconColor    = "app-warn"
+                fButtonCSS    = "app-match-menu-delete-fab"
+                fIconCSS      = "app-match-menu-delete-icon"
+                [fOnClick]    = "deleteMatchMenuItem"
+                [fParam]      = "i">
+              </app-fab>
+              <!-- <button type="button" (click)="deleteMatchMenuItem(i)" aria-label="delete item"
+                          class="btn d-flex flex-row justify-content-center align-items-center app-match-menu-delete-button" >
                   <i class="material-icons app-warn app-match-menu-delete-icon">remove_circle</i>
-              </button>
+              </button> -->
             </div>
           </li>
         </ul>

@@ -273,14 +273,13 @@
                   <input  type="radio" value="F" class="app-inline-flex app-form-radio-control"
                           aria-label="last shot wing" id="lsWingF" [(ngModel)]="pointInfo.lastShotWing"
                           (click)="updateLogForm('lastShotWingF')"  name="lsWing"
-                          [disabled]="!pointInfo.return && pointInfo.missedReturn && !pointInfo.returnWinner">
+                          [disabled]="!(pointInfo.first || pointInfo.second) || pointInfo.double">
                   <label  (click)="toggleLastShotWing()" 
                           class="mb-0 mr-1">{{pointInfo.lastShotWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
                   <input  type="radio" value="B" class="app-inline-flex app-form-radio-control"
-                              aria-label="last shot wing" [(ngModel)]="pointInfo.lastShotWing"
-                              (click)="updateLogForm('lastShotWingB')"  name="lsWing"
-                              [disabled]="!pointInfo.return && pointInfo.missedReturn &&
-                                            !pointInfo.returnWinner">
+                          aria-label="last shot wing" [(ngModel)]="pointInfo.lastShotWing"
+                          (click)="updateLogForm('lastShotWingB')"  name="lsWing"
+                          [disabled]="!(pointInfo.first || pointInfo.second) || pointInfo.double">
                 </div>
               </div>
               <div class=" app-match-stats-divider-50 "></div>

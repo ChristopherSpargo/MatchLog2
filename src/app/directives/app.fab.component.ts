@@ -16,6 +16,7 @@ export class AppFabComponent  {
   @Input() fIconColor   : string = "app-primary"  // color for Icon 
   @Input() fIconCSS     : string = "app-action-icon" // css classes to assign to the icon
   @Input() fOnClick     : Function;               // Function to call on click
+  @Input() fDelay       : number = 300;             // delay before calling OnClick function
   @Input() fParam       : any = null;             // param to pass to OnClick function
   @Input() fDisabled    : boolean = false;        // true if button is disabled
 
@@ -26,7 +27,10 @@ export class AppFabComponent  {
     this.clicked = true;
     setTimeout( () => {
       this.clicked = false;
-      if(this.fOnClick) { this.fOnClick(this.fParam);}
     }, 300);
+    if(this.fOnClick) { 
+      setTimeout( () => {
+        this.fOnClick(this.fParam);},this.fDelay);
+    }
   }
 }

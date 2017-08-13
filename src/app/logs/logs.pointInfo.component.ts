@@ -266,23 +266,29 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
 
   // toggle the state of the return wing value after updating the logForm
   toggleReturnWing = () => {
-    if(this.pointInfo.returnWing == 'F'){
-      this.updateLogForm('returnWingB');
-      this.pointInfo.returnWing = 'B';
-    } else {
-      this.updateLogForm('returnWingF');
-      this.pointInfo.returnWing = 'F';
+    var pi = this.pointInfo;
+    if((pi.first || pi.second) && !pi.double) {
+      if(pi.returnWing == 'F'){
+        this.updateLogForm('returnWingB');
+        pi.returnWing = 'B';
+      } else {
+        this.updateLogForm('returnWingF');
+        pi.returnWing = 'F';
+      }    
     }
   }
 
   // toggle the state of the return wing value after updating the logForm
   toggleLastShotWing = () => {
-    if(this.pointInfo.lastShotWing == 'F'){
-      this.updateLogForm('lastShotWingB');
-      this.pointInfo.lastShotWing = 'B';
-    } else {
-      this.updateLogForm('lastShotWingF');
-      this.pointInfo.lastShotWing = 'F';
+    var pi = this.pointInfo;
+    if(!pi.ace && !pi.missedReturn && !pi.double) {
+      if(pi.lastShotWing == 'F'){
+        this.updateLogForm('lastShotWingB');
+        pi.lastShotWing = 'B';
+      } else {
+        this.updateLogForm('lastShotWingF');
+        pi.lastShotWing = 'F';
+      }
     }
   }
 

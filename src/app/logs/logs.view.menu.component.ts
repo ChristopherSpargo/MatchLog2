@@ -38,7 +38,7 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
   }
   
   // delete the selected match
-  public deleteMatchMenuItem(index : number) : void {
+  public deleteMatchMenuItem = (index : number) => {
     var m : Match = this.menuMatchList[index];
     var msg = 'Delete ' + this.playerName(m.playerId) + ' .vs. ' + this.playerName(m.opponentId)+
             ' on '+ m.date + ' ?';

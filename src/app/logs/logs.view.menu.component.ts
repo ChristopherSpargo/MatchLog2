@@ -65,7 +65,7 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
 
   // reverse the selected status of all menu items
   public toggleSelectAll = () => {
-    this.matchSelectFlags.fill(!this.selectAll);
+    this.matchSelectFlags.fill(this.selectAll);
   }
 
   // reverse the sort order of the match list array
@@ -79,6 +79,13 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
     this.matchSelectFlags[index] = !this.matchSelectFlags[index];
   }
 
+  public setSelectedMatch = (index : number) => {
+    if(this.selectedMatchCount() == 0){
+      this.currentMatch.selectedMatches = [this.menuMatchList[index]];
+      this.viewSelectedMatches();
+    }
+  }
+
   // save the objects that have been selected from the match list 
   public setSelectedMatches = () => {
     this.currentMatch.match = undefined;
@@ -88,10 +95,15 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
         this.currentMatch.selectedMatches.push(this.menuMatchList[index]);
       }
     });
+    this.viewSelectedMatches();
+  }
+
+  private viewSelectedMatches = () => {
     if(this.currentMatch.selectedMatches.length){
       setTimeout( () => {
         this.utilSvc.scrollToTop();
         this.currentMatch.match = this.currentMatch.selectedMatches[0];
+        this.currentMatch.hasBeenSaved = true;
         if(this.currentMatch.selectedMatches.length == 1){
           this.currentMatch.mode = "Review";
           this.currentMatch.match.removeLooseEnds();
@@ -106,7 +118,6 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
       }, 400)
     }
   }
-
   // return the number of currenetly selected matches
   public selectedMatchCount = () => {
     var count = 0;

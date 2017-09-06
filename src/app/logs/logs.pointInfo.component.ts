@@ -213,6 +213,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
     }
     this.dataSvc.saveMatch(this.currentMatch.match)
     .then((success) => {
+      this.currentMatch.hasBeenSaved = true;
       this.reviewFinishedMatch("matchLogSaved"); //let user know match log was saved
     })
     .catch((error) => {
@@ -293,16 +294,14 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
   }
 
   // handle updates to the point information form
-  // getting here on the on-click event which means values in pointInfo
-  // locations controlled by SWITCHES are before being changed by the click 
-  // (ie. if a SWITCH is being toggled to true, it is currently false)
+
   updateLogForm = (item : string) => {
     var pi = this.pointInfo;
 
     this.clearRequestStatus();
     switch(item){
       case "Ace":
-        if(!pi.ace){
+        if(pi.ace){
           pi.pointEndedBy = this.ACE_ENDING;
           pi.winnerId = pi.serverId == PLAYER_ID_STR ? PLAYER_ID_STR : OPPONENT_ID_STR;
           if(!pi.returnWing){pi.returnWing = "F"};
@@ -323,7 +322,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
         }
         break;
         case "Double":
-        if(!pi.double){
+        if(pi.double){
           pi.pointEndedBy = this.DOUBLE_FAULT_ENDING;
           pi.winnerId = pi.serverId == PLAYER_ID_STR ? OPPONENT_ID_STR : PLAYER_ID_STR;
           pi.shots = "1";
@@ -339,7 +338,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
         }
         break;
       case "first":
-        if(!pi.first){
+        if(pi.first){
           pi.second = pi.double = false;
           if(!(pi.return || pi.returnWinner || pi.missedReturn || pi.ace)){ 
             pi.return = true;
@@ -348,10 +347,13 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
             pi.shots = "3";
           }
         }
-        else { pi.shots = "0"; }
+        else 
+        { pi.shots = "0";
+          pi.return = pi.returnWinner = pi.missedReturn = pi.ace = false;
+        }
         break;
       case "second":
-        if(!pi.second){
+        if(pi.second){
           pi.first = pi.double = false;
           if(!(pi.return || pi.returnWinner || pi.missedReturn || pi.ace)){ 
             pi.return = true;
@@ -360,11 +362,14 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
             pi.shots = "3";
           }
         }
-        else { pi.shots = "0"; }
+        else 
+        { pi.shots = "0";
+          pi.return = pi.returnWinner = pi.missedReturn = pi.ace = false;
+        }
         break;
       case "return":
         if(pi.first || pi.second){
-          if(!pi.return){
+          if(pi.return){
             pi.missedReturn = pi.ace = pi.double = false;
             if(!pi.returnWing){pi.returnWing = "F"};
             pi.pointEndedBy = pi.winnerId = "";
@@ -377,7 +382,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
         break;
       case "missedReturn":
         if(pi.first || pi.second){
-          if(!pi.missedReturn){
+          if(pi.missedReturn){
             pi.pointEndedBy = this.UNFORCED_ERROR_ENDING;
             pi.unforcedErrorDetail = this.DEFAULT_ERROR_DETAIL;
             pi.winnerId = pi.serverId == PLAYER_ID_STR ? PLAYER_ID_STR : OPPONENT_ID_STR;
@@ -395,7 +400,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
         break;
       case "returnWinner":
         if(pi.first || pi.second){
-          if(!pi.returnWinner){
+          if(pi.returnWinner){
             if(!pi.returnWing){pi.returnWing = "F"};
             pi.lastShotWing = pi.returnWing;
             pi.pointEndedBy = this.WINNER_ENDING;
@@ -557,6 +562,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
   // format the label that says who is serving and what the score is from their perspective
   formatServingLabel = () => {
     var msg = "Point started with";
+    var specialPointServer;
     var position : MatchPosition = {
       set: 0,
       game: 0,
@@ -565,6 +571,7 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
 
     this.specialPoint = "";
     if(this.currentMatch.match !== undefined){
+      specialPointServer = this.currentMatch.sId;
       if(this.currentMatch.insertActive || this.currentMatch.editActive){
         //when editing or inserting a point, display the score at that point
         position.set = this.currentMatch.selectedSetNumber;
@@ -576,32 +583,44 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
         this.currentMatch.gamePoint = this.currentMatch.selectedPoint.gamePoint;
         this.currentMatch.tiebreak = (this.currentMatch.selectedSet.type == TIEBREAK_SET_TYPE) ||
                                   (this.currentMatch.selectedGame.type == TIEBREAK_GAME_TYPE);
+        specialPointServer = this.currentMatch.selectedPoint.serverId == PLAYER_ID ? this.currentMatch.pId
+                                                                                   : this.currentMatch.oId;
         msg = 
         (this.currentMatch.selectedPoint.serverId == PLAYER_ID
           ? this.currentMatch.playerName : this.currentMatch.opponentName) +
           " serving: "+ this.formatCurrentMatchScore(true) + this.formatCurrentGameScore(true);
-      }
-      else{
+      } else{
         //when not edit/insert, display the current score
         msg = 
         (this.currentMatch.sId == this.currentMatch.pId ? this.currentMatch.playerName : this.currentMatch.opponentName) +
           " serving: "+ this.formatCurrentMatchScore(false) + this.formatCurrentGameScore(false);
       }
-      if(this.currentMatch.match.matchPoint){
-        this.specialPoint = "match point";}
-      else{
-        if(this.currentMatch.setPoint){
-          this.specialPoint = "set point";}
-        else{
-          if(this.currentMatch.breakPoint){
-            this.specialPoint = "break point";}
-          else{
-            if(this.currentMatch.gamePoint){
-              this.specialPoint = "game point";}
-            else{
-              if(this.currentMatch.tiebreak){
-                this.specialPoint = "tiebreak";
-              }}}}}
+      if(this.currentMatch.match.matchPoint) {
+        this.specialPoint = "match point";
+      } else {
+        if(this.currentMatch.setPoint) {
+          this.specialPoint = "set point";
+        } else {
+          if( this.currentMatch.breakPoint || this.currentMatch.gamePoint){
+            if(this.currentMatch.gamePoint && this.currentMatch.breakPoint) {
+              this.specialPoint = specialPointServer == this.currentMatch.pId ? "game point" : "break point";
+            } 
+            else {
+              if(this.currentMatch.breakPoint) {
+                this.specialPoint = "break point";
+              }
+              if(this.currentMatch.gamePoint) {
+                this.specialPoint = "game point";
+              }
+            }
+          }
+          else {
+            if(this.currentMatch.tiebreak) {
+              this.specialPoint = "tiebreak";
+            }
+          }
+        }
+      }
     }
     this.servingLabel = msg;
   }

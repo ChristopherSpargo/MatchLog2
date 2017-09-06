@@ -49,8 +49,7 @@ export class PlayerListComponent implements OnInit {
         this.formWasOpen = true;
       })
       .catch((error) => {
-        this.utilSvc.setUserMessage("noPlayersFound");
-        this.utilSvc.displayUserMessages();
+        this.utilSvc.displayThisUserMessage("noPlayersFound");
         this.itemList = [];
         this.formOpen = true;
         this.formWasOpen = true;

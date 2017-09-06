@@ -1,7 +1,6 @@
   <!--Form used to gather match description information-->
 
-<div *ngIf="MIFormOpen && viewReady" class="container px-2 py-3 app-pan-y"
-    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+<div *ngIf="MIFormOpen && viewReady" class="container px-2 py-3">
 
   <!-- Start of Form -->
 
@@ -15,7 +14,7 @@
         <i class="material-icons app-court-ltgreen">today</i>
         <div class="d-flex flex-row app-icon-offset">
           <button class="btn app-add-subtract-button" type="button"
-                      [disabled]="matchSaved"
+                      [disabled]="matchSaved()"
                       (click)="subtractADay()">
             <i aria-label="previous day"
                       class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
@@ -23,11 +22,11 @@
           <input type="text" name="matchDate" autocomplete="off" 
                   class=" app-add-subtract-input-control app-form-theme-text app-width-40"
                   aria-label="match date"
-                  [class.app-disabled-text]="matchSaved"
+                  [class.app-disabled-text]="matchSaved()"
                   [(ngModel)]="matchInfo.date" readonly
                   (focus)="clearRequestStatus()">
           <button class="btn app-add-subtract-button" type="button"
-                      [disabled]="matchSaved"
+                      [disabled]="matchSaved()"
                       (click)="addADay()">
             <i aria-label="next day"
                       class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
@@ -43,7 +42,7 @@
         <i class="material-icons app-court-ltgreen ">access_time</i>
         <div class="d-flex flex-row app-icon-offset" >
           <button class="btn app-add-subtract-button" type="button"
-                      [disabled]="matchSaved"
+                      [disabled]="matchSaved()"
                       (click)="subtractTime()">
             <i aria-label="previous minute"
                       class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
@@ -51,11 +50,11 @@
             <input type="text" name="matchTime" autocomplete="off" 
                     aria-label="match time"
                     class="app-add-subtract-input-control app-form-theme-text app-width-40"
-                    [class.app-disabled-text]="matchSaved"
+                    [class.app-disabled-text]="matchSaved()"
                     [(ngModel)]="matchInfo.time" readonly 
                     (focus)="clearRequestStatus()">
           <button class="btn app-add-subtract-button" type="button"
-                      [disabled]="matchSaved"
+                      [disabled]="matchSaved()"
                       (click)="addTime()">
             <i aria-label="next minute"
                       class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
@@ -401,8 +400,7 @@
 
           <!-- Menu for list of paused matches -->
 
-<div *ngIf="resumeMenuOpen && viewReady" class="container px-2 py-3 app-pan-y"
-    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+<div *ngIf="resumeMenuOpen && viewReady" class="container px-2 py-3">
   <div class="d-flex flex-column justify-content-start align-items-start app-frame">
     <ul class=" app-matches-menu-ul ">
       <li *ngFor="let m of pausedMatches; index as i; last as l">
@@ -430,19 +428,13 @@
           </button>
               <app-fab
                 fType         = "button"
-                fIcon         = "remove_circle"
+                fIcon         = "remove_circle_outline"
                 fIconColor    = "app-warn"
                 fButtonCSS    = "app-match-menu-delete-fab"
                 fIconCSS      = "app-match-menu-delete-icon"
                 [fOnClick]    = "deletePausedMatch"
                 [fParam]      = "pausedMatches[i]">
               </app-fab>
-          <!-- <button (click)="deletePausedMatch(pausedMatches[i])" aria-label="delete match"
-                      class="btn app-match-menu-delete-button" type="button">
-            <div class="d-flex flex-row justify-content-center align-items-center">
-              <i class="material-icons app-warn app-match-menu-delete-icon ">remove_circle</i>
-            </div>
-          </button> -->
         </div>
       </li>
     </ul>

@@ -48,8 +48,10 @@ export class UtilSvc implements OnInit {
       var fd    : string;
 
       if( h > 11 ){
-        h -= 12;
         ampm = "PM";
+        if( h > 12){
+          h -= 12;
+        }
       }
       fd = ((h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + " " + ampm);
       return fd;

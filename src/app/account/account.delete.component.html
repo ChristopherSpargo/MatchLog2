@@ -1,8 +1,7 @@
 ﻿                <!--Form used to provide the CHANGE PASSWORD feature-->
 
 <div class=" app-central-container app-fade-in  " 
-     [ngClass]="{'app-open': formOpen}"
-     (swipeleft)="closeForm()" (swiperight)="closeForm()">
+     [ngClass]="{'app-open': formOpen}">
 
   <!-- Form Header -->
 
@@ -15,7 +14,7 @@
 
   <!-- Start of Form -->
 
-  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp" (swiperight)="closeForm()">
+  <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
     <div class="container app-form-theme px-2 py-3">
       <form #deleteForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(deleteForm)">

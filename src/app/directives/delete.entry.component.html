@@ -1,7 +1,7 @@
     <!-- Template used to present a delete option element. 
          Used with <app-delete-entry> DIRECTIVE -->
     <div class="d-flex flex-row align-items-center app-form-theme-text mt-1">
-      <i class="material-icons app-input-icon-area app-warn">remove_circle</i>
+      <i class="material-icons app-input-icon-area app-warn">remove_circle_outline</i>
       <input type="checkbox" id="deleteCheckbox" [(ngModel)]="fValue"
                     [disabled]="!fCanDelete()" class="app-form-radio-control"
                     (change)="valueChange()">

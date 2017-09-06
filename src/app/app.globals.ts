@@ -51,6 +51,7 @@ export class AboutStatus {
 export class CurrentMatch {
       mode                  : string = "";      // how match is being accessed (Create, Review)
       status                : string = "";      // saved status of match (Ended, Paused)
+      hasBeenSaved          : boolean = false;  // true if match has been saved to database 
       matchList             : Match[];          // original list of matches from database query
       selectedMatches       : Match[];          // List of selected matches (Combine/Sequence) 
       matchSelectFlags      : boolean [];       // selection flags for each match in original matchList

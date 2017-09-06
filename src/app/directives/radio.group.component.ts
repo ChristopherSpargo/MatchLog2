@@ -29,10 +29,10 @@ export class RadioGroupComponent implements OnChanges  {
   };
 
   ngOnChanges() {
-    if(this.fValues){
+    if(this.fValues) {
       this.aValues = this.fValues.split('|');
     }
-    if(this.fLabels){
+    if(this.fLabels) {
       this.aLabels = this.fLabels.split('|');
     }
 
@@ -40,11 +40,11 @@ export class RadioGroupComponent implements OnChanges  {
 
   valueChange = () => {
     this.fModelChange.emit(this.fModel);
-    if(this.fOnChange){ this.fOnChange(); };
+    if(this.fOnChange) { this.fOnChange(); };
   }
 
   onFocus = () => {
-    if(this.fOnFocus){ this.fOnFocus(); };
+    if(this.fOnFocus) { this.fOnFocus(); };
   }
 
 }

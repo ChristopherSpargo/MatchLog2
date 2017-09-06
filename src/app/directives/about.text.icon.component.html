@@ -1,8 +1,9 @@
 
     <!-- Template used for icons in help text. 
          Used with <app-about-text-icon> COMPONENT -->
-<button *ngIf="fFab" 
-        class="btn d-inline-flex flex-row justify-content-center align-items-center app-about-text-fab {{fFabColor}}">
-  <i class="material-icons app-about-fab-icon {{fColor}}">{{fIcon}}</i>
+<button *ngIf="fFab"  class="btn app-about-text-fab {{fFabColor}">
+  <div class="d-flex flex-row justify-content-center align-items-center}">
+    <i class="material-icons app-about-fab-icon {{fColor}}">{{fIcon}}</i>
+  </div>
 </button>
 <i *ngIf="!fFab" class="material-icons app-about-text-icon {{fColor}}">{{fIcon}}</i>

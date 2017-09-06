@@ -1,7 +1,6 @@
                 <!--Form used to gather point information-->
 
-      <div *ngIf="loggingMatch()"  class="container px-2 py-3 app-pan-y"
-             (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+      <div *ngIf="loggingMatch()"  class="container px-2 py-3">
         <!-- Start of Form -->
         <form #logForm ="ngForm" role="form" novalidate class="px-0 py-0"
               (submit)="submitPointInfo(logForm)">
@@ -13,9 +12,9 @@
                           app-input-divider my-0 app-match-info-label ">
                    {{servingLabel}}
             </label>
-            <div *ngIf="specialPoint"
-                 class="d-flex flex-row justify-content-center align-items-center app-special-point">
-              <div class=" app-form-input-label-opacity ">(</div>
+            <div class="d-flex flex-row justify-content-center align-items-center app-special-point"
+                 [class.app-invisible]="!specialPoint">
+              <div class="app-form-input-label-opacity">(</div>
               <div [ngClass]="{'app-check-red': specialPoint == 'break point',
                               'app-check-green': specialPoint != 'break point'}">
                   {{specialPoint}}
@@ -33,7 +32,7 @@
                                 [required]="!(pointInfo.second ||
                                                 pointInfo.ace ||
                                                 pointInfo.double)"
-                                (click)="updateLogForm('first')" 
+                                (change)="updateLogForm('first')" 
                                 (focus)="clearRequestStatus()">
                       1st Serve
                     </label>
@@ -42,7 +41,7 @@
                     <label for="s2nd" class="mb-0">
                       <input type="checkbox" [(ngModel)]="pointInfo.second" 
                               class="app-inline-flex app-form-radio-control" 
-                              (click)="updateLogForm('second')" name="sServe" id="s2nd"
+                              (change)="updateLogForm('second')" name="sServe" id="s2nd"
                               (focus)="clearRequestStatus()">
                       2nd Serve
                     </label>
@@ -53,7 +52,7 @@
                     <label for="sAce" class="mb-0">
                       <input type="checkbox" [(ngModel)]="pointInfo.ace" name="svcAce" id="sAce"
                                 class="app-inline-flex app-form-radio-control" 
-                                (click)="updateLogForm('Ace')" 
+                                (change)="updateLogForm('Ace')" 
                                 (focus)="clearRequestStatus()">
                       Ace
                     </label>
@@ -63,7 +62,7 @@
                       <input type="checkbox" [(ngModel)]="pointInfo.double" name="svcDouble" id="sDbl"
                                 class="app-inline-flex app-form-radio-control" 
                                 (focus)="clearRequestStatus()"                           
-                                (click)="updateLogForm('Double')">
+                                (change)="updateLogForm('Double')">
                       Double Fault
                     </label>
                   </div>
@@ -94,7 +93,7 @@
                           class="app-inline-flex app-form-radio-control" name="return"
                           [disabled]="pointInfo.double || pointInfo.ace ||
                           (!pointInfo.first && !pointInfo.second)"
-                          (click)="updateLogForm('return')" 
+                          (change)="updateLogForm('return')" 
                           (focus)="clearRequestStatus()">
                     In
                   </label>
@@ -105,7 +104,7 @@
                           class="app-inline-flex app-form-radio-control" id="rOut" name="rOut"
                           [disabled]="pointInfo.double || pointInfo.ace ||
                           (!pointInfo.first && !pointInfo.second)"
-                          (click)="updateLogForm('missedReturn')" 
+                          (change)="updateLogForm('missedReturn')" 
                           (focus)="clearRequestStatus()">
                   Out
                 </label>
@@ -116,7 +115,7 @@
                           class="app-inline-flex app-form-radio-control" id="rWinner" name="rWinner"
                           [disabled]="pointInfo.double || pointInfo.ace ||
                           (!pointInfo.first && !pointInfo.second)"
-                          (click)="updateLogForm('returnWinner')" 
+                          (change)="updateLogForm('returnWinner')" 
                           (focus)="clearRequestStatus()">
                     Winner
                   </label>
@@ -189,7 +188,7 @@
               <app-fab></app-fab>
               <app-fab *ngIf="insertActive() || editActive()"
                 fType       = "button"
-                fIcon       = "cancel"
+                fIcon       = "highlight_off"
                 fIconColor  = "app-warn"
                 [fOnClick]  = "cancelInsertOrEdit"
                 [fParam]    = "logForm">
@@ -242,7 +241,7 @@
                     <input  type="checkbox" [(ngModel)]="pointInfo.playerAtNet" 
                           class=" app-form-radio-control " id="pAtNet" name="pAtNet"
                           [disabled]="!pointInfo.return || pointInfo.returnWinner"
-                          (click)="updateLogForm('playerAtNet')" 
+                          (change)="updateLogForm('playerAtNet')" 
                           (focus)="clearRequestStatus()">
                     At Net
                   </label>
@@ -252,7 +251,7 @@
                     <input type="checkbox" [(ngModel)]="pointInfo.opponentAtNet" 
                             class=" app-form-radio-control " id="oAtNet" name="oAtNet"
                             [disabled]="!pointInfo.return || pointInfo.returnWinner"
-                            (click)="updateLogForm('opponentAtNet')" 
+                            (change)="updateLogForm('opponentAtNet')" 
                             (focus)="clearRequestStatus()">
                     At Net
                   </label>
@@ -289,6 +288,7 @@
                     <label  for="{{'pEnd'+i}}" class="mb-0">
                     <input  type="radio" id="{{'pEnd'+i}}" [(ngModel)]="pointInfo.pointEndedBy" 
                             [required]="!(pointInfo.ace || pointInfo.double)"
+                            [disabled]="pointInfo.ace || pointInfo.double || pointInfo.returnWinner"
                             (click)="updateLogForm(e.name)" name="endedBy"
                             (focus)="clearRequestStatus()"
                             class="app-inline-flex app-form-radio-control" 

@@ -42,8 +42,7 @@ export class TournamentListComponent implements OnInit {
           this.formWasOpen = true;
       })
       .catch((error) => {
-          this.utilSvc.setUserMessage("noTournamentsFound");
-          this.utilSvc.displayUserMessages();
+          this.utilSvc.displayThisUserMessage("noTournamentsFound");
           this.itemList = [];
           this.formOpen = true;
           this.formWasOpen = true;

@@ -5,7 +5,6 @@
 <div 
   class=" app-central-container app-fade-in"
   [ngClass]="{'app-open': formOpen}"
-  (swipeleft)="closeForm()" (swiperight)="closeForm()"
   >
 
 
@@ -26,7 +25,7 @@
             (ngSubmit)="submitRequest(listForm)">
         <div class="d-flex flex-column">
 
-          <!-- Event Name Field -->
+          <!-- Tournament Name Field -->
           <app-list-item-field 
               [fForm]         = "listForm"
               fName           = "itemName"

@@ -1,8 +1,7 @@
 ﻿                <!--Form used to provide the ACCOUNT LOGIN feature-->
 
 <div class="app-central-container app-fade-in" 
-     [class.app-open]="formOpen"
-     (swipeleft)="closeForm()" (swiperight)="closeForm()">
+     [class.app-open]="formOpen">
 
   <!-- Form Header -->
 
@@ -88,18 +87,21 @@
 
           </div>
 
-            <div class="mt-1">
-            <input type="checkbox" *ngIf="!newAccount" id="newAcct" name="createAcc" [(ngModel)]="createAccount"
-                        (click)="clearNewAccountFields()" class="app-input-icon-area">
-            <label for="newAcct">Create new account</label>
+          <div *ngIf="!newAccount" class="mt-1">
+            <label>
+              <input type="checkbox" class="app-input-icon-area" name="createAcc" [(ngModel)]="createAccount" 
+                    (change)="clearNewAccountFields()">
+              Create new account
+            </label>
           </div>
 
           <!-- Remember Me field -->
 
-          <div>
-            <input type="checkbox" *ngIf="!requestStatus.incorrectPassword" id="memberMe" name="memberMe"
-                    [(ngModel)]="rememberLogin" class="app-input-icon-area">
-            <label for="memberMe">Remember me</label>
+          <div *ngIf="!requestStatus.incorrectPassword">
+            <label>
+              <input type="checkbox" class="app-input-icon-area" name="memberMe" [(ngModel)]="rememberLogin">
+              Remember me
+            </label>
           </div>
 
           <!-- Status Message Area -->
@@ -114,7 +116,7 @@
 
           <div class="d-flex flex-row justify-content-center align-items-center" id="actions">
             <app-fab *ngIf="!newAccount && !requestStatus.incorrectPassword" fAria="sign in"
-                      fIcon="{{createAccount ? 'add_circle' : 'check_circle'}}">
+                      fIcon="{{createAccount ? 'add_circle_outline' : 'check_circle_outline'}}">
             </app-fab>
             <app-fab *ngIf="newAccount" fAria="sign in"
                       fIcon="arrow_forward">

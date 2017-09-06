@@ -61,7 +61,7 @@ b, strong {
 .app-fab-button {
   margin: 0px;
   padding: 0px;
-  background-color: ghostwhite !important;
+  background-color: ghostwhite;
   border: 0;
   cursor: pointer;
   touch-action: manipulation;
@@ -72,7 +72,7 @@ b, strong {
   border-radius: 50%;
   box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
 .app-fab-button.app-fab-click {
-  animation: app-click .4s;}
+  animation: app-click .3s;}
 @keyframes app-click {
     0%   {box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
     10%  {box-shadow: none; transform: scale(.97);}
@@ -88,13 +88,15 @@ b, strong {
   min-height: 40px;}
 .app-fab-icon-sm {
   font-size: 30px;}
+.app-fab-icon-xsm {
+  font-size: 24px;}
 .app-fab-lg {
   max-width: 56px;
   min-width: 56px;
   max-height: 56px;
   min-height: 56px;}
 .app-fab-icon-lg {
-  font-size: 34px;}
+  font-size: 35px;}
 .app-fab-speed-dial {
   background-color: transparent;
   z-index: 20;
@@ -131,10 +133,11 @@ b, strong {
 .app-progress-indicator {
   width: 100px;}
 .app-inline-flex {
-  display: -webkit-inline-flex;
   display: inline-flex;}
 .app-invisible {
   visibility: hidden;}
+.app-no-display {
+  display: none;}
 .app-lt-border-right {
   border-right: 1px solid rgba(255,255,255, 0.19)}
 .app-menu-button {
@@ -290,29 +293,20 @@ b, strong {
   text-align: center!important;}
 .app-slide-left {
   z-index: 4;
-  -webkit-transition: -webkit-transform .4s ease-in-out;
   transition: transform .4s ease-in-out;
-  -webkit-transform: translateX(150%);
   transform: translateX(150%);}
   .app-slide-left.app-open {
-    -webkit-transform: translateX(0%);
     transform: translateX(0%);}
  .app-slide-right {
   z-index: 3;
-  -webkit-transition: -webkit-transform .4s ease-in-out;
   transition: transform .4s ease-in-out;
-  -webkit-transform: translateX(-150%);
   transform: translateX(-150%);}
   .app-slide-right.app-open {
-    -webkit-transform: translateX(0%);
     transform: translateX(0%);}
 .app-expand-open {
-  -webkit-transition: -webkit-transform .4s ease-in-out;
   transition: transform .4s ease-in-out;
-  -webkit-transform: scale(0);
   transform: scale(0);}
   .app-expand-open.app-open {
-    -webkit-transform: scale(1);
     transform: scale(1);}
 .app-vertical-expand {
   overflow: hidden;
@@ -320,25 +314,19 @@ b, strong {
   position: relative;
   max-height: 0px;
   opacity: 0;
-  -webkit-transition: max-height .5s, opacity .3s ease-in;
   transition: max-height .5s, opacity .3s ease-in;}
   .app-vertical-expand.app-open {
     max-height: 200px;
-    /*padding-top: 4px;*/
     opacity: 1;}
 .app-fade-in {
-  -webkit-transition: opacity .3s ease-in-out;
   transition: opacity .4s ease-in-out;
   opacity: 0;}
   .app-fade-in.app-open {
     opacity: 1;}
 .app-slide-down {
-  -webkit-transition: -webkit-transform .5s ease-in-out;
   transition: transform .5s ease-in-out;
-  -webkit-transform: translateY(-175%);
   transform: translateY(-175%);}
   .app-slide-down.app-open {
-    -webkit-transform: translateY(0%);
     transform: translateY(0%);}
 /***************************************/
 /* STYLES MOSTLY RELATED TO: MAIN      */
@@ -391,7 +379,7 @@ b, strong {
   position: relative;
   left: 4px;
   bottom: 2px;
-  margin-top: 0px;
+  margin-top: -4px;
   margin-bottom: 0px;}
 .app-main-short-toolbar {
   z-index: 75;
@@ -411,24 +399,19 @@ b, strong {
   background-color: transparent;}
 /*slideout trigger icon animation*/
 .app-slide-open-icon {
-  -webkit-transition: -webkit-transform .3s ease-out, opacity .3s ease-out;
   transition: transform .3s ease-out, opacity .3s ease-out;
-  -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
   margin-right: 0px !important;
   opacity: 0;
   color: inherit;}
 .app-slide-close-icon {
-  -webkit-transition: -webkit-transform .3s ease-out, opacity .3s ease-out;
   transition: transform .3s ease-out, opacity .3s ease-out;
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
   margin-right: 0px !important;
   opacity: 0;
   color: inherit;}
   .app-slide-open-icon.app-visible,
   .app-slide-close-icon.app-visible {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
     opacity: 1;
     position: absolute;
@@ -474,7 +457,6 @@ b, strong {
   position: relative;
   overflow: hidden;
   max-height: 0px;
-  -webkit-transition: max-height .5s ease-in-out;
   transition: max-height .5s ease-in-out;}
   .app-slidenav-submenu.app-open {
     max-height: 300px;}
@@ -534,6 +516,9 @@ b, strong {
     background-color: gray!important;
     font-size: .6em;
     color: white!important;}
+  .app-form-theme-select-menu-lg {
+    background-color: gray!important;
+    color: white!important;}
   .app-form-input-divider {
     border-color: rgba(211,211,211,.2);}
   .app-form-input-divider-tall {
@@ -549,7 +534,6 @@ b, strong {
 .app-form-icon-input-label {
   margin: 0 0 0 31px;
   color: $inputLabelColor !important;
-  -webkit-order: 0 !important;
   order: 0!important;}
 .app-form-icon-input-label-sm {
   margin: 0 0 0 31px;
@@ -577,7 +561,6 @@ b, strong {
       transition: .4s ease-out;
       margin-bottom: 0;
       color: $inputLabelColor !important;
-      -webkit-order: 0 !important;
       order: 0!important;}
       .app-no-icon-label {
         left: 0px;}
@@ -605,7 +588,7 @@ b, strong {
       border-width: 0 0 1px;
       background-color: transparent;
       color: inherit;
-      z-index: 2;
+      z-index: 2; 
       width: 100%;
       border-color: rgba(0,0,0,.12);
       line-height: 1em;}
@@ -653,7 +636,6 @@ b, strong {
     .app-form-radio-control {
       margin: 0 8px 0 0;}}
 .app-add-subtract-input-control {
-  -webkit-order: 0 !important;
   order: 0 !important;
   width: 30% ;
   border-width: 0 0 1px;
@@ -675,8 +657,8 @@ b, strong {
   min-width: 40px !important;
   min-height: 40px !important;}
   .app-form-header-image {
-    width: 40px !important;
-    height: 40px !important;
+    width: 38px !important;
+    height: 38px !important;
     border-radius: 50%;}
     @media ($lg-screen) {
       .app-form-image-button {
@@ -685,10 +667,12 @@ b, strong {
         min-width: 48px !important;
         min-height: 48px !important;}
       .app-form-header-image {
-        width: 48px !important;
-        height: 48px !important;}}
+        width: 46px !important;
+        height: 46px !important;}}
 $appFormCloseSize: 36px !important;
 $appFormCloseSizeLg: 40px !important;
+$appFormCloseIconSize: 34px !important;
+$appFormCloseSizeIconLg: 38px !important;
 .app-form-close-button {
   margin: 0px!important;
   padding: 0px!important;
@@ -699,9 +683,9 @@ $appFormCloseSizeLg: 40px !important;
   min-height: $appFormCloseSize}
   .app-form-close-icon {
     vertical-align: top;
-    font-size: $appFormCloseSize;
-    width: $appFormCloseSize;
-    height: $appFormCloseSize;}
+    font-size: $appFormCloseIconSize;
+    width: $appFormCloseIconSize;
+    height: $appFormCloseIconSize;}
     @media ($lg-screen) {
       .app-form-close-button {
         max-height: $appFormCloseSizeLg;
@@ -709,10 +693,10 @@ $appFormCloseSizeLg: 40px !important;
         min-width: $appFormCloseSizeLg;
         min-height: $appFormCloseSizeLg}
       .app-form-close-icon {
-        font-size: $appFormCloseSizeLg;
-        width: $appFormCloseSizeLg;
-        height: $appFormCloseSizeLg}}
-.app-form-close-button:focus {
+        font-size: $appFormCloseIconSizeLg;
+        width: $appFormCloseIconSizeLg;
+        height: $appFormCloseIconSizeLg}}
+.app-form-close-button:focus, .app-form-image-button:focus {
   box-shadow: none;
   outline: none;}
 .app-add-subtract-button {
@@ -763,7 +747,6 @@ $appFormCloseSizeLg: 40px !important;
 .app-scroll-frame-center {
   width: 100%;
   max-height: calc(100% - 53px);
-  touch-action: pan-y !important ;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;}
   @media ($lg-screen) {
@@ -772,7 +755,9 @@ $appFormCloseSizeLg: 40px !important;
 .app-central-container-130 {
   width: 100%;
   min-height: 130%;
-  margin: auto;}
+  margin: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;}
 .app-central-container {
   width: 100%;
   min-height: 100%;
@@ -869,7 +854,7 @@ $appFormCloseSizeLg: 40px !important;
   min-width: 24px;
   border-radius: 50%;
   padding: 0 !important;
-  margin: -2px 4px 0 0;
+  margin: -2px 0 0 0;
   display: inline;}
   @media ($lg-screen) {
     .app-about-text-fab {
@@ -926,7 +911,6 @@ $appFormCloseSizeLg: 40px !important;
   bottom: 0px;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
-  touch-action: pan-y !important;
   background-color: white;}
 .app-click-to-close-about {
   position: fixed;
@@ -1056,10 +1040,6 @@ $appFormCloseSizeLg: 40px !important;
   line-height: 16px;
   font-size: 1.1em;}
 .app-match-score {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: flex;}
 .app-match-stats-service-img {
   height: 16px;
@@ -1146,7 +1126,6 @@ $appFormCloseSizeLg: 40px !important;
   overflow: hidden;
   max-height: 0px;
   opacity: 0;
-  -webkit-transition: max-height .3s, opacity .3s ease-in;
   transition: max-height .3s, opacity .3s ease-in;}
   .app-match-stats-section-text.app-open {
     opacity: 1;
@@ -1157,7 +1136,6 @@ $appFormCloseSizeLg: 40px !important;
   overflow: hidden;
   max-height: 0px;
   opacity: 0;
-  -webkit-transition: max-height .6s, opacity .4s ease-in;
   transition: max-height .6s, opacity .4s ease-in;}
   .app-match-stats-section-data.app-open {
     opacity: 1;
@@ -1297,9 +1275,6 @@ $appFormCloseSizeLg: 40px !important;
   color: #cc9966!important;}
 .app-brite-orange {
   color: #ff9100!important;}
-.app-bg-brite-orange {
-  background-color: #ff9100!important;
-  color: inherit;}
 .app-retro-cream {
   color: #fef7e6;}
 .app-bg-retro-cream {
@@ -1307,9 +1282,11 @@ $appFormCloseSizeLg: 40px !important;
 .app-retro-dark-cream {
   color: #ffe8b3;}
 .app-bg-retro-dark-cream {
-  background-color: #ffe8b3!important;}
+  background-color: #ffe8b3;}
 .app-bg-white {
   background-color: white !important;}
+.app-bg-gwhite { 
+  background-color: ghostwhite;}
 .app-bg-fab-gray {
   background-color: rgba(244,243,242,1)!important;}
 .app-bg-fab-accent {
@@ -1322,7 +1299,8 @@ $appFormCloseSizeLg: 40px !important;
   background-color: $primaryColor !important;}
 .app-checkbox {
   color: $checkboxColor !important;}
-
+.app-link-active {
+  color: #0275D8;}
 /**********************************************/
 /* STYLES MOSTLY RELATED TO: ngb-bootstrap    */
 /**********************************************/

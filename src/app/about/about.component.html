@@ -11,7 +11,7 @@
        <!-- Card Header -->
 
     <div class="app-whiteframe-2dp">
-      <div (swipeleft)="closeAbout()" class="app-about-header-theme app-pan-y">
+      <div class="app-about-header-theme">
           <div class="d-flex flex-row">
             <div class="d-flex flex-row justify-content-start align-items-center app-width-15">
               <button type="button" class="btn app-form-image-button " aria-label="help"
@@ -36,8 +36,7 @@
 
     <!--Section for context specific help information-->
 
-    <div class="app-scroll-frame-left app-about-body-theme" 
-         (swipeleft)="closeAbout()">
+    <div class="app-scroll-frame-left app-about-body-theme">
       <div *ngIf="helpContext() === 'UsingMatchLog'"        ><app-about-matchlog></app-about-matchlog></div>
       <div *ngIf="helpContext() === 'ContactUs'"            ><app-about-contact-us></app-about-contact-us></div> 
       <div *ngIf="helpContext() === 'ManageEvents'"         ><app-about-manage-events></app-about-manage-events></div>

@@ -1,5 +1,5 @@
   <div>
-    <app-about-heading fIcon="search" fText="Viewing Match Statistics"></app-about-heading>
+    <app-about-heading fIcon="search" fText="Viewing/Editing Match Statistics"></app-about-heading>
     &nbsp;&nbsp;The <b>Log Review</b> tab displays all point information from the match log currently
     being recorded in statistical form.  Individual points can be edited on this tab.<br />
 
@@ -9,7 +9,9 @@
 
     <app-about-heading fIcon="assignment" fText="Setup Information Section"></app-about-heading>
     &nbsp;&nbsp;This section displays general information about the     match such as tournament name, date, time, match format, etc.<br /> 
-    &nbsp;&nbsp;To toggle the display of this section, tap the <b>View</b> button at the top of the tab display.<br/>
+    &nbsp;&nbsp;To toggle the display of this section, tap the
+    <app-about-text-icon fIcon="assignment" fColor="app-link-active"></app-about-text-icon> icon on the REVIEW tab
+    at the top of the tab display.<br/>
 
     <app-about-heading fIcon="menu" fText="Menu Section"></app-about-heading>
     &nbsp;&nbsp;This section displays a menu for selecting the level of information you want to see. The stats can be viewed at the Match, Set, Game and Point level.<br />
@@ -36,24 +38,24 @@
 
     <app-about-heading fIcon="edit" fText="Point Editing"></app-about-heading>
     &nbsp;&nbsp;Also displayed at the point level is the<br /> 
-    <app-about-text-icon fIcon="menu" fColor="app-about-fab-icon-sm app-form-theme-text"
-                         [fFab]="true" fFabColor="app-bg-fab-accent"></app-about-text-icon> 
+    <app-about-text-icon fIcon="menu" fColor="app-about-fab-icon-sm app-primary"
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> 
     <b>Edit Menu</b> button which offers the following point editing options:<br /><br />
     <app-about-text-icon fIcon="chevron_right" fColor="app-retro-brown"
-                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Move Right</b>: 
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Move Right</b>: 
     This allows the selected point to be moved one position later in the point sequence.<br /><br />
     <app-about-text-icon fIcon="add" fColor="app-retro-green"
-                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Add</b>: 
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Add</b>: 
     This allows a new point to be added just prior the selected point.  To add a point to the end, add the point before
     the current last point then use the <b>Move Right</b> function.<br /><br />
     <app-about-text-icon fIcon="chevron_left" fColor="app-retro-brown"
-                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Move Left</b>: 
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Move Left</b>: 
     This allows the selected point to be moved one position earlier in the point sequence.<br /><br />
-    <app-about-text-icon fIcon="remove_circle" fColor="app-warn"
-                         fFab="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Delete</b>: 
+    <app-about-text-icon fIcon="remove" fColor="app-warn"
+                         fFab="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Delete</b>: 
     This allows the selected point to be deleted.<br /><br />
-    <app-about-text-icon fIcon="edit" fColor="app-brite-orange"
-                         [fFab]="true" fFabColor="app-bg-fab-gray"></app-about-text-icon> <b>Edit</b>: 
+    <app-about-text-icon fIcon="edit" fColor="app-about-fab-icon-sm app-brite-orange"
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Edit</b>: 
     This allows the information for selected point to be edited.
     <br />
 
@@ -61,7 +63,7 @@
     &nbsp;&nbsp;Here is where the actual statistics are displayed.<br />
     &nbsp;&nbsp;This section begins with a header that shows the players names
     on their side of the statistics display.<br />
-    &nbsp;&nbsp;sIn the middle of the header is a description of the information level and the score when that
+    &nbsp;&nbsp;In the middle of the header is a description of the information level and the score when that
     game/point began if appropriate.<br />
     &nbsp;&nbsp;A check mark will display after the name of the player that won that level, red if returning and green
     otherwise.<br />

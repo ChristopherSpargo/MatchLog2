@@ -20,7 +20,7 @@ export class AboutHeadingComponent  {
   @Input() fButton      : string;                             // text to display on a button
   @Input() fButtonColor : string = "app-primary";             // CSS class for button color
   @Input() fFab         : boolean = false;                    // if display as FAB button
-  @Input() fFabColor    : string = "app-bg-white";            // background color for FAB button
+  @Input() fFabColor    : string = "app-bg-gwhite";           // background color for FAB button
   @Input() fDivider     : boolean = false;                    // 'true' for divider line above title
 
   constructor() {

@@ -149,14 +149,17 @@ export class Game {
     var numPoints = (position && (position.point != undefined)) ? position.point : this.points.length;
     var pScore = 0;
     var oScore = 0;
-    var ad = (this.noAd && (this.type == REGULAR_GAME_TYPE)) ? 0 : 1;
-    var gamePtAt = this.type == REGULAR_GAME_TYPE ? 3 : 6
+    var ad = (this.noAd && (this.type === REGULAR_GAME_TYPE)) ? 0 : 1;
+    var gamePtAt = this.type === REGULAR_GAME_TYPE ? 3 : 6
     var scores = ["0","15","30","40","AD","G"];
     var self = this;
 
     // check if the current score combination represents a game point/break point situation
     function isGamePoint(): number {
-      //return 1 for gamePt, 2 for breakPt and 0 if neither
+      //return 1 for gamePt, 2 for breakPt, 3 if both (no Ad) and 0 if neither
+      if((ad === 0) && (pScore === gamePtAt) && (pScore === oScore)) {
+        return 3;
+      }
       if((pScore >= gamePtAt) && (pScore > oScore)){
         return self.serverId == PLAYER_ID ? 1 : 2;
       }
@@ -239,6 +242,9 @@ export class Game {
         case 2: //break pt
           self.breakPoint = true;
           break;
+        case 3: //40-40 and noAd
+          self.breakPoint = self.gamePoint = true;
+        break;
       }
     }        
 

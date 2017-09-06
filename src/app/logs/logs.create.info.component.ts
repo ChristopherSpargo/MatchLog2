@@ -58,9 +58,9 @@ export class LogsCreateInfoComponent implements OnInit {
     handed    : DEFAULT_HANDED_TYPE,
     gender    : ""
   };
-  tournamentList     : string[] = [];  // user's list of Tournaments (from Database)
-  locationList       : string[] = [];  // user's list of Locations (from Database)
-  eventList          : string[] = [];  // user's list of Events (from Database)
+  tournamentList     : string[] = undefined;  // user's list of Tournaments (from Database)
+  locationList       : string[] = undefined;  // user's list of Locations (from Database)
+  eventList          : string[] = undefined;  // user's list of Events (from Database)
   roundList          : string[] = ROUND_NAMES;
   matchFormats       : string[] = MATCH_FORMATS;
   UNFORCED_ERROR_POINT_ENDING = UNFORCED_ERROR_POINT_ENDING;
@@ -68,7 +68,6 @@ export class LogsCreateInfoComponent implements OnInit {
   PLAYER_ID          = PLAYER_ID;
   OPPONENT_ID        = OPPONENT_ID;
   requestStatus      : {[key: string] :any} ={};
-  matchSaved         : boolean = false;
   selectedMatch      : Match = undefined;
   playerSelectList   : any[] = [];
   opponentSelectList : any[] = [];
@@ -84,6 +83,7 @@ export class LogsCreateInfoComponent implements OnInit {
     // pre-fill some fields and pre-fetch some tables that will be needed
     this.matchInfo.date = this.utilSvc.formatDate();
     this.currentMatch.pointsLogged = 0;
+    this.currentMatch.hasBeenSaved = false;
     if(this.userInfo.profile){
       this.matchInfo.playerId = this.userInfo.profile.defaultPlayerId.toString();
       this.newPlayer.gender = this.newOpponent.gender = 
@@ -149,6 +149,11 @@ export class LogsCreateInfoComponent implements OnInit {
   setViewReady = () => {
     this.filterPlayerLists();
     this.viewReady = true;
+  }
+
+  // return whether the match has been saved before or not
+  matchSaved = () => {
+    return this.currentMatch.hasBeenSaved;
   }
 
   //return boolean indicating if settings can still be submitted
@@ -444,7 +449,7 @@ export class LogsCreateInfoComponent implements OnInit {
     resumeInfo.opponentId = m.opponentId.toString();
     resumeInfo.serverId   = m.serverId.toString();
     this.matchInfo = resumeInfo;
-    this.matchSaved           = true;    // indicate match has been saved before
+    this.currentMatch.hasBeenSaved = true;    // indicate match has been saved before
     this.graphsSvc.clearAllGraphs();
 
     this.currentMatch.match = this.selectedMatch = m;

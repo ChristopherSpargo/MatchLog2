@@ -1,7 +1,6 @@
-  <div class="container px-2 pt-3 app-pan-y"
+  <div class="container px-2 pt-3"
        [class.app-open]="matchMenuOpen"
-       [style.padding-bottom.px]="300"
-		   (swipeleft)="nextTab()" (swiperight)="prevTab()">
+       [style.padding-bottom.px]="300">
     <div class="app-theme-inherit">
 
 	      	<!-- Menu for list of matches from search -->
@@ -9,7 +8,7 @@
       <div class="d-flex-flex-column justify-content-start align-items-start app-frame pt-0">
         <div *ngIf="multipleChoices()" class="d-flex flex-row align-items-center">
           <input type="checkbox" id="all" name="selectAll" [(ngModel)]="selectAll"
-                      (click)="toggleSelectAll()" class="app-matches-menu-select-all">
+                      (change)="toggleSelectAll()" class="app-matches-menu-select-all">
           <label for="all">Select All</label>
         </div>
         <ul class="app-matches-menu-ul">
@@ -22,7 +21,7 @@
               </button>
               <button type="button" class="btn d-flex flex-column justify-content-center 
                         align-items-center app-matches-menu-listitem {{l ? 'app-no-border' : ''}} "
-                      (click)="toggleMatchSelect(i)">
+                      (click)="setSelectedMatch(i)">
                 <div class="hidden-sm-down app-matches-menu-line1">
                   {{log.date+' - '+log.tournament}}
                 </div>
@@ -44,17 +43,13 @@
               </button>
               <app-fab
                 fType         = "button"
-                fIcon         = "remove_circle"
+                fIcon         = "remove_circle_outline"
                 fIconColor    = "app-warn"
                 fButtonCSS    = "app-match-menu-delete-fab"
                 fIconCSS      = "app-match-menu-delete-icon"
                 [fOnClick]    = "deleteMatchMenuItem"
                 [fParam]      = "i">
               </app-fab>
-              <!-- <button type="button" (click)="deleteMatchMenuItem(i)" aria-label="delete item"
-                          class="btn d-flex flex-row justify-content-center align-items-center app-match-menu-delete-button" >
-                  <i class="material-icons app-warn app-match-menu-delete-icon">remove_circle</i>
-              </button> -->
             </div>
           </li>
         </ul>

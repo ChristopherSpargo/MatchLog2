@@ -42,8 +42,7 @@ export class LocationListComponent implements OnInit {
           this.formWasOpen = true;
       })
       .catch((error) => {
-          this.utilSvc.setUserMessage("noLocationsFound");
-          this.utilSvc.displayUserMessages();
+          this.utilSvc.displayThisUserMessage("noLocationsFound");
           this.itemList = [];
           this.formOpen = true;
           this.formWasOpen = true;

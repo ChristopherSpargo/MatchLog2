@@ -2,9 +2,9 @@
          Used with <app-update-actions> COMPONENT -->
     <div id="actions" class="d-flex flex-row justify-content-center align-items-center">
       <app-fab *ngIf="!fDeleteCheck" fAria="fAddCheck ? 'add' : 'save'" [fDisabled]="fDisabled"
-               fIcon="{{fAddCheck ? 'add_circle' : 'check_circle'}}">
+               fIcon="{{fAddCheck ? 'add_circle_outline' : 'check_circle_outline'}}">
       </app-fab>
       <app-fab *ngIf="fDeleteCheck" fAria="remove" [fDisabled]="fDisabled"
-               fIcon="remove_circle" fIconColor="app-warn">
+               fIcon="remove_circle_outline" fIconColor="app-warn">
       </app-fab>
     </div>

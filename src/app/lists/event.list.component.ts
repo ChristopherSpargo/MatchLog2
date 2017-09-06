@@ -20,7 +20,7 @@ export class EventListComponent implements OnInit {
   selectedItem        : string    = "";
   newItemName         : string    = "";
   deleteItem          : boolean   = false;
-  itemList            : string[]  = [];
+  itemList            : string[]  = undefined;
   requestStatus       : { [key: string]: any }  = {};
   working             : boolean   = false;
   formOpen            : boolean   = false;
@@ -42,8 +42,7 @@ export class EventListComponent implements OnInit {
           this.formWasOpen = true;
       })
       .catch((error) => {
-          this.utilSvc.setUserMessage("noEventsFound");
-          this.utilSvc.displayUserMessages();
+          this.utilSvc.displayThisUserMessage("noEventsFound");
           this.itemList = [];
           this.formOpen = true;
           this.formWasOpen = true;

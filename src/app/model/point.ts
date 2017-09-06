@@ -145,11 +145,13 @@ export class Point {
       result.errorDetail = UNFORCED_ERROR_DETAILS[this.unforcedErrorDetail];
     }
     if(this.pointEndedBy == DOUBLE_FAULT_POINT_ENDING){
+      result.endedByDouble = true;
       result.secondServeIn = "Out";
       result.serve = "Double";
       result.returnIn = "";          
     }
     else {
+      result.endedByDouble = false;
       result.secondServeIn = this.firstServeIn ? "" : "In";
     }
     result.endedByForceOrAce = result.endedByAce = result.endedByForce = false;

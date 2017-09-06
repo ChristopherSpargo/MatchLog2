@@ -1,7 +1,7 @@
 // Constants used by MatchLog2
 
 export const IMAGE_DIRECTORY      : string = "assets/images/";
-export const ML_VERSION           : string = "2.0";
+export const ML_VERSION           : string = "2.1";
 export const ML_DATA_VERSION      : number = 2.0;
 export const FORM_HEADER_ICON     : string = "tennisBall3.jpe";
 export const SCORE_BALL_IMAGE     : string = "tennisBall4.jpg";

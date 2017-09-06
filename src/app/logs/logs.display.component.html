@@ -1,12 +1,11 @@
- <div class="container px-2 py-3 app-pan-y"
+ <div class="container px-2 py-3"
       [class.app-open]="matchViewOpen">  
   <div *ngIf="viewTabOpen()" class=" app-no-scroll ">
     <div class="app-theme-inherit">
       <div class="d-flex flex-column">
-        <!-- Describe the dataset. Allow swiping left/right to change tabs in this area -->
+        <!-- Describe the dataset. -->
         <div class="d-flex flex-column app-vertical-expand app-tb-padding-4px 
-                    app-match-display-header app-lr-padding-8px app-pan-y"
-            (swipeleft)="nextTab()" (swiperight)="prevTab()"
+                    app-match-display-header app-lr-padding-8px"
             [class.app-open]="getEventInfoOpen()">
 
           <!-- section for single match situations -->
@@ -108,7 +107,8 @@
               <!--display the score in the current game, if any-->
               <button *ngIf="selectedMatch().currGame" type="button"
                       class="btn d-flex flex-column justify-content-center align-items-center
-                            app-match-display-set-button app-cursor-default app-transparent app-check-green ">
+                            app-match-display-set-button app-cursor-default 
+                            app-viewlogs-button-theme app-transparent app-check-green ">
                 <div class="app-match-display-score-set">
                   {{selectedMatch().currGame[0]}}
                 </div>
@@ -197,8 +197,7 @@
 
         <!-- Display player names, current display item label and maybe a serving indicator
               and a who won indicator.  Also, allow user to swipe left/right to change tabs in this area -->
-        <div class="d-flex flex-row app-no-overflow app-pan-y py-1" 
-              (swipeleft)="nextTab()" (swiperight)="prevTab()">
+        <div class="d-flex flex-row app-no-overflowy py-1">
             <div class="d-flex flex-row justify-content-center align-items-end app-match-stats-player-name app-flex-1">
               <img class=" app-match-stats-service-img " [src]="ballImage" 
                   [class.app-invisible]="!playerServed && (!playerServing || opponentServed)"/>
@@ -241,8 +240,7 @@
 	<!-- Display the stats section of a match log view -->
 
 	<div *ngIf="viewTabOpen()" class=" app-match-stats-frame " >
-   	<div class="app-theme-inherit app-bottom-padding-8px app-pan-y"
-						(swipeleft)="nextTab()" (swiperight)="prevTab()">
+   	<div class="app-theme-inherit app-bottom-padding-8px">
       <div *ngIf="selectedMatch() && !selectedPoint()" 
            class="d-flex flex-column app-viewlogs-text ">
 <!-- Synopsis -->
@@ -501,9 +499,12 @@
 		    								fLabel="Return:" [fValue]="pointInfo.returnIn"
 		    								[fWing]="pointInfo.returnWing">
 		    </app-point-item> 
-		    <app-point-item *ngIf="!pointInfo.endedByAce"
+		    <app-point-item *ngIf="!pointInfo.endedByAce && !pointInfo.endedByDouble"
 		    								fLabel="Last Shot:" [fValue]="pointInfo.pointEndedBy"
 		    								[fWing]="pointInfo.lastShotWing">
+		    </app-point-item> 
+		    <app-point-item *ngIf="pointInfo.endedByDouble"
+		    								fLabel="Last Shot:" [fValue]="pointInfo.pointEndedBy">
 		    </app-point-item> 
 		    <app-point-item *ngIf="pointInfo.endedByAce"
 		    								fLabel="Last Shot:" [fValue]="pointInfo.pointEndedBy"
@@ -575,7 +576,7 @@
                     fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-3"
                     [fOnClick]  = "closeSDDelete"
                     fAria       = "delete"
-                    fIcon       = "remove_circle"
+                    fIcon       = "remove"
                     fIconCSS    = "app-fab-icon-sm"
                     fIconColor  = "app-retro-red">
             </app-fab>
@@ -584,9 +585,10 @@
                     [fOpen]     = "speedDialOpen"
                     fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-4"
                     [fOnClick]  = "closeSDEdit"
+                    [fDelay]    = "200"
                     fAria       = "edit"
                     fIcon       = "edit"
-                    fIconCSS    = "app-fab-icon-sm"
+                    fIconCSS    = "app-fab-icon-xsm"
                     fIconColor  = "app-brite-orange">
             </app-fab>
           </div>

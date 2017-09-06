@@ -1,6 +1,5 @@
-<div id="view-top" class="container px-2 py-3 app-pan-y"
-    [class.app-open]="searchFormOpen" 
-    (swipeleft)="nextTab()"  (swiperight)="prevTab()">
+<div id="view-top" class="container px-2 py-3"
+    [class.app-open]="searchFormOpen">
 
   <!-- Form for search filtering options -->
 
@@ -64,7 +63,7 @@
         fIcon       = "swap_horiz"
         fIconColor  = "app-court-ltgreen"
         [(fModel)]  = "handed" 
-        [fOnFocus]      = "clearRequestStatus"
+        [fOnFocus]  = "clearRequestStatus"
         [fOnChange] = "filterPlayerLists"
         fValues     = "Right|Left|" 
         fLabels     = "Right|Left|Either" 

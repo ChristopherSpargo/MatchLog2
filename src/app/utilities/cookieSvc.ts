@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 //the subitems are delimeted with vertical bar (|)
 const appCookie = "MatchLogCookie";
 
-
+@Injectable()
 export class CookieSvc { 
 
   // look for cookie named cname and return its value if found and "" if not

@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChildren, QueryList, Input, OnDestroy } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({

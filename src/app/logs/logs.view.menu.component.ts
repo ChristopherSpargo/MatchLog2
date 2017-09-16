@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo, CurrentMatch } from '../app.globals';
 import { DataSvc } from '../model/dataSvc';

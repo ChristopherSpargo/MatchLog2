@@ -9,7 +9,6 @@ import { Profile } from '../model/profile'
 declare function Firebase(path: string): void;
 
 @Injectable()
-
 export class FireBaseSvc {
 
 fbRef;

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { NgForm } from "@angular/forms";
 import { NgbTabChangeEvent, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo, CurrentMatch } from '../app.globals';

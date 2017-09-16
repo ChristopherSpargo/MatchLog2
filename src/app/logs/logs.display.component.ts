@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgForm } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { GraphsSvc } from '../model/graphsSvc';
 import { UserInfo, CurrentMatch } from '../app.globals';

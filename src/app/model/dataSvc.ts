@@ -377,7 +377,9 @@ export class DataSvc {
               var p = pList[i];
               result.push({id: p.id, name: p.firstName+' '+p.lastName,
                           firstName: p.firstName, lastName: p.lastName,
-                          firstInitial: p.firstName.charAt(0).trim(), notes: p.notes,
+                          firstInitial: p.firstName.charAt(0) !== '#' ? p.firstName.charAt(0).trim() 
+                                                                      : p.firstName.charAt(1).trim(), 
+                          notes: p.notes,
                           handed: p.handed, gender: p.gender, createdOn: p.createdOn}) 
             } 
             resolve(result);})

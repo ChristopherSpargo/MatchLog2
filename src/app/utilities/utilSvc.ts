@@ -1,22 +1,16 @@
 ﻿
   //SERVICE to perform various UTILITY functions
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { StateService } from "@uirouter/angular";
-import { ToasterService, ToasterConfig, Toast, BodyOutputType } from 'angular2-toaster';
+import { ToasterService, Toast, BodyOutputType } from 'angular2-toaster';
 import { AboutStatus, UserInfo } from '../app.globals';
 import { ModalComponent } from '../modal/modal.component';
 
 @Injectable()
-export class UtilSvc implements OnInit {
-
-  toastConfig : ToasterConfig;
+export class UtilSvc {
 
     constructor(private user: UserInfo, private stateService: StateService, private aboutStatus: AboutStatus,
       private toasterService: ToasterService, private modalSvc: ModalComponent) {
-    }
-
-    ngOnInit() {
-      this.toastConfig = new ToasterConfig({positionClass: 'toast-bottom-left'});
     }
 
     // scroll to top of window
@@ -136,7 +130,7 @@ export class UtilSvc implements OnInit {
               msgDuration = 2500;
               break;
             case 'signInToReview':
-              msgText = "Please sign in to review your saved matches.";
+              msgText = "Please sign in to review matches.";
               msgDuration = 2500;
               break;
             case 'signInToAccessLists':
@@ -144,7 +138,7 @@ export class UtilSvc implements OnInit {
               msgDuration = 2500;
               break;
             case 'signInToAccessAccount':
-              msgText = "Please sign in to access your account.";
+              msgText = "Please sign in for account access.";
               msgDuration = 2500;
               break;
             case 'profileUpdated':
@@ -286,7 +280,6 @@ export class UtilSvc implements OnInit {
             type: msgType,
             timeout: msgDuration,
             // title: 'Here is a Toast Title',
-            toasterConfig: this.toastConfig,
             body: msgText
             // body: "<div class='app-toast-msg'>" + msgText + "</div>",
             // bodyOutputType: BodyOutputType.TrustedHtml

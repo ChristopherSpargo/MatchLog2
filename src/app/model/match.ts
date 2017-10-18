@@ -1,6 +1,7 @@
 import { TSet, SIX_GAME_SET_TYPE, EIGHT_GAME_SET_TYPE, TIEBREAK_SET_TYPE, SetData } from './set';
 import { PLAYER_ID, OPPONENT_ID } from '../constants'
 import { Point } from './point'
+import { Game, TIEBREAK_GAME_TYPE } from './game'
 
 // this object represents a location in a Match data stream
 export interface MatchPosition {
@@ -169,15 +170,23 @@ export class Match {
 
   //return the formatted current score for this match at the given position
   //return score after last point in match if no position specified
-  getFormattedScore(position?: MatchPosition) : string {
+  getFormattedScore(position: MatchPosition) : string {
     var i;
     var msg = "";
-    var setsNum = (position && (position.set != undefined)) ? position.set-1 : this.sets.length-1;
+    var sId : number;
+    var pos : MatchPosition = <MatchPosition>{};
+    var setIndex = (position.set !== undefined) ? position.set-1 : this.sets.length-1;
 
-    for(i=0; i<setsNum; i++){
-      msg += this.sets[i].getFormattedScore();
+    if(this.sets[setIndex].type !== TIEBREAK_SET_TYPE){
+      pos.game = position.game !== undefined ? position.game :  this.sets[setIndex].games.length-1;
     }
-    msg += this.sets[setsNum].getFormattedScore(position);
+    pos.point = position.point;
+    sId = this.sets[setIndex].getServerId(pos);      //get the proper serverId
+    pos.game = pos.point = undefined;
+    for(i=0; i<setIndex; i++){
+      msg += this.sets[i].getFormattedScore(pos, sId); //get scores of earlier sets
+    }
+    msg += this.sets[setIndex].getFormattedScore(position, sId);
     return msg;
   }
 

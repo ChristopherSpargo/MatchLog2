@@ -344,15 +344,15 @@ export class TSet {
   }
 
   getServerId(setPosition: MatchPosition): number {
-    var sId;
+    var sId : number;
 
     switch(this.type){
       case TIEBREAK_SET_TYPE:
-        sId = this.points[setPosition.point].serverId;
+        sId = setPosition.point !== undefined ? this.points[setPosition.point].serverId : this.serverId;
         break;
       case SIX_GAME_SET_TYPE:
       case EIGHT_GAME_SET_TYPE:
-        //if no point index given, get the serverId from the game before the one specified in setPosition
+        //if no point index given, get the serverId from the game after the one specified in setPosition
         sId = this.games[(setPosition.point == undefined) ? setPosition.game : setPosition.game-1]
                           .getServerId(setPosition.point);
         break;
@@ -361,12 +361,13 @@ export class TSet {
   }
 
   //return the formatted current score for this set at the given position (game number and point index)
-  getFormattedScore(setPosition: MatchPosition): string {
+  getFormattedScore(setPosition: MatchPosition, sId?: number): string {
     var msg: string = "";
-    var sId: number;
 
     this.computeScore(setPosition);
-    sId = this.getServerId(setPosition);
+    if(sId === undefined){
+      sId = this.getServerId(setPosition);
+    }
     switch(this.type){
       case TIEBREAK_SET_TYPE:
         msg = ((sId == PLAYER_ID) ? this.playerScore : this.opponentScore) + "-" + 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UIROUTER_DIRECTIVES } from '@uirouter/angular';
 import { ToasterConfig } from 'angular2-toaster';
 

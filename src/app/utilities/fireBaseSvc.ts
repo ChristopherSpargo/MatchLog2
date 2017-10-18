@@ -1,9 +1,5 @@
   //SERVICE to provide access to the Firebase database used for authentiction and storage of user profiles
 import { Injectable } from '@angular/core';
-import { StateService } from "@uirouter/angular";
-import { ToasterService, ToasterConfig, Toast } from 'angular2-toaster';
-import { UserInfo } from '../app.globals';
-import { ModalComponent } from '../modal/modal.component';
 import { Profile } from '../model/profile'
 
 declare function Firebase(path: string): void;
@@ -14,8 +10,7 @@ export class FireBaseSvc {
 fbRef;
 fbUsersRef;
 
-  constructor(private user: UserInfo, private stateService: StateService, 
-    private toasterService: ToasterService, private modalSvc: ModalComponent) {
+  constructor() {
       
     this.fbRef = new Firebase("https://luminous-torch-895.firebaseio.com/");
     this.fbUsersRef = new Firebase("https://luminous-torch-895.firebaseio.com/MatchLog/Users");

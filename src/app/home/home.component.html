@@ -1,14 +1,19 @@
 
     <!-- Main Toolbar for Small Screens -->
-
-  <div class=" nav app-toolbar-theme app-main-short-toolbar hidden-md-up 
+    <!-- Toolbar is a single row that starts with the Logo followed by
+    a set of feature buttons and finally a button to activate the full menu -->
+  <div  id="mainToolbarSm"
+        class=" nav app-toolbar-theme app-main-short-toolbar hidden-md-up 
                d-flex flex-row justify-content-between align-items-center">
+
+                <!-- Display the 2-line Logo Text -->
     <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
       <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
         <div class=" app-logo-text1 ">MatchLog</div>
         <div class=" app-logo-text2 app-text-center">Tennis Logs</div>
       </div>
     </div>
+                <!-- Now some feature buttons -->
     <button type="button" class="btn app-bar-feature-button "  
             data-toggle="tooltip" data-placement="top" title="View Logs" data-delay="200"
                 (click)="menuItemSelected('logsView')">
@@ -24,6 +29,7 @@
                 (click)="menuItemSelected('managePlayers')">
       <i class="material-icons app-bar-feature-icon" aria-label="manage players">face</i>
     </button>
+                <!-- Show different icon for Sign In .vs. Sign Out -->
     <button *ngIf="!loggedIn()" type="button" class="btn app-bar-feature-button "  
             data-toggle="tooltip" data-placement="top" title="Sign In" data-delay="200"
                 (click)="menuItemSelected('login')">
@@ -34,9 +40,9 @@
                 (click)="logout($event)">
       <i class="material-icons app-bar-feature-icon" aria-label="sign out">person</i>
     </button>
-    <!--slide-down menu activation icon-->
+                <!--slide-down menu activation icon-->
     <div class=" d-flex flex-row app-slidedown-menu-button ">
-      <button type="button" class="btn app-slidedown-menu-button app-menu-button app-no-margin "  
+      <button id="slideDownBtn" type="button" class="btn app-slidedown-menu-button app-menu-button app-no-margin "  
               data-toggle="tooltip" data-placement="top" title="Menu" data-delay="200"
                   (click)="toggleSlidenav()"
                   [disabled]="aboutOpen()">
@@ -56,12 +62,12 @@
         
                               <!-- Main SideDown Menu -->
 
-  <div 
+  <div id="slideDownMenu"
        class="hidden-md-up app-slide-menu app-slide-down" 
        [class.app-open]="slidenavOpen()">
     <div class="d-flex flex-column justify-content-start align-items-start app-whiteframe-2dp app-frame app-scrollable">
         <ul class="d-flex flex-column app-slide-menu-ul app-form-theme">
-          <li>
+          <li id="logsMenu">
             <button type="button" class="btn app-slide-menu-listitem" (click)="toggleLogsMenu()">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-logs-color app-menu-item-icon">assignment</i>
@@ -101,7 +107,7 @@
               </ul>
             </div>
           </li>
-          <li>
+          <li id="listsMenu">
             <button type="button" class="btn app-slide-menu-listitem" (click)="toggleListsMenu()">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-lists-color app-menu-item-icon ">list</i>
@@ -150,7 +156,7 @@
               </ul>
             </div>
           </li>
-          <li>
+          <li id="accountMenu">
             <button type="button" class="btn app-slide-menu-listitem" (click)="toggleAccountMenu()">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-accounts-color app-menu-item-icon ">folder_open</i>
@@ -200,7 +206,7 @@
             </div>
           </li>
           <li>
-            <button type="button" class="btn app-slide-menu-listitem" (click)="toggleAboutMenu()">
+            <button id="aboutMenuBtn" type="button" class="btn app-slide-menu-listitem" (click)="toggleAboutMenu()">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-about-color app-menu-item-icon ">info_outline</i>
                 About
@@ -210,7 +216,7 @@
             <div class="app-slidenav-submenu" [class.app-open]="aboutMenuOpen()">
               <ul class=" app-slide-menu-ul ">
                 <li>
-                  <button type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
+                  <button id="aboutMatchLogBtn" type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
                           (click)="showAbout('UsingMatchLog')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-about-color app-menu-item-icon-sm">assignment</i>
@@ -219,7 +225,7 @@
                   </button>
                 </li>
                 <li>
-                  <button type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
+                  <button id="aboutContactBtn" type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
                           (click)="showAbout('ContactUs')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-about-color app-menu-item-icon-sm">message</i>
@@ -248,7 +254,7 @@
             </div>
           </li>
           <li *ngIf="!loggedIn()">
-            <button type="button" aria-label="sign in"
+            <button id="signInBtn" type="button" aria-label="sign in"
                        class="btn app-slide-menu-listitem " (click)="menuItemSelected('login')">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-retro-ltblue app-menu-item-icon">person_outline</i>
@@ -257,7 +263,7 @@
             </button>
           </li>
           <li *ngIf="loggedIn()">
-            <button type="button" aria-label="sign out"
+            <button id="signOutBtn" type="button" aria-label="sign out"
                        class="btn app-slide-menu-listitem " (click)="closeSlidenav(); logout($event)">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-retro-ltblue app-menu-item-icon">person</i>
@@ -270,17 +276,22 @@
   </div>
 
   <!-- Main Toolbar for Other Screen Sizes -->
+  <!-- Toolbar is a single row that starts with the Logo followed by
+  a number of drop-down menus, a Sign In/Sign Out button and finally 
+  an icon indicating signed in status -->
 
-  <div class=" nav app-toolbar-theme app-main-short-toolbar hidden-sm-down 
+  <div  id="mainToolbarLg"
+        class=" nav app-toolbar-theme app-main-short-toolbar hidden-sm-down 
                d-flex flex-row justify-content-between align-items-center">
     <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
       <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
-        <div class=" app-logo-text1 ">MatchLog</div>
-        <div class=" app-logo-text2 app-text-center">Tennis Logs</div>
+        <div class="app-logo-text1">MatchLog</div>
+        <div class="app-logo-text2 app-text-center">Tennis Logs</div>
       </div>
     </div>
-    <ul class="nav app-white">
-      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+    <ul id="mainMenu" class="nav app-white">
+                <!-- Dropdown menu for logging features -->
+      <li id="logsMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
         <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
            href="#" role="button" aria-haspopup="true" aria-expanded="false">Match Logs</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
@@ -289,7 +300,8 @@
           <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsResume">Resume a Match Log</a>
         </div>
       </li>
-      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+                <!-- Dropdown menu for list management features -->
+      <li id="listsMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
         <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" href="#" 
            role="button" aria-haspopup="true" aria-expanded="false">List Management</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
@@ -299,7 +311,8 @@
           <a role="button" class="dropdown-item app-dropdown-text" uiSref="manageTournaments">Manage Tournaments</a>
         </div>
       </li>
-      <li ngbDropdown class="nav-item dropdown app-lt-border-right">
+                <!-- Dropdown menu for account management features -->
+      <li id="accountMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
         <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" href="#" 
            role="button" aria-haspopup="true" aria-expanded="false">Account</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
@@ -309,25 +322,28 @@
           <a role="button" class="dropdown-item app-dropdown-text" uiSref="accountDelete">Delete Account</a>
         </div>
       </li>
+                <!-- Dropdown menu for about features -->
       <li ngbDropdown class="nav-item dropdown app-lt-border-right">
-        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
+        <a  id="aboutMenuBtn" ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
            href="#" role="button" aria-haspopup="true" aria-expanded="false">About</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
-          <a role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('UsingMatchLog')">Using Matchlog</a>
-          <a role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting Matchlog</a>
+          <a id="aboutMatchLogBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('UsingMatchLog')">Using MatchLog</a>
+          <a id="aboutContactBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting MatchLog</a>
           <a class="dropdown-item app-dropdown-disabled-text">
             User:{{loggedIn() ? ' ' + userEmail() : ' Not signed in'}}</a>
           <a class="dropdown-item app-dropdown-disabled-text">MatchLog Version: {{' ' + version}}</a>
         </div>
       </li>
-      <li *ngIf="!loggedIn()" class="nav-item">
+                <!-- Button for Sign In/Sign Out function -->
+      <li id="signInBtn" *ngIf="!loggedIn()" class="nav-item">
         <a role="button" class="nav-link app-toolbar-text" (click)="closeSlidenav()" uiSref="login">Sign In</a>
       </li>
-      <li *ngIf="loggedIn()" class="nav-item app-toolbar-text">
+      <li id="signOutBtn" *ngIf="loggedIn()" class="nav-item app-toolbar-text">
         <a role="button" class="nav-link app-toolbar-text" (click)="closeSlidenav(); logout($event)">Sign Out</a>
       </li>
     </ul>  
-    <div class="pr-2 d-flex flex-row align-items-center">
+                <!-- Icon for signed in/out status -->
+    <div id="authStatus" class="pr-2 d-flex flex-row align-items-center">
       <i *ngIf="!loggedIn()" class="material-icons">person_outline</i>
       <i *ngIf="loggedIn()" class="material-icons">person</i>
     </div>

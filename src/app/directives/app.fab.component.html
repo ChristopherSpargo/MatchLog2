@@ -1,6 +1,7 @@
     <!-- Template used to display a fab 
          Used with <app-fab> COMPONENT -->
-      <button  type="{{fType}}"  
+      <button  *ngIf="fLabel === ''" 
+              type="{{fType}}"  
               class="btn app-fab-button {{fButtonCSS}}" 
               [class.app-fab-click]="clicked" [attr.aria-label]="fAria"
               [class.app-open]="fOpen"
@@ -10,3 +11,18 @@
           <i class="material-icons {{fIconCSS}} {{fIconColor}}">{{fIcon}}</i> 
         </div>       
       </button>
+
+      <label *ngIf="fLabel !== ''" class="app-small-font mb-0">
+        {{fReverse ? fLabel : ''}}
+        <button type="{{fType}}"  
+                class="btn app-fab-button app-fab-m app-bg-fab-gray mb-1 {{fButtonCSS}}" 
+                [class.app-fab-click]="clicked" [attr.aria-label]="fAria"
+                [class.app-open]="fOpen"
+                [disabled]="fDisabled"
+                (click)="fabClicked()">
+          <div class="d-flex flex-row justify-content-center align-items-center">
+            <i class="material-icons app-fab-icon-m {{fIconColor}}">{{fIcon}}</i> 
+          </div>       
+        </button>
+        {{!fReverse ? fLabel : ''}}
+      </label>

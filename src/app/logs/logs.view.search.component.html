@@ -125,8 +125,16 @@
       </app-form-messages>                    
 
       <!-- Actions Area -->
-
-      <app-update-actions></app-update-actions>
+      <app-update-actions
+        [fLabels]     ="true"
+        fSLabel       ="Search"
+        >
+      </app-update-actions>
+                        
+      <!-- Button to close form -->
+      <app-footer-button 
+        [fOnClick]      = "closeView">
+      </app-footer-button>
 
     </div>
   </form>

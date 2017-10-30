@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo, CurrentMatch } from '../app.globals';
+import { PUBLIC_USER_ID } from '../constants'
 import { DataSvc, TOURNAMENT_TABLE_NAME } from '../model/dataSvc';
 import { GraphsSvc } from '../model/graphsSvc';
 import { MENU_TAB, MENU_TAB_ID } from './logs.view.component'
@@ -15,7 +16,9 @@ interface FilterData {
   handed      : string,
   startDate   : string,
   endDate     : string,
-  sortOrder   : string
+  sortOrder   : string,
+  checkEmail ?: string,
+  userId     ?: string
 }
 
 @Component({
@@ -24,16 +27,17 @@ interface FilterData {
 })
 export class LogsViewSearchComponent implements OnInit {
 @Input() searchFormOpen   : boolean;
+@Input() viewPublics      : boolean = false;  // indicates user is viewing public matches
 
   matchList     : Match[];
-    playerId    : number | string = '0'; 
-    opponentId  : number | string = '0';
-    startDate   : string = "";
-    endDate     : string = "";
-    wonLost     : string = "";
-    tournament  : string = "0";
-    handed      : string = "";
-    sortOrder   : string = "D";
+  playerId    : number | string = '0'; 
+  opponentId  : number | string = '0';
+  startDate   : string = "";
+  endDate     : string = "";
+  wonLost     : string = "";
+  tournament  : string = "0";
+  handed      : string = "";
+  sortOrder   : string = "D";
   playerSelectList      : any[];
   opponentSelectList    : any[];
   requestStatus    : { [key: string]: any } = {};
@@ -48,10 +52,15 @@ export class LogsViewSearchComponent implements OnInit {
 
   ngOnInit() {
     if(!this.userInfo.authData) { return; }
-    this.dataSvc.getList(TOURNAMENT_TABLE_NAME) //read current list of tournaments
+    //read appropriate list of tournaments
+    this.dataSvc.getList(TOURNAMENT_TABLE_NAME, this.viewPublics ? PUBLIC_USER_ID : undefined) 
     .then((tList) => {
       this.tournamentList = <string[]>tList;
-      this.playerId = this.userInfo.profile.defaultPlayerId || 0;
+      if(!this.viewPublics && this.userInfo.profile.defaultPlayerId) {
+        this.playerId = this.userInfo.profile.defaultPlayerId;
+      } else {
+        this.playerId = '0';
+      }
       // now wait a bit for the player list to be 
       setTimeout( () => {
         this.filterPlayerLists();
@@ -83,13 +92,17 @@ export class LogsViewSearchComponent implements OnInit {
     request.tournament  = this.tournament !== "0" ? this.tournament : "";
     request.handed      = this.handed;
     request.sortOrder   = this.sortOrder;
+    if(this.viewPublics && (this.userInfo.authData.uid !== PUBLIC_USER_ID)){
+      request.checkEmail = this.userInfo.userEmail;
+      request.userId = this.userInfo.authData.uid;
+    }
     this.currentMatch.matchList = undefined;
     this.currentMatch.matchSelectFlags = [];
 
     this.utilSvc.emitEvent("searchUpdate");
     this.matchViewOpen = false;
     this.utilSvc.scrollToTop();
-    this.dataSvc.getMatches(request)
+    this.dataSvc.getMatches(request,this.viewPublics ? PUBLIC_USER_ID : undefined)
     .then((list) => {
       this.working = false;
       this.currentMatch.matchList = <Match[]>list;
@@ -169,6 +182,11 @@ export class LogsViewSearchComponent implements OnInit {
   // move to the next tab in the tab set
   public prevTab = () => {
     this.utilSvc.emitEvent("prevTab");
+  }
+
+  // close the View Logs display
+  public closeView = () => {
+    this.utilSvc.emitEvent("closeView");
   }
 
 

@@ -1,54 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
-import { UtilSvc } from '../utilities/utilSvc';
-import { UserInfo } from '../app.globals';
-import { DataSvc, EVENT_TABLE_NAME } from '../model/dataSvc'
+import { Match } from '../model/match'
 
-    // COMPONENT for MANAGE EVENTS feature
+import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  templateUrl: 'event.list.component.html'
+  templateUrl: 'public.match.settings.modal.component.html'
 })
-export class EventListComponent implements OnInit {
-  constructor(private user: UserInfo, private utilSvc: UtilSvc, private dataSvc: DataSvc){
-  };
 
+export class PublicMatchSettingsModalComponentTemplate implements OnInit {
+  @Input() mode       : string;
+  @Input() title      : string;
+  @Input() itemList   : string[];
+  @Input() player     : string;
+  @Input() opponent   : string;
+  @Input() matchDate  : string;
+  @Input() okText     : string;
+  @Input() deleteText : string;
+  @Input() cancelText : string;
+  @Input() openModal  : boolean;
 
-  itemName  = "";
-  action    = "";
   checkAll            : boolean   = false; //true if form fields to be checked for errors (touched or not)
-
+  deleteMatch         : boolean   = false;
+  itemName            : string    = "";
   selectedItem        : string    = "";
   newItemName         : string    = "";
   deleteItem          : boolean   = false;
-  itemList            : string[]  = undefined;
+  // itemList            : string[]  = ['testuser@gmail.com'];
   requestStatus       : { [key: string]: any }  = {};
   working             : boolean   = false;
-  formOpen            : boolean   = false;
-  formWasOpen         : boolean   = false;
+
+  constructor(public activeModal: NgbActiveModal) {}
+
 
   ngOnInit() {
-  // make the user log in to manage lists
-    if (!this.user.authData) {
-      this.utilSvc.returnToHomeMsg("signInToAccessLists"); // let user know they need to log in
-    }
-    else{
-      // update the current help context and open the Event Management form
-      this.utilSvc.setCurrentHelpContext("ManageEvents"); // note current state
-      this.utilSvc.displayUserMessages();;
-      this.dataSvc.getList(EVENT_TABLE_NAME)
-      .then((list) => {
-          this.itemList = <string[]>list;
-          this.formOpen = true;
-          this.formWasOpen = true;
-      })
-      .catch((error) => {
-          this.utilSvc.displayThisUserMessage("noEventsFound");
-          this.itemList = [];
-          this.formOpen = true;
-          this.formWasOpen = true;
-      });
-    }
+    if(this.itemList === undefined){ this.itemList = [];}
   }
 
   // delete the item that has been selected
@@ -57,11 +43,14 @@ export class EventListComponent implements OnInit {
     this.submitRequest(form)
   }
 
+
   // prepare and send request to database service
   submitRequest(form : NgForm) : void {
     var msg   : string, 
         msgId : string,
-        action: string;
+        action: string,
+        index: number;
+
     this.checkAll = true;
     this.clearRequestStatus();
     if(this.checkForProblems(form)){   // can't do anything yet, form still has errors
@@ -69,7 +58,7 @@ export class EventListComponent implements OnInit {
     }
     this.working = true;
     this.itemName = this.newItemName;
-    msg = "Event " + "'" + this.itemName + "'";
+    msg = "Email " + "'" + this.itemName + "'";
     // now set the action to perform and the status message for the user
     if(this.selectedItem == "999"){  // user specify new item name?
       msgId = "listItemAdded";
@@ -84,27 +73,22 @@ export class EventListComponent implements OnInit {
         action = "Remove";
       }
     }
-    this.dataSvc.updateList(EVENT_TABLE_NAME, this.itemName, action, parseInt(this.selectedItem))   // send the update
-    .then((success) => {
-      this.utilSvc.setUserMessage(msgId, msg);
-      this.utilSvc.displayUserMessages();
-      this.resetForm(form);
-      this.dataSvc.getList(EVENT_TABLE_NAME)  // re-read the list
-      .then((list) => {
-        this.requestStatus.updateSuccess = true;
-        this.itemList = <string[]>list;
-        this.working = false;
-      })
-      .catch((error) => {
-          this.utilSvc.displayThisUserMessage("errorReadingEventList");
-          this.working = false;
-      });
-    })
-    .catch((error) => {
-        this.utilSvc.displayThisUserMessage("errorUpdatingEventList");
-        this.resetForm(form);
-        this.working = false;
-    });
+    index = parseInt(this.selectedItem);
+    switch(action){
+      case "Update":
+        this.itemList[index] = this.itemName;      // update entry
+      break;
+      case "Remove":
+        this.itemList.splice(index,1);    // remove entry
+      break;
+      case "Add":
+      default:
+        this.itemList.push(this.itemName);         // Add entry          
+      break;
+    }
+    this.requestStatus[msgId] = true;
+    this.resetForm(form);
+    this.working = false;
   }
 
   // user has selected a list entry, copy it to the edit field
@@ -123,7 +107,7 @@ export class EventListComponent implements OnInit {
   resetForm(form : NgForm) : void {
     if(form){
       form.resetForm();
-    }
+   }
     this.checkAll = false;
     this.selectedItem = "";
     this.deleteItem   = false;
@@ -152,11 +136,26 @@ export class EventListComponent implements OnInit {
       return true;
     }
     return this.selectedItem == "";
- }
-
-  // set form closed flag, wait for animation to complete before changing states to 'home'
-  closeForm = () => {
-    this.formOpen = false;
-    this.utilSvc.returnToHomeState(400);
   }
+
+  // call the resolve method after waiting for closing animation
+  close = () => {
+    var result : any = {};
+    result.delete = this.deleteMatch;
+    result.create = this.mode === 'Create';
+    result.list = this.itemList.length ? this.itemList : undefined;
+    this.openModal = false;
+    setTimeout( () => {
+      this.activeModal.close(result);
+    }, 400)
+  }
+
+  // call the resolve method after waiting for closing animation
+  dismiss = () => {
+    this.openModal = false;
+    setTimeout( () => {
+      this.activeModal.dismiss("CANCEL");
+    }, 400)
+  }
+
 }

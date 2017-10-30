@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from "@angular/forms";
+import { NgForm, AbstractControl } from "@angular/forms";
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo } from '../app.globals';
 import { DataSvc } from '../model/dataSvc';
@@ -14,18 +14,18 @@ export class PlayerListComponent implements OnInit {
   
   constructor(private user: UserInfo, private utilSvc: UtilSvc, private dataSvc: DataSvc){};
 
+  checkAll            : boolean   = false; //true if form fields to be checked for errors (touched or not)
   selectedItem        : string    = "";
   newItemName         : string    = "";
   deleteItem          : boolean   = false;
-  item                : PlayerData = {
-    id          : 0,
-    firstName   : "",
-    lastName    : "",
-    handed      : DEFAULT_HANDED_TYPE,
-    gender      : DEFAULT_GENDER_TYPE,
-    notes       : "",
-    createdOn   : this.utilSvc.formatDate()
-  };
+  todaysDate          : string    = this.utilSvc.formatDate();
+    id          : number = 0;
+    firstName   : string = "";
+    lastName    : string = "";
+    handed      : string = DEFAULT_HANDED_TYPE;
+    gender      : string = DEFAULT_GENDER_TYPE;
+    notes       : string = "";
+    createdOn   : string = this.todaysDate;
   itemList            : PlayerData[]  = [];
   requestStatus       : { [key: string]: any } = {};
   working             : boolean   = false;
@@ -56,21 +56,29 @@ export class PlayerListComponent implements OnInit {
       });
     }
   }
+
+  // delete the item that has been selected
+  deleteSelectedItem = (form : NgForm) => {
+    this.deleteItem = true;
+    this.submitRequest(form)
+  }
+  
   // prepare and send request to database service
   submitRequest(form : NgForm) : void {
     var pData : PlayerData = <PlayerData>{};
     var action = "";
     var msg = "", msgId = "";
 
+    this.checkAll = true;
     this.clearRequestStatus();
     if(form.invalid){   // can't do anything yet, form still has errors
       this.requestStatus.formHasErrors = true;
       return;
     }
     this.working = true;
-    msg = "Player '" + this.item.firstName + " " + this.item.lastName + "'";
+    msg = "Player '" + this.firstName + " " + this.lastName + "'";
     if(this.selectedItem == "999"){   // give new player the next id number
-      this.item.id = this.user.profile.getNextPlayerId();
+      this.id = this.user.profile.getNextPlayerId();
       this.dataSvc.updateUserProfile(this.user);
       action = "Add";
       msgId = "listItemAdded";
@@ -84,14 +92,14 @@ export class PlayerListComponent implements OnInit {
         msgId = "listItemRemoved";
       }
     }
-    pData.id            = this.item.id;
-    pData.firstName     = this.item.firstName;
-    pData.lastName      = this.item.lastName;
-    pData.handed        = this.item.handed;
-    pData.gender        = this.item.gender;
-    pData.createdOn     = this.item.createdOn;
-    this.selectedItem = "999";
-    if(this.item.notes != ""){pData.notes = this.item.notes;} // can't store empty string in Database
+    pData.id            = this.id;
+    pData.firstName     = this.firstName;
+    pData.lastName      = this.lastName;
+    pData.handed        = this.handed;
+    pData.gender        = this.gender;
+    pData.createdOn     = this.createdOn;
+    // this.selectedItem = "999";
+    if(this.notes != ""){pData.notes = this.notes;} // can't store empty string in Database
     this.dataSvc.updatePlayerList(pData, action)   //  send the update
     .then((success) => {
       this.dataSvc.getPlayers()  //  re-read the player list
@@ -132,39 +140,42 @@ export class PlayerListComponent implements OnInit {
   }
 
   // get the form ready for another operation
-  resetForm(form : NgForm) : void {
+  resetForm = (form ?: NgForm) => {
+    this.clearRequestStatus();
+    if(form){
+      form.controls.itemName.markAsUntouched();
+      form.controls.pFirst.markAsUntouched();
+      form.controls.pLast.markAsUntouched();
+      form.controls.pNotes.markAsUntouched();
+    }
+    this.checkAll = false;
     this.selectedItem = "";  // set no selected player
     this.deleteItem   = false;
     this.setItemFields();
-    if(form){
-      form.resetForm();
-      // the following line thwarts a display problem on mobile(Android) when
-      // focus stays with the itemName field after completion of an operation
-      // document.getElementById("deleteCheckBox").focus();
-    }
   }
 
   // set the form fields to reflect the selected player or empty
   setItemFields = () => {
-    var i = this.getItemListIndex(parseInt(this.selectedItem));
+    var i = (this.selectedItem === '' || this.selectedItem === '999')
+                     ? 999 : this.getItemListIndex(parseInt(this.selectedItem));
 
     if(i != 999){
-      this.item.id        = this.itemList[i].id;
-      this.item.firstName = this.itemList[i].firstName;
-      this.item.lastName  = this.itemList[i].lastName;
-      this.item.handed    = this.itemList[i].handed;
-      this.item.gender    = this.itemList[i].gender;
-      this.item.notes     = this.itemList[i].notes;
-      this.item.createdOn = this.itemList[i].createdOn;
+      this.id        = this.itemList[i].id;
+      this.firstName = this.itemList[i].firstName;
+      this.lastName  = this.itemList[i].lastName;
+      this.handed    = this.itemList[i].handed;
+      this.gender    = this.itemList[i].gender;
+      this.notes     = this.itemList[i].notes;
+      this.createdOn = this.itemList[i].createdOn;
     }
     else{
-      this.item.id        = 0;
-      this.item.firstName = "";
-      this.item.lastName  = "";
-      this.item.handed    = DEFAULT_HANDED_TYPE;
-      this.item.gender    = DEFAULT_GENDER_TYPE;
-      this.item.notes     = "";
-      this.item.createdOn = this.utilSvc.formatDate();
+      this.id        = 0;
+      this.firstName = "";
+      this.lastName  = "";
+      this.handed    = DEFAULT_HANDED_TYPE;
+      this.gender    = DEFAULT_GENDER_TYPE;
+      this.notes     = "";
+      this.createdOn = this.todaysDate;
     }
   }
 

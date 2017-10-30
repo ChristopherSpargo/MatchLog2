@@ -16,8 +16,9 @@ export class AccountEmailComponent implements OnInit {
               private cookieSvc: CookieSvc){
   };
     
-    // CONTROLLER for CHANGE EMAIL address feature
+    // COMPONENT for CHANGE EMAIL address feature
 
+  checkAll           : boolean   = false; //true if form fields to be checked for errors (touched or not)
   currEmail          : string = this.user.userEmail;
   password           : string = "";
   newEmail           : string = "";
@@ -58,6 +59,7 @@ export class AccountEmailComponent implements OnInit {
 
   //send change email request to Firebase service
   submitRequest(form : NgForm) {
+    this.checkAll = true;
     this.clearRequestStatus();
     if(form.invalid){
       this.requestStatus.formHasErrors = true;
@@ -71,10 +73,10 @@ export class AccountEmailComponent implements OnInit {
     .catch((error) => {
       switch (error) {  //decide which status message to give
         case "EMAIL_TAKEN":
-          this.requestStatus.emailInUse = true;
+          this.requestStatus.newEmailInUse = true;
           break;
         case "INVALID_EMAIL":
-          this.requestStatus.emailInvalid = true;
+          this.requestStatus.newEmailInvalid = true;
           break;
         case "INVALID_PASSWORD":
           this.requestStatus.incorrectPassword = true;

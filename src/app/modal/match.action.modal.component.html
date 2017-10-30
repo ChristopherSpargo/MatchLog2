@@ -1,0 +1,19 @@
+<!--dialog template used for basic NOTICES and CONFIRMATIONS-->
+<div class="app-fade-in app-dialog-container" [ngClass]="{'app-open': openModal}">
+  <div class="modal-header app-dialog-header bg-info text-white">
+    <div class="modal-title d-flex flex-row justify-content-start align-items-center app-all-paddings-8px">
+      <div class="app-form-title">{{title}}</div>
+    </div>
+  </div>
+  <div class="modal-body app-confirm-dialog-content app-form-theme app-all-paddings-8px">
+    <div class="d-flex flex-row justify-content-center align-items-center">{{player}}</div>
+    <div class="d-flex flex-row justify-content-center align-items-center app-small-font">.vs.</div>
+    <div class="d-flex flex-row justify-content-center align-items-center">{{opponent}}</div>
+    <div class="d-flex flex-row justify-content-center align-items-center">on {{matchDate}}</div>
+  </div>
+  <div class="modal-footer d-flex flex-row justify-content-end align-items-center">
+    <button *ngIf="!notifyOnly" type="button" (click)="dismiss()" 
+            class="btn btn-sm app-green ">{{cancelText}}</button>
+    <button type="button" (click)="close()" class="btn btn-sm app-green">{{okText}}</button>
+  </div>
+</div>

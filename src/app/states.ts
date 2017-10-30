@@ -23,5 +23,7 @@ export const accountEmailState = { name: 'accountEmail', url: '/account-email', 
 export const accountPasswordState = { name: 'accountPassword', url: '/account-password',  component: AccountPasswordComponent };
 export const accountDeleteState = { name: 'accountDelete', url: '/account-delete',  component: AccountDeleteComponent };
 export const logsViewState = { name: 'logsView', url: '/logs-view',  component: LogsViewComponent };
+export const logsViewPublicState = { name: 'viewPublicLogs', url: '/logs-view-public',  component: LogsViewComponent };
+export const logsManagePublicState = { name: 'managePublicLogs', url: '/logs-manage-public',  component: LogsViewComponent };
 export const logsCreateState = { name: 'logsCreate', url: '/logs-create',  component: LogsCreateComponent };
 export const logsResumeState = { name: 'logsResume', url: '/logs-resume',  component: LogsCreateComponent };

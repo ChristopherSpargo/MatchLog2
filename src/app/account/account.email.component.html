@@ -21,12 +21,11 @@
         <div class="d-flex flex-column">
 
           <!-- Email field -->
-
           <app-icon-input
             [fForm]       = "emailForm" 
             fRef          = "cE" 
             fName         = "cEmail" 
-            [fReadonly]   = "true"
+            [fDisabled]   = "true"
             fType         = "email" 
             fLabel        = "Current Email Address"  
             fIcon         = "mail_outline"
@@ -35,9 +34,9 @@
           </app-icon-input>
 
           <!-- Password field -->
-
           <app-icon-input
             [fForm]       ="emailForm" 
+            [fCheckAll]   = "checkAll"
             fRef          ="uP" 
             fName         ="uPassword" 
             [fRequired]   ="true" 
@@ -56,9 +55,9 @@
           </app-icon-input>
 
           <!-- New Email field -->
-
           <app-icon-input
             [fForm]       = "emailForm" 
+            [fCheckAll]   = "checkAll"
             fRef          = "nE" 
             fName         = "nEmail" 
             [fRequired]   = "true" 
@@ -74,7 +73,6 @@
           </app-icon-input>
 
           <!-- Status Message Area -->
-
           <app-form-messages 
             [fWorkingOpen]    = "!haveStatusMessages() && working"
             [fMessageOpen]    = "haveStatusMessages() && !working"
@@ -82,8 +80,16 @@
           </app-form-messages>                    
 
           <!-- Actions Area -->
-
-          <app-update-actions></app-update-actions>
+          <app-update-actions
+            [fLabels]     ="true"
+            >
+          </app-update-actions>
+                            
+          <!-- Button to close form -->
+          <app-footer-button 
+            [fOnClick]      = "closeForm">
+          </app-footer-button>
+        
         </div>
       </form>
     </div>

@@ -8,6 +8,7 @@ export class DeleteEntryComponent  {
 
   @Input() fValue       : boolean;  // where the delete status is stored
   @Input() fCanDelete   : Function;  // boolean indicates whether item can be deleted
+  @Input() fMessage     : string = "Remove this entry"; // message to show next to checkbox
   @Output() fValueChange = new EventEmitter<boolean>();
 
   constructor() {

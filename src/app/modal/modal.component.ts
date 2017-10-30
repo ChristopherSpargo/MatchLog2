@@ -1,38 +1,9 @@
 import {Component, Input} from '@angular/core';
 
-import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-
-@Component({
-  templateUrl: 'modal.component.html'
-})
-
-export class ModalComponentTemplate {
-  @Input() title      : string;
-  @Input() content    : string;
-  @Input() okText     : string;
-  @Input() cancelText : string;
-  @Input() notifyOnly : boolean;
-  @Input() openModal  : boolean;
-
-  constructor(public activeModal: NgbActiveModal) {}
-
-  // call the resolve method after waiting for closing animation
-  close = () => {
-    this.openModal = false;
-    setTimeout( () => {
-      this.activeModal.close("OK");
-    }, 400)
-  }
-
-  // call the resolve method after waiting for closing animation
-  dismiss = () => {
-    this.openModal = false;
-    setTimeout( () => {
-      this.activeModal.dismiss("CANCEL");
-    }, 400)
-  }
-
-}
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SimpleModalComponentTemplate } from './simple.modal.component.template'
+import { MatchActionModalComponentTemplate } from './match.action.modal.component.template'
+import { PublicMatchSettingsModalComponentTemplate } from './public.match.settings.modal.component.template';
 
 @Component({
   selector: 'app-modal',
@@ -43,8 +14,8 @@ export class ModalComponent {
 
   constructor(private modalService: NgbModal) {}
 
-  open(title: string, content: string, cancelText: string, okText: string) : Promise<any> {
-    const modalRef = this.modalService.open(ModalComponentTemplate, {size: 'lg'});
+  simpleOpen(title: string, content: string, cancelText: string, okText: string) : Promise<any> {
+    const modalRef = this.modalService.open(SimpleModalComponentTemplate, {size: 'lg'});
     modalRef.componentInstance.title      = title;
     modalRef.componentInstance.content    = content;
     modalRef.componentInstance.cancelText = cancelText;
@@ -55,4 +26,40 @@ export class ModalComponent {
     }, 100);
     return modalRef.result;
   }
+
+  matchActionOpen(title: string, player: string, opponent: string, matchDate: string, 
+                  cancelText: string, okText: string) : Promise<any> {
+    const modalRef = this.modalService.open(MatchActionModalComponentTemplate, {size: 'lg'});
+    modalRef.componentInstance.title      = title;
+    modalRef.componentInstance.player     = player;
+    modalRef.componentInstance.opponent   = opponent;
+    modalRef.componentInstance.matchDate  = matchDate;
+    modalRef.componentInstance.cancelText = cancelText;
+    modalRef.componentInstance.okText     = okText;
+    modalRef.componentInstance.notifyOnly = cancelText == "";
+    setTimeout( ()=> {
+      modalRef.componentInstance.openModal  = true;
+    }, 100);
+    return modalRef.result;
+  }
+
+  publicSettingsOpen(title: string, emailList: string[], player: string, opponent: string,
+     matchDate: string, mode: string, okText ?: string, deleteText ?: string, cancelText ?: string) : Promise<any> {
+    const modalRef = this.modalService.open(PublicMatchSettingsModalComponentTemplate, 
+                                                            {size: 'lg', backdrop: 'static'});
+    modalRef.componentInstance.mode       = mode;
+    modalRef.componentInstance.title      = title;
+    modalRef.componentInstance.itemList   = emailList;
+    modalRef.componentInstance.player     = player;
+    modalRef.componentInstance.opponent   = opponent;
+    modalRef.componentInstance.matchDate  = matchDate;
+    modalRef.componentInstance.cancelText = cancelText || "Cancel";
+    modalRef.componentInstance.okText     = okText || "Save";
+    modalRef.componentInstance.deleteText = deleteText || "Make Private";
+    setTimeout( ()=> {
+      modalRef.componentInstance.openModal  = true;
+    }, 100);
+    return modalRef.result;
+  }
+
 }

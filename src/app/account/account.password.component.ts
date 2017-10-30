@@ -16,8 +16,9 @@ export class AccountPasswordComponent implements OnInit {
               private cookieSvc: CookieSvc){
   };
     
-    // CONTROLLER for CHANGE PASSWORD address feature
+    // COMPONENT for CHANGE PASSWORD address feature
 
+  checkAll           : boolean   = false; //true if form fields to be checked for errors (touched or not)
   userEmail          : string;
   currPassword       : string = "";
   newPassword        : string = "";
@@ -67,7 +68,7 @@ export class AccountPasswordComponent implements OnInit {
     .catch((error) => {
       switch (error) {  //decide which status message to give
         case "INVALID_PASSWORD":
-          this.requestStatus.incorrectPassword = true;
+          this.requestStatus.incorrectCurrentPassword = true;
           break;
         case "INVALID_USER":
           this.requestStatus.unrecognizedEmail = true;

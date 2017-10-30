@@ -66,6 +66,7 @@
     <!-- Tournament field -->
      <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "tournamentName"
       fRef            = "tName"
       [(fValue)]      = "matchInfo.tournament"
@@ -76,6 +77,7 @@
       fColor          = "app-court-ltgreen"
       [fOnFocus]      = "clearRequestStatus"
       [fList]         = "tournamentList"
+      [fActionButtons]= "false"
       fNewTest        = "999"
       [fEqual]        = "true"
       fNewName        = "newTName"
@@ -86,6 +88,7 @@
     <!-- Location field -->
      <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "locationName"
       fRef            = "lName"
       [(fValue)]      = "matchInfo.location"
@@ -97,6 +100,7 @@
       [fOnFocus]      = "clearRequestStatus"
       [fList]         = "locationList"
       [fEqual]        = "true"
+      [fActionButtons]= "false"
       fNewTest        = "999"
       fNewName        = "newLName"
       fNewRef         = "nLName"
@@ -106,6 +110,7 @@
     <!-- Event description -->
      <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "eventName"
       fRef            = "eName"
       [(fValue)]      = "matchInfo.event"
@@ -116,6 +121,7 @@
       fColor          = "app-court-ltgreen"
       [fOnFocus]      = "clearRequestStatus"
       [fList]         = "eventList"
+      [fActionButtons]= "false"
       fNewTest        = "999"
       [fEqual]        = "true"
       fNewName        = "newEName"
@@ -126,6 +132,7 @@
     <!-- Round description -->
      <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "roundName"
       fRef            = "rName"
       [(fValue)]      = "matchInfo.round"
@@ -142,6 +149,7 @@
     <!-- Match format field -->         
     <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "formatName"
       fRef            = "fName"
       [(fValue)]      = "matchInfo.format"
@@ -173,6 +181,7 @@
     <!-- Player field -->
     <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "playerName"
       fRef            = "pName"
       [(fValue)]      = "matchInfo.playerId"
@@ -198,6 +207,7 @@
         <div class="app-width-45 d-flex flex-row">
           <app-icon-input
             [fForm]       = "matchInfoForm" 
+            [(fCheckAll)] = "checkAll"
             fName         = "pFirst" 
             fRef          = "pF" 
             [fRequired]   = "matchInfo.playerId == '999'" 
@@ -219,6 +229,7 @@
         <div class="app-width-50 app-offset-5 d-flex flex-row">
           <app-icon-input
             [fForm]       = "matchInfoForm" 
+            [(fCheckAll)] = "checkAll"
             fName         = "pLast" 
             fRef          = "pL" 
             [fRequired]   = "matchInfo.playerId == '999'" 
@@ -272,6 +283,7 @@
     <!-- Opponent field -->
     <app-list-item-field 
       [fForm]         = "matchInfoForm"
+      [(fCheckAll)]   = "checkAll"
       fName           = "opponentName"
       fRef            = "oName"
       [(fValue)]      = "matchInfo.opponentId"
@@ -297,6 +309,7 @@
         <div class="app-width-45 d-flex flex-row">
           <app-icon-input
             [fForm]       = "matchInfoForm" 
+            [(fCheckAll)] = "checkAll"
             fName         = "oFirst" 
             fRef          = "oF" 
             [fRequired]   = "matchInfo.opponentId == '999'" 
@@ -318,6 +331,7 @@
         <div class="app-width-50 app-offset-5 d-flex flex-row">
           <app-icon-input
             [fForm]       = "matchInfoForm" 
+            [(fCheckAll)] = "checkAll"
             fName         = "oLast" 
             fRef          = "oL" 
             [fRequired]   = "matchInfo.opponentId == '999'" 
@@ -391,10 +405,18 @@
     </app-form-messages>                    
 
     <!-- Actions Area -->
-
     <app-update-actions
-      [fDisabled]     = "!canSubmitSettings()">
+      [fDisabled]   ="!canSubmitSettings()"
+      [fLabels]     ="true"
+      fSLabel       ="{{pointsLogged() ? 'Update' : 'Start Log'}}"
+      >
     </app-update-actions>
+
+    <!-- Button to close view -->
+    <app-footer-button *ngIf="!pointsLogged()" 
+      [fOnClick]      = "closeView">
+    </app-footer-button>
+                      
   </form>
 </div>
 
@@ -416,13 +438,13 @@
             <div  class="hidden-md-up app-matches-menu-line1 ">
               {{m.tournament}}
             </div>
-            <div  class="hidden-sm-down app-matches-menu-line2 ">
+            <div  class="hidden-sm-down app-matches-menu-line2 text-primary">
               {{playerName(m.playerId) + ' .vs. ' + playerName(m.opponentId)}}
             </div>
-            <div  class="hidden-md-up app-matches-menu-line2 ">
+            <div  class="hidden-md-up app-matches-menu-line2 text-primary">
               {{playerName(m.playerId) + ' .vs.'}}
             </div>
-            <div  class="hidden-md-up app-matches-menu-line2 ">
+            <div  class="hidden-md-up app-matches-menu-line2 text-primary">
               {{playerName(m.opponentId)}}
             </div>
           </button>
@@ -438,5 +460,11 @@
         </div>
       </li>
     </ul>
+
   </div>
+    <!-- Button to close view -->
+    <app-footer-button
+      [fOnClick]      = "closeView">
+    </app-footer-button>
 </div>
+                      

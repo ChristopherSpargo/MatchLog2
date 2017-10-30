@@ -67,11 +67,11 @@
        [class.app-open]="slidenavOpen()">
     <div class="d-flex flex-column justify-content-start align-items-start app-whiteframe-2dp app-frame app-scrollable">
         <ul class="d-flex flex-column app-slide-menu-ul app-form-theme">
-          <li id="logsMenu">
+          <li id="myLogsMenu">
             <button type="button" class="btn app-slide-menu-listitem" (click)="toggleLogsMenu()">
               <div class="d-flex flex-row align-items-center">
                 <i class="material-icons app-logs-color app-menu-item-icon">assignment</i>
-                Match Logs
+                My Logs
                 <i class="material-icons app-form-theme-text ml-1">{{!logsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
               </div>
             </button>
@@ -82,7 +82,7 @@
                           (click)="menuItemSelected('logsView')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-logs-color app-menu-item-icon-sm">assignment</i>
-                      View Match Logs
+                      View My Logs
                     </div>
                   </button>
                 </li>
@@ -91,7 +91,7 @@
                           (click)="menuItemSelected('logsCreate')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-logs-color app-menu-item-icon-sm">edit</i>
-                      Create a Match Log
+                      Create a Log
                     </div>
                   </button>
                 </li>
@@ -100,7 +100,38 @@
                           (click)="menuItemSelected('logsResume')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-logs-color app-menu-item-icon-sm">play_circle_outline</i>
-                      Resume a Match Log
+                      Resume a Log
+                    </div>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li id="publicLogsMenu">
+            <button type="button" class="btn app-slide-menu-listitem" (click)="togglePublicLogsMenu()">
+              <div class="d-flex flex-row align-items-center">
+                <i class="material-icons app-public-logs-color app-menu-item-icon">assignment_ind</i>
+                Public Logs
+                <i class="material-icons app-form-theme-text ml-1">{{!logsMenuOpen() ? 'arrow_drop_down' : 'arrow_drop_up'}}</i>
+              </div>
+            </button>
+            <div class="app-slidenav-submenu" [class.app-open]="publicLogsMenuOpen()">
+              <ul class="app-slide-menu-ul">
+                <li>
+                  <button type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
+                          (click)="menuItemSelected('viewPublicLogs')">
+                    <div class="d-flex flex-row align-items-center">
+                      <i class="material-icons app-public-logs-color app-menu-item-icon-sm">assignment_ind</i>
+                      View Public Logs
+                    </div>
+                  </button>
+                </li>
+                <li>
+                  <button type="button" class="btn app-slide-menu-listitem app-subitem-spacing" 
+                          (click)="menuItemSelected('managePublicLogs')">
+                    <div class="d-flex flex-row align-items-center">
+                      <i class="material-icons app-public-logs-color app-menu-item-icon-sm">settings_applications</i>
+                      Manage Public Logs
                     </div>
                   </button>
                 </li>
@@ -290,14 +321,23 @@
       </div>
     </div>
     <ul id="mainMenu" class="nav app-white">
-                <!-- Dropdown menu for logging features -->
-      <li id="logsMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
+                <!-- Dropdown menu for private log features -->
+      <li id="myLogsMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
         <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
-           href="#" role="button" aria-haspopup="true" aria-expanded="false">Match Logs</a>
+           href="#" role="button" aria-haspopup="true" aria-expanded="false">My Logs</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
-          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsView">View Match Logs</a>
-          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate">Create a Match Log</a>
-          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsResume">Resume a Match Log</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsView">View My Logs</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsCreate">Create a Log</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="logsResume">Resume a Log</a>
+        </div>
+      </li>
+                <!-- Dropdown menu for public log features -->
+      <li id="publicLogsMenu" ngbDropdown class="nav-item dropdown app-lt-border-right">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
+           href="#" role="button" aria-haspopup="true" aria-expanded="false">Public Logs</a>
+        <div class="dropdown-menu app-toolbar-submenu-theme">
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="viewPublicLogs">View Public Logs</a>
+          <a role="button" class="dropdown-item app-dropdown-text" uiSref="managePublicLogs">Manage Public Logs</a>
         </div>
       </li>
                 <!-- Dropdown menu for list management features -->

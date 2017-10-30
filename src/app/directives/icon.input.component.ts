@@ -11,6 +11,7 @@ export class IconInputComponent implements OnInit {
   aMsgs:   string[];
 
   @Input() fName        : string;   // unique name for field
+  @Input() fCheckAll    : boolean;  // flag to check all fields for errors (not just touched fields)
   @Input() fRef         : string;   // unique name for Template Reference Variable for this field
   @Input() fForm        : NgForm;   // name of Template Reference Variable for form this input belongs to
   @Input() fRequired    : boolean = false;  // if input is required

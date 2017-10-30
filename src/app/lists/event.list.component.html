@@ -25,16 +25,30 @@
             (ngSubmit)="submitRequest(listForm)">
         <div class="d-flex flex-column">
 
+        <!-- Instructional messages -->
+        <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
+                     mb-2"
+             [style.fontSize.%]="75">
+          Select from the list to edit/create an Event
+        </div>
+        <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
+                     mb-2"
+             [style.fontSize.%]="75">
+          Now edit and save or remove this Event
+        </div>
+
           <!-- Event Name Field -->
           <app-list-item-field 
               [fForm]         = "listForm"
+              [(fCheckAll)]   = "checkAll"
               fName           = "itemName"
               fRef            = "iName"
               [(fValue)]      = "selectedItem"
               fLabel          = "Event Name" 
               fIcon           = "description" 
               fColor          = "app-light-brown "
-              [fRequired]     = "true"
+              [fOnDelete]     = "deleteSelectedItem"
+              [fRequired]     = "false"
               [fOnFocus]      = "clearRequestStatus"
               [fOnChange]     = "copyItemName"
               [fList]         = "itemList"
@@ -47,12 +61,6 @@
           >
           </app-list-item-field>
 
-          <!-- Delete entry option -->
-          <app-delete-entry 
-            [(fValue)]      = "deleteItem" 
-            [fCanDelete]    = "canDeleteItem">
-          </app-delete-entry>
-
           <!-- Messages Area -->
           <app-form-messages 
             [fWorkingOpen]    = "!haveStatusMessages() && working"
@@ -60,11 +68,10 @@
             [fMessageObj]     = "requestStatus">
           </app-form-messages>                    
                             
-          <!-- Actions Area -->
-          <app-update-actions 
-            [fDeleteCheck]    = "deleteItem" 
-            [fAddCheck]       = "selectedItem == '999'">
-          </app-update-actions>
+          <!-- Button to close form -->
+          <app-footer-button 
+            [fOnClick]      = "closeForm">
+          </app-footer-button>
 
         </div>
       </form>

@@ -16,6 +16,7 @@ export class TournamentListComponent implements OnInit {
 
   itemName  = "";
   action    = "";
+  checkAll            : boolean   = false; //true if form fields to be checked for errors (touched or not)
 
   selectedItem        : string    = "";
   newItemName         : string    = "";
@@ -50,12 +51,19 @@ export class TournamentListComponent implements OnInit {
     }
   }
 
+  // delete the item that has been selected
+  deleteSelectedItem = (form : NgForm) => {
+    this.deleteItem = true;
+    this.submitRequest(form)
+  }
+
   // prepare and send request to database service
   submitRequest(form : NgForm) : void {
     var msg   : string, 
         msgId : string,
         action: string;
 
+    this.checkAll = true;
     this.clearRequestStatus();
     if(this.checkForProblems(form)){   // can't do anything yet, form still has errors
       return;
@@ -118,6 +126,7 @@ export class TournamentListComponent implements OnInit {
       form.resetForm();
       // document.getElementById("deleteCheckBox").focus();
     }
+    this.checkAll = false;
     this.selectedItem = "";
     this.deleteItem   = false;
     this.newItemName  = "";

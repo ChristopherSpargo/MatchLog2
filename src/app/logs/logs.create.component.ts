@@ -192,8 +192,14 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
 
   // set view closed flag, wait for animation to complete before changing states to 'home'
   closeView = () => {
+    var msg = "Abandon this match log?";
+    var title = "Abandon Match Log"
+    if(this.currentMatch.hasBeenSaved === true){
+      msg = "Abandon changes to this match log?"
+      title = "Abandon Changes"
+    }
     if(this.currentMatch.pointsLogged && (this.currentMatch.mode == 'Create')){
-      this.utilSvc.getConfirmation('Abort Match Log', 'Do you want to abort this match log?', 'Yes')
+      this.utilSvc.getConfirmation(title, msg, 'Yes')
         .then((abortMatch) => {
           this.viewOpen = false;
           this.emit('removeResponders');

@@ -1,10 +1,10 @@
   <div class="container px-2 pt-3"
-       [class.app-open]="matchMenuOpen"
+       [ngClass]="{'app-open': matchMenuOpen}"
        [style.padding-bottom.px]="300">
-    <div class="app-theme-inherit">
 
-	      	<!-- Menu for list of matches from search -->
+	      	<!-- Menu for list of matches for View Matches -->
 
+    <div *ngIf="!managePublics" class="app-theme-inherit">
       <div class="d-flex-flex-column justify-content-start align-items-start app-frame pt-0">
         <div *ngIf="multipleChoices()" class="d-flex flex-row align-items-center">
           <input type="checkbox" id="all" name="selectAll" [(ngModel)]="selectAll"
@@ -20,7 +20,8 @@
                   {{matchSelected(i) ? 'check_box' : 'check_box_outline_blank'}}</i>
               </button>
               <button type="button" class="btn d-flex flex-column justify-content-center 
-                        align-items-center app-matches-menu-listitem {{l ? 'app-no-border' : ''}} "
+                        align-items-center app-matches-menu-listitem"
+                      [ngClass]="{'app-no-border': l}"
                       (click)="setSelectedMatch(i)">
                 <div class="hidden-sm-down app-matches-menu-line1">
                   {{log.date+' - '+log.tournament}}
@@ -31,25 +32,27 @@
                 <div class="hidden-md-up app-matches-menu-line1 ">
                   {{log.tournament}}
                 </div>
-                <div class="hidden-sm-down app-matches-menu-line2 ">
+                <div class="hidden-sm-down app-matches-menu-line2 text-primary ">
                   {{playerName(log.playerId) + ' .vs. ' + playerName(log.opponentId)}}
                 </div>
-                <div class="hidden-md-up app-matches-menu-line2 ">
+                <div class="hidden-md-up app-matches-menu-line2 text-primary ">
                   {{playerName(log.playerId) + ' .vs'}}
                 </div>
-                <div class="hidden-md-up app-matches-menu-line2 ">
+                <div class="hidden-md-up app-matches-menu-line2 text-primary ">
                   {{playerName(log.opponentId)}}
                 </div>
               </button>
-              <app-fab
-                fType         = "button"
-                fIcon         = "remove_circle_outline"
-                fIconColor    = "app-warn"
-                fButtonCSS    = "app-match-menu-delete-fab"
-                fIconCSS      = "app-match-menu-delete-icon"
-                [fOnClick]    = "deleteMatchMenuItem"
-                [fParam]      = "i">
-              </app-fab>
+              <ng-container *ngIf="!viewPublics">       
+                <app-fab
+                  fType         = "button"
+                  fIcon         = "remove_circle_outline"
+                  fIconColor    = "app-warn"
+                  fButtonCSS    = "app-match-menu-delete-fab"
+                  fIconCSS      = "app-match-menu-delete-icon"
+                  [fOnClick]    = "deleteMatchMenuItem"
+                  [fParam]      = "i">
+                </app-fab>
+              </ng-container>
             </div>
           </li>
         </ul>
@@ -66,15 +69,98 @@
           </app-radio-group>
         </div>
       </div>
-    </div>
 
 
       <!-- Actions Area -->
 
-      <div class="d-flex flex-row justify-content-center align-items-center" 
-           [class.mt-2]="multipleSelections()">
-				<app-fab fType="button" [fOnClick]="setSelectedMatches" fAria="Submit">
+      <div *ngIf="selectedMatchCount()"
+           class="d-flex flex-row justify-content-center align-items-center" 
+           [ngClass]="{'mt-2': multipleSelections()}">
+				<app-fab fType="button" [fOnClick]="setSelectedMatches" fAria="Submit" fLabel="View">
 				</app-fab>
 			</div>
-			
-		</div>
+    </div>
+
+
+	      	<!-- Menu for list of matches for Manage Public Matches -->
+
+    <div *ngIf="managePublics" class="app-theme-inherit">
+      <div class="d-flex-flex-column justify-content-start align-items-start app-frame pt-0">
+       <!-- Match filter field -->   
+        <app-radio-group 
+          fTitle      = "Match Status"
+          fIcon       = "assignment"
+          fIconColor  = "app-public-logs-color"
+          [fOnChange] = "updateMatchCountLabel"
+          [fOnFocus]  = "clearRequestStatus"
+          [fDividerAfter] = "false"
+          [(fModel)]  = "publicFilter" 
+          fValues     = "Either|Public|Private" 
+          fLabels     = "Either|Public|Private" 
+          fName       = "pFilter">
+        </app-radio-group>
+
+        <ul class="app-matches-menu-ul">
+          <li *ngFor="let log of menuMatchList; index as i; last as l">
+            <div *ngIf="applyPublicFilter(i)"
+              class="d-flex flex-row align-items-center">
+              <ng-container *ngIf="!matchIsPublic(i)">       
+                <app-fab
+                  fType         = "button"
+                  fIcon         = "add_circle_outline"
+                  fIconColor    = "app-public-logs-color"
+                  fButtonCSS    = "app-match-menu-delete-fab mr-2"
+                  fIconCSS      = "app-match-menu-delete-icon"
+                  [fOnClick]    = "makeMatchPublic"
+                  [fParam]      = "i">
+                </app-fab>
+              </ng-container>
+              <button type="button" class="btn d-flex flex-column justify-content-center 
+                      align-items-center app-matches-menu-listitem"
+                      [ngClass]="{'app-no-border': l,
+                                  'app-matches-menu-edit-space-left': matchIsPublic(i),
+                                  'app-matches-menu-edit-space-right': !matchIsPublic(i)}"
+                      (click)="setSelectedMatch(i)">
+                <div class="hidden-sm-down app-matches-menu-line1">
+                  {{log.date+' - '+log.tournament}}
+                </div>
+                <div class="hidden-md-up app-matches-menu-line1 ">
+                  {{log.date}}
+                </div>
+                <div class="hidden-md-up app-matches-menu-line1 ">
+                  {{log.tournament}}
+                </div>
+                <div class="hidden-sm-down app-matches-menu-line2 text-primary">
+                  {{playerName(log.playerId) + ' .vs. ' + playerName(log.opponentId)}}
+                </div>
+                <div class="hidden-md-up app-matches-menu-line2 text-primary">
+                  {{playerName(log.playerId) + ' .vs'}}
+                </div>
+                <div class="hidden-md-up app-matches-menu-line2 text-primary">
+                  {{playerName(log.opponentId)}}
+                </div>
+              </button>
+              <ng-container *ngIf="matchIsPublic(i)">       
+                <app-fab
+                  fType         = "button"
+                  fIcon         = "edit"
+                  fIconColor    = "app-public-logs-color"
+                  fButtonCSS    = "app-match-menu-delete-fab"
+                  fIconCSS      = "app-match-menu-edit-icon"
+                  [fOnClick]    = "publicMatchSettings"
+                  [fParam]      = "i">
+                </app-fab>
+              </ng-container>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Button to close form -->
+    <app-footer-button 
+      [fOnClick]      = "closeView">
+    </app-footer-button>
+
+    
+  </div>

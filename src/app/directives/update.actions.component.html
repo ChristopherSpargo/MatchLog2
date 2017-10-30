@@ -1,10 +1,15 @@
     <!-- Template used to show the appropriate action buttons at the bottom of a form. 
          Used with <app-update-actions> COMPONENT -->
     <div id="actions" class="d-flex flex-row justify-content-center align-items-center">
-      <app-fab *ngIf="!fDeleteCheck" fAria="fAddCheck ? 'add' : 'save'" [fDisabled]="fDisabled"
+      <app-fab *ngIf="!fDeleteCheck || (fOnDelete !== undefined)" fAria="fAddCheck ? fALabel : fSLabel" 
+               [fDisabled]="fDisabled"
+               [fLabel]="fLabels ? (fAddCheck ? fALable : fSLabel) : ''" 
+               fButtonCSS="fDeleteCheck ? 'mr-4' : ''"
                fIcon="{{fAddCheck ? 'add_circle_outline' : 'check_circle_outline'}}">
       </app-fab>
-      <app-fab *ngIf="fDeleteCheck" fAria="remove" [fDisabled]="fDisabled"
+      <app-fab *ngIf="fDeleteCheck" fAria="remove" [fDisabled]="fDisabled" 
+               fType="(fOnDelete === undefined) ? 'submit' : 'button'"
+               [fLabel]="fLabels ? fRLabel : ''" [fOnClick]="fOnDelete" [fParam]="fForm"
                fIcon="remove_circle_outline" fIconColor="app-warn">
       </app-fab>
     </div>

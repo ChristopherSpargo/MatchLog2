@@ -1,0 +1,83 @@
+<!--dialog template used for basic NOTICES and CONFIRMATIONS-->
+<div class="app-fade-in app-dialog-container" [ngClass]="{'app-open': openModal}">
+  <div class="modal-header app-dialog-header app-public-logs-settings-theme">
+    <div class="modal-title d-flex flex-row justify-content-start align-items-center app-flex-1 app-all-paddings-8px">
+      <div class="app-form-title">{{title}}</div>
+    </div>
+  </div>
+  <div class="modal-body app-form-theme app-all-paddings-8px">
+    <div class="d-flex flex-row justify-content-center align-items-center app-disabled-text app-small-font">
+      {{player}} .vs. {{opponent}}
+    </div>
+    <div class="d-flex flex-row justify-content-center align-items-center app-disabled-text app-smaller-font">
+      {{matchDate}}
+    </div>
+    <form #listForm = "ngForm" role="form" novalidate
+          (ngSubmit)="submitRequest(listForm)">
+      <div class="d-flex flex-column">
+
+        <!-- Remove Match from Public Matches field -->
+        <div *ngIf="mode === 'Edit'" class="d-flex flex-row align-items-center app-form-theme-text mt-1">
+          <i class="material-icons app-input-icon-area app-public-logs-color">remove_circle_outline</i>
+          <label class="mb-0">
+            <input type="checkbox" name="delMat" [(ngModel)]="deleteMatch" (change)="clearRequestStatus()">
+            Make this match private
+          </label>
+        </div>
+
+        <!-- Add Match to Public Matches field -->
+        <div *ngIf="mode === 'Create'" class="d-flex flex-row align-items-center app-form-theme-text mt-1">
+          <i class="material-icons app-input-icon-area app-public-logs-color">add_circle_outline</i>
+          <label class="mb-0">
+            Making this match public
+          </label>
+        </div>
+
+        <div class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
+                    app-disabled-text mt-3"
+             [style.fontSize.%]="60">
+          Optional list of authorized users by email:
+        </div>
+        <!-- User Email Field -->
+        <app-list-item-field 
+            [fForm]         = "listForm"
+            [fCheckAll]     = "checkAll"
+            fName           = "itemName"
+            fRef            = "iName"
+            [(fValue)]      = "selectedItem"
+            fLabel          = "Authorized User" 
+            fIcon           = "mail_outline" 
+            fColor          = "app-public-logs-color"
+            [fRequired]     = "false"
+            [fDisabled]     = "deleteMatch"
+            [fOnFocus]      = "clearRequestStatus"
+            [fOnChange]     = "copyItemName"
+            [fOnDelete]     = "deleteSelectedItem"
+            [fList]         = "itemList"
+            fListValue      = "index"
+            [fEqual]        = "false"
+            fNewTest        = ""
+            fNewName        = "newIName"
+            fNewRef         = "nIName"
+            [(fNewValue)]   = "newItemName"
+        >
+        </app-list-item-field>
+
+        <!-- Messages Area -->
+        <app-form-messages 
+          [fWorkingOpen]    = "!haveStatusMessages() && working"
+          [fMessageOpen]    = "haveStatusMessages() && !working"
+          [fMessageObj]     = "requestStatus">
+        </app-form-messages>                    
+                          
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer d-flex flex-row justify-content-end align-items-center">
+    <button type="button" (click)="dismiss()" 
+            class="btn btn-sm app-green ">{{cancelText}}</button>
+    <button type="button" (click)="close()" class="btn btn-sm app-green">
+      {{!deleteMatch ? okText : deleteText}}
+    </button>
+  </div>
+</div>

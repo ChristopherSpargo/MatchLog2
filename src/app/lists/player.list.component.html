@@ -23,13 +23,25 @@
             (ngSubmit)="submitRequest(playerForm)">
         <div class="d-flex flex-column">
 
-            <!-- Player selection field -->
+        <!-- Instructional messages -->
+        <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
+                     mb-2"
+             [style.fontSize.%]="75">
+          Select from the list to edit/create a Player
+        </div>
+        <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
+                     mb-2"
+             [style.fontSize.%]="75">
+          Now edit and save or remove this Player
+        </div>
 
+            <!-- Player selection field -->
           <app-list-item-field 
             [fForm]         = "playerForm"
+            [(fCheckAll)]   = "checkAll"
             fName           = "itemName"
             fRef            = "iName"
-            [fRequired]     = "true" 
+            [fRequired]     = "false" 
             [(fValue)]      = "selectedItem"
             fLabel          = "Player Name" 
             fIcon           = "face" 
@@ -43,9 +55,9 @@
           </app-list-item-field>
 
             <!-- Player firstName field -->
-
           <app-icon-input
             [fForm]       = "playerForm" 
+            [(fCheckAll)] = "checkAll"
             fRef          = "pF" 
             fName         = "pFirst" 
             [fRequired]   = "selectedItem != ''" 
@@ -54,7 +66,8 @@
             fLabel        = "First Name"  
             fIcon         = "looks_one"
             fColor        = "app-light-brown" 
-            [(fValue)]    = "item.firstName" 
+            [(fValue)]    = "firstName" 
+            [fCapitalize] = "true"
             fPattern      = "^[ #/-\w]{1,}$"
             fMaxLength    = "30"
             fErrors       = "required|pattern"
@@ -64,9 +77,9 @@
           </app-icon-input>
 
             <!-- Player lastName field -->
-
           <app-icon-input
             [fForm]       = "playerForm" 
+            [(fCheckAll)] = "checkAll"
             fRef          = "pL" 
             fName         = "pLast" 
             [fRequired]   = "selectedItem != ''" 
@@ -75,7 +88,8 @@
             fLabel        = "Last Name"  
             fIcon         = "looks_two"
             fColor        = "app-light-brown" 
-            [(fValue)]    = "item.lastName" 
+            [(fValue)]    = "lastName" 
+            [fCapitalize] = "true"
             fPattern      = "^[ /#-\w]{1,}$"
             fMaxLength    = "30"
             fErrors       = "required|pattern"
@@ -85,12 +99,11 @@
           </app-icon-input>
 
           <!-- Handed field -->
-
           <app-radio-group 
             fTitle      = "Player Plays"
             fIcon       = "swap_horiz"
             fIconColor  = "app-light-brown"
-            [(fModel)]  = "item.handed" 
+            [(fModel)]  = "handed" 
             [fOnFocus]  = "clearRequestStatus"
             fValues     = "Right|Left" 
             fLabels     = "Right|Left" 
@@ -98,12 +111,11 @@
           </app-radio-group>
 
           <!-- Gender field -->
-
           <app-radio-group 
             fTitle      = "Gender"
             fIcon       = "wc"
             fIconColor  = "app-light-brown"
-            [(fModel)]  = "item.gender" 
+            [(fModel)]  = "gender" 
             [fOnFocus]  = "clearRequestStatus"
             fValues     = "Male|Female" 
             fLabels     = "Male|Female" 
@@ -111,9 +123,9 @@
           </app-radio-group>
 
           <!-- Player Notes field -->
-
           <app-icon-input
             [fForm]       = "playerForm" 
+            [(fCheckAll)] = "checkAll"
             fRef          = "pN" 
             fName         = "pNotes" 
             [fDisabled]   = "selectedItem == ''"
@@ -121,7 +133,7 @@
             fLabel        = "Notes"  
             fIcon         = "edit"
             fColor        = "app-light-brown" 
-            [(fValue)]    = "item.notes" 
+            [(fValue)]    = "notes" 
             fPattern      = "^[ -.!?\w]{1,}$"
             fMaxLength    = "1000"
             fErrors       = "pattern"
@@ -131,27 +143,67 @@
           </app-icon-input>
 
           <!-- Creation Date Field -->
-
           <app-icon-input
             [fForm]       = "playerForm" 
             fRef          = "cD" 
             fName         = "cDate" 
-            [fDisabled]   = "selectedItem == ''"
-            [fReadonly]   = "true"
+            [(fValue)]    = "createdOn"
+            [fDisabled]   = "true"
             fType         = "text" 
             fLabel        = "Created On"  
             fIcon         = "today"
             fColor        = "app-light-brown" 
-            fExtraCSS     = "mb-2"
-            [(fValue)]    = "item.createdOn">
+            fExtraCSS     = "mb-2">
           </app-icon-input>
 
-          <!-- Delete entry option -->
-          <app-delete-entry 
-            [(fValue)]    ="deleteItem" 
-            [fCanDelete]  ="canDeleteItem">
-          </app-delete-entry>
-
+          <!-- Actions Area -->
+          <div *ngIf="selectedItem !== ''" 
+                class="d-flex flex-row justify-content-center align-items-center">
+            <label class="app-smaller-font mr-4 mb-0">
+              <app-fab
+                      fType       = "submit"
+                      [fOpen]     = "true"
+                      fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                      [fDelay]    = "200"
+                      fAria       = "add"
+                      fIcon       = "check_circle_outline"
+                      fIconCSS    = "app-fab-icon-sm"
+                      fIconColor  = "app-primary">
+              </app-fab>
+                Save
+            </label>
+            <label *ngIf="selectedItem != '999'" class="app-smaller-font mr-4 mb-0">
+              <app-fab
+                      fType       = "button"
+                      [fOpen]     = "true"
+                      fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                      [fDelay]    = "200"
+                      [fOnClick]  = "deleteSelectedItem"
+                      [fParam]    = "playerForm"
+                      fAria       = "remove"
+                      fIcon       = "remove_circle_outline"
+                      fIconCSS    = "app-fab-icon-sm"
+                      fIconColor  = "app-warn">
+              </app-fab>
+                Remove
+            </label>
+            <label class="app-smaller-font mb-0">
+              <app-fab 
+                      fType       = "button"
+                      [fOpen]     = "true"
+                      fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                      [fDelay]    = "200"
+                      [fOnClick]  = "resetForm"
+                      [fParam]    = "playerForm"
+                      fAria       = "cancel"
+                      fIcon       = "highlight_off"
+                      fIconCSS    = "app-fab-icon-sm"
+                      fIconColor  = "app-brite-orange">
+              </app-fab>
+                Cancel
+            </label>
+          </div>
+                            
           <!-- Messages Area -->
           <app-form-messages 
             [fWorkingOpen]  ="!haveStatusMessages() && working"
@@ -159,12 +211,12 @@
             [fMessageObj]   ="requestStatus">
           </app-form-messages>                    
                             
-          <!-- Actions Area -->
-          <app-update-actions 
-            [fDeleteCheck]  ="deleteItem" 
-            [fAddCheck]     ="selectedItem == '999'">
-          </app-update-actions>
-          </div>
+          <!-- Button to close form -->
+          <app-footer-button 
+            [fOnClick]      = "closeForm">
+          </app-footer-button>
+
+        </div>
       </form>
     </div>
   </div>

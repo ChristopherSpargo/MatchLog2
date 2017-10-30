@@ -10,9 +10,9 @@ exports.config = {
   ],
   capabilities: {
     'browserName': 'chrome',
-    // 'chromeOptions': {
-    //   'args': ['window-size=400,650']
-    // }
+    'chromeOptions': {
+      'args': ['window-size=400,675']
+    }
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',

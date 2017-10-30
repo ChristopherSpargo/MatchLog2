@@ -8,6 +8,7 @@ export const HelpContextTitles = {
       UsingMatchLog       : 'Use MatchLog',
       MatchLogSearch      : 'Search for Match Logs',
       MatchLogMenu        : 'Select a Match Log',
+      ManagePublicLogs    : 'Manage Public Logs',
       ViewMatchStatistics : 'View Match Statistics',
       ProfileUpdate       : 'Update Profile',
       ChangeEmail         : 'Change Email',

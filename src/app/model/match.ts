@@ -34,6 +34,9 @@ export interface MatchData {
   sc:         number[][]; // score, array [n,n] for each set
   cG:         string[];   // score of the current game ["0","40"]
   sL:         TSet[];     // list of Sets
+  mP:         string;     // extended sortDate used to make public copy
+  sB?:        string;     // submitted by this userId (public matches only)
+  rT?:        string[];   // restricted to users with emails in this array (public matches only)
 }
 
 
@@ -73,6 +76,9 @@ export class Match {
   currGame:       string[];
   sets:           any[];
   matchPoint:     boolean;
+  madePublic:     string;   // extended sortDate used to store public copy of match
+  submittedBy:    string;
+  restrictedTo:   string[];
   
   //define Match constructor
   constructor (matchLog: MatchData) {
@@ -105,8 +111,11 @@ export class Match {
     this.format =         mLog.f;
     this.noAd =           mLog.nA || false;
     this.winnerId =       mLog.wI || 0;
+    this.madePublic =     mLog.mP;
     this.buildSetList(mLog.sL);
     this.computeScore(); 
+    if(mLog.sB){ this.submittedBy = mLog.sB;}
+    if(mLog.rT){ this.restrictedTo = mLog.rT;}
   };
 
   // return the Match properties
@@ -134,7 +143,10 @@ export class Match {
       wI:         this.winnerId,
       sc:         this.score,
       cG:         this.currGame,
-      sL:         this.buildSetLog()
+      sL:         this.buildSetLog(),
+      mP:         this.madePublic,
+      sB:         this.submittedBy,
+      rT:         this.restrictedTo
     }
     return matchLog;
   };

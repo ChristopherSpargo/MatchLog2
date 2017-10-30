@@ -108,10 +108,10 @@ export class LogsDisplayComponent implements OnInit {
 
   // remove all the message responders set in this module
   deleteMessageResponders() : void {
-    document.addEventListener("matchUpdated", this.displayMatch);
-    document.addEventListener("setSelectedMatch", this.setSelectedMatch);
-    document.addEventListener("resetSelectedGame", this.resetSelectedGame);
-    document.addEventListener("resetSelectedPoint", this.resetSelectedPoint);
+    document.removeEventListener("matchUpdated", this.displayMatch);
+    document.removeEventListener("setSelectedMatch", this.setSelectedMatch);
+    document.removeEventListener("resetSelectedGame", this.resetSelectedGame);
+    document.removeEventListener("resetSelectedPoint", this.resetSelectedPoint);
   }
 
   // return the current display tab index
@@ -283,7 +283,7 @@ export class LogsDisplayComponent implements OnInit {
       var i: number =  this.countUniqueOpponents()
       this.stats.opponentInitial = i;
       this.stats.opponentFirstName = i + ' Different';
-      this.currentMatch.opponentName = this.stats.opponentName = "Opponents";
+      this.currentMatch.opponentName = this.stats.opponentName = this.stats.shortOpponentName = "Opponents";
     }
     this.stats.opponentNameAndInitial = this.stats.opponentInitial + 
         (this.stats.opponentInitial ? '. ' : '') + this.stats.opponentName;

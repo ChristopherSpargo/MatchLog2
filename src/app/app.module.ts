@@ -53,10 +53,15 @@ import { AppPointItemComponent } from './directives/app.point.item.component';
 import { LogsCreateComponent } from "./logs/logs.create.component";
 import { LogsCreateInfoComponent } from "./logs/logs.create.info.component";
 import { LogsPointInfoComponent } from "./logs/logs.pointInfo.component";
+import { FormFooterButtonComponent } from "./directives/form.footer.button.component";
 import { loginState, homeState, manageEventsState, managePlayersState, manageTournamentsState,
          manageLocationsState, accountProfileState, accountEmailState, accountPasswordState,
-         accountDeleteState, logsViewState, logsCreateState, logsResumeState } from "./states";
-import { ModalComponentTemplate, ModalComponent } from './modal/modal.component';
+         accountDeleteState, logsViewState, logsCreateState, logsResumeState, logsManagePublicState,
+         logsViewPublicState } from "./states";
+import { ModalComponent } from './modal/modal.component';
+import { SimpleModalComponentTemplate } from './modal/simple.modal.component.template';
+import { MatchActionModalComponentTemplate } from './modal/match.action.modal.component.template';
+import { PublicMatchSettingsModalComponentTemplate } from './modal/public.match.settings.modal.component.template';
 import { UtilSvc } from './utilities/utilSvc';
 import { CookieSvc } from './utilities/cookieSvc';
 import { FireBaseSvc } from './utilities/fireBaseSvc';
@@ -77,10 +82,12 @@ import { RadioGroupComponent } from './directives/radio.group.component';
 
 const INITIAL_STATES =  [ homeState, loginState, manageEventsState, managePlayersState, manageTournamentsState,
     manageLocationsState, accountProfileState, accountEmailState, accountPasswordState, accountDeleteState,
-    logsViewState, logsCreateState, logsResumeState ];
+    logsViewState, logsCreateState, logsResumeState, logsViewPublicState, logsManagePublicState ];
 const INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormHeaderComponent, IconInputComponent,
   ValidationMessageComponent, ValidationMessagesComponent, RegisterFormControlDirective, AppMessagesComponent,
-  AppMessageComponent, ModalComponent, ModalComponentTemplate, EventListComponent, ListItemFieldComponent,
+  AppMessageComponent, ModalComponent, 
+  SimpleModalComponentTemplate, MatchActionModalComponentTemplate, PublicMatchSettingsModalComponentTemplate,
+  EventListComponent, ListItemFieldComponent, FormFooterButtonComponent,
   UpdateActionsComponent, DeleteEntryComponent, FormMessagesComponent, AppFabComponent,
   PlayerListComponent, TournamentListComponent,
   LocationListComponent, AccountProfileComponent, AccountEmailComponent, AccountPasswordComponent,
@@ -105,9 +112,10 @@ const INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormH
     ToasterModule,
     HttpModule
   ],
-  entryComponents: [ModalComponentTemplate],
+  entryComponents: [SimpleModalComponentTemplate, MatchActionModalComponentTemplate,
+                    PublicMatchSettingsModalComponentTemplate],
   providers: [SlideoutStatus, UserInfo, ModalComponent, UtilSvc, ToasterService, DataSvc, AWSModule, CookieSvc,
-      FireBaseSvc, AboutStatus, GraphsSvc, CurrentMatch],
+              FireBaseSvc, AboutStatus, GraphsSvc, CurrentMatch],
       //  {provide: HAMMER_GESTURE_CONFIG, useClass: AppHammerConfig}],
   bootstrap: [AppComponent]
 })

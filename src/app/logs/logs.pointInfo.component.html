@@ -144,13 +144,15 @@
           <!-- Number of shots field -->
 
          <div class=" app-match-stats-divider-32 "></div>
-         <div class="d-flex flex-row justify-content-start align-items-center
-                     app-input-divider app-left-padding-16px app-match-info-label">Number of shots:</div>
           <div class="d-flex flex-row">
             <div class="d-flex flex-row app-width-60" >
               <div class="d-flex flex-column app-form-theme-text ">
+                <div class="d-flex flex-row justify-content-start align-items-center
+                     app-input-divider app-left-padding-16px app-match-info-label">
+                     Number of shots:
+                </div>
                 <div class=" app-match-info-input-container ">
-                  <div layout="row" flex-offset="5">
+                  <div class="d-flex flex-row pl-2">
                     <button class="btn app-add-subtract-button " type="button"
                             [disabled]="pointInfo.double ||pointInfo.ace ||
                                           pointInfo.missedReturn || pointInfo.returnWinner"
@@ -184,12 +186,18 @@
                 </div>
               </div>
             </div>
-            <div class="d-flex flex-row app-width-40 justify-content-around align-items-center">
-              <app-fab></app-fab>
+            <div class="d-flex flex-column justify-content-around align-items-start">
+              <app-fab
+                fLabel      ="Save"
+                fAria       ="save">
+              </app-fab>
               <app-fab *ngIf="insertActive() || editActive()"
                 fType       = "button"
                 fIcon       = "highlight_off"
                 fIconColor  = "app-warn"
+                fLabel      = "Cancel"
+                [fReverse]  = "true"
+                fAria       = "cancel"
                 [fOnClick]  = "cancelInsertOrEdit"
                 [fParam]    = "logForm">
               </app-fab>
@@ -213,7 +221,7 @@
             <label class="d-flex flex-row justify-content-start align-items-center
                            app-input-divider app-match-info-label ">Point won by:</label>
             <div class=" app-match-info-input-container ">
-              <div class="d-flex flex-row justify-content-around align-items-center"> 
+              <div class="d-flex flex-row justify-content-between align-items-center px-3"> 
                 <div class="d-inline-flex flex-row align-items-center">
                   <label  for="pWon" class="mb-0">
                     <input  type="radio" value="{{PLAYER_ID}}" class="app-inline-flex app-form-radio-control "
@@ -226,16 +234,16 @@
                 </div>
                 <div class="d-inline-flex flex-row align-items-center">
                   <label  for="oWon" class="mb-0">
-                    <input  type="radio" value="{{OPPONENT_ID}}" class="app-inline-flex app-form-radio-control"
+                    {{getOpponentName()}}
+                    <input  type="radio" value="{{OPPONENT_ID}}" class="app-inline-flex app-form-radio-control-rev"
                             aria-label="opponent won" id="oWon"  name="pWinner" [(ngModel)]="pointInfo.winnerId"
                             (click)="updateLogForm('opponentWon')" 
                             [disabled]="pointInfo.double || pointInfo.missedReturn || pointInfo.returnWinner ||
                                         pointInfo.ace || (!pointInfo.first && !pointInfo.second)">
-                    {{getOpponentName()}}
                   </label>
                 </div>
               </div>
-              <div class="d-flex flex-row justify-content-around align-items-center app-top-margin-4px ">
+              <div class="d-flex flex-row justify-content-between align-items-center app-top-margin-4px px-3">
                 <div class="d-inline-flex flex-row align-items-center">
                   <label for="pAtNet" class="mb-0">
                     <input  type="checkbox" [(ngModel)]="pointInfo.playerAtNet" 
@@ -248,12 +256,12 @@
                 </div>
                 <div class="d-inline-flex flex-row align-items-center">
                   <label for="oAtNet" class="mb-0">
+                    At Net
                     <input type="checkbox" [(ngModel)]="pointInfo.opponentAtNet" 
-                            class=" app-form-radio-control " id="oAtNet" name="oAtNet"
+                            class=" app-form-radio-control-rev " id="oAtNet" name="oAtNet"
                             [disabled]="!pointInfo.return || pointInfo.returnWinner"
                             (change)="updateLogForm('opponentAtNet')" 
                             (focus)="clearRequestStatus()">
-                    At Net
                   </label>
                 </div>
               </div>

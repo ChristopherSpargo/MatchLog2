@@ -1,76 +1,150 @@
     <!-- Template used for gathering a list item. 
          Used with <app-list-item-field> DIRECTIVE -->
-  <div class="app-icon-input-field-container {{fExtraCSS}}">
-    <label class="app-icon-input-field-label-sm" 
-          [class.has-value]="(fValue !== '')" 
-          [class.has-focus]="focused" 
-          [class.app-show-required]="fRequired">
-          {{fLabel}}</label>
-    <div class="d-flex flex-row">
-      <i class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
-      <select name="{{fName}}" ngModel  
-              [required]="fRequired"
-              [disabled]="fDisabled"
-              [(ngModel)]="fValue" class="app-form-input d-flex" #fRef="ngModel"
-              [registerForm]="fForm" [registerModel]="fRef"
-              (focus)="showFocused()" (blur)="showNotFocused()" (change)="valueChange()">
-        <!-- <optgroup label="{{fLabel}}" class="app-form-theme-select-menu"> -->
-          <ng-container *ngIf="fAllowNew || fShowNew">
-            <option disabled class="app-no-display"></option>
-            <option  value="999" class="app-form-theme-select-menu-lg">New {{fLabel}}</option>
-          </ng-container>
-          <ng-container *ngIf="fAllowAny">
-            <option disabled class="app-no-display"></option>
-            <option value="0"class="app-form-theme-select-menu-lg">Any {{fLabel}}</option>
-          </ng-container>
-          <ng-container *ngIf=" fListValue == 'index' ">
-            <option *ngFor="let item of fList; index as i;" 
-                    value="{{i}}" class="app-form-theme-select-menu">
-                    {{item}}
-            </option>
-          </ng-container>
-          <ng-container *ngIf=" fListValue == 'player' ">
-            <option *ngFor="let item of fList"
-                    value="{{item.id}}" class="app-form-theme-select-menu">
-                    {{item.name}}
-            </option>
-          </ng-container>
-          <ng-container *ngIf=" fListValue == '' ">
-            <option *ngFor="let item of fList"
-                    value="{{item}}" class="app-form-theme-select-menu">
-                    {{item}}
-            </option>
-          </ng-container>
-        <!-- </optgroup> -->
-      </select>
-    </div>
-    <div class="app-field-messages" [style.visibility]="(fRef.touched || fForm.submitted) ? 'visible' : 'hidden'">
-      <validation-messages [vField]="fRef" [vMultiple]="fErrorMulti">
-        <validation-message name="required">{{fLabel}} selection is required.</validation-message>
-      </validation-messages>
+<div class="app-list-item-field-conainer"
+      [ngClass]="{'app-list-item-height-2': fAllowNew && fActionButtons,
+                  'app-list-item-height-1': !fAllowNew || !fActionButtons}">
+
+  <!-- Item select field -->
+
+  <div class="app-list-item-field-container-element app-z-3"
+      [ngClass]="{'app-z--1': fAllowNew && (fEqual ? (fValue == fNewTest) : (fValue != fNewTest)),
+                  'app-z-3': !fAllowNew || !(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))}">
+    <div class="app-icon-input-field-container {{fExtraCSS}}">
+      <label class="app-icon-input-field-label-sm" 
+            [class.has-value]="(fValue !== '')" 
+            [class.has-focus]="focused" 
+            [class.app-show-required]="fRequired">
+            {{fLabel}}</label>
+      <div class="d-flex flex-row">
+        <i class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
+        <select name="{{fName}}" ngModel  
+                [required]="fRequired"
+                [disabled]="fDisabled"
+                [(ngModel)]="fValue" class="app-form-input d-flex" #fRef="ngModel"
+                [registerForm]="fForm" [registerModel]="fRef"
+                (focus)="showFocused()" (blur)="showNotFocused()" (change)="valueChange()">
+            <ng-container *ngIf="fAllowNew || fShowNew">
+              <option disabled class="app-no-display"></option>
+              <option  value="999" class="app-form-theme-select-menu-lg">New {{fLabel}}</option>
+            </ng-container>
+            <ng-container *ngIf="fAllowAny">
+              <option disabled class="app-no-display"></option>
+              <option value="0"class="app-form-theme-select-menu-lg">Any {{fLabel}}</option>
+            </ng-container>
+            <ng-container *ngIf=" fListValue == 'index' ">
+              <option *ngFor="let item of fList; index as i;" 
+                      value="{{i}}" class="app-form-theme-select-menu">
+                      {{item}}
+              </option>
+            </ng-container>
+            <ng-container *ngIf=" fListValue == 'player' ">
+              <option *ngFor="let item of fList"
+                      value="{{item.id}}" class="app-form-theme-select-menu">
+                      {{item.name}}
+              </option>
+            </ng-container>
+            <ng-container *ngIf=" fListValue == '' ">
+              <option *ngFor="let item of fList"
+                      value="{{item}}" class="app-form-theme-select-menu">
+                      {{item}}
+              </option>
+            </ng-container>
+        </select>
+      </div>
+      <div class="app-field-messages" [style.visibility]="(fRef.touched || fCheckAll) ? 'visible' : 'hidden'">
+        <validation-messages [vField]="fRef" [vMultiple]="fErrorMulti">
+          <validation-message name="required">{{fLabel}} selection is required.</validation-message>
+        </validation-messages>
+      </div>
     </div>
   </div>
 
-<!-- New item description field -->
+  <!-- Item input field -->
   
-<div *ngIf="fAllowNew" class="d-flex flex-row app-vertical-expand "
-     [class.app-open]="(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))">
-  <app-icon-input
-      [fForm]       = "fForm" 
-      fRef          = "{{fNewRef}}" 
-      fName         = "{{fNewName}}" 
-      [fRequired]   = "(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
-      fType         = "text" 
-      fPattern      = "^[ #,!?'$-\w]{1,}$"
-      fMaxlength    = "30"
-      fLabel        = "{{fValue == '999' ? 'New' : 'Edit'}} {{fLabel}}"  
-      fIcon         = "{{fValue == '999' ? 'add_circle_outline' : 'edit'}}"
-      fColor        = "{{fColor}}" 
-      [(fValue)]    = "fNewValue" 
-      fErrors       = "required|pattern"
-      fErrorMsgs    = "New {{fLabel}} is required.|Invalid character or format for {{fLabel}}."
-      fExtraCSS     = "mb-2"
-      [fOnInput]    = "newValueChange"
-      [fFocusFn]    = "fOnFocus">
-    </app-icon-input>
+  <div *ngIf="fAllowNew" class="d-flex flex-column app-list-item-field-container-element">
+    <div class="d-flex flex-column app-fade-in "
+        [class.app-open]="(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))">
+      <app-icon-input
+          [fForm]       = "fForm" 
+          [fCheckAll]   = "fCheckAll"
+          fRef          = "{{fNewRef}}" 
+          fName         = "{{fNewName}}" 
+          [fRequired]   = "(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
+          [fDisabled]   = "fDisabled"
+          fType         = "text" 
+          fPattern      = "^[ @.#,!?'$-\w]{1,}$"
+          fMaxlength    = "30"
+          fLabel        = "{{fValue == '999' ? 'New' : 'Edit'}} {{fLabel}}"  
+          fIcon         = "{{fValue == '999' ? 'add_circle_outline' : 'edit'}}"
+          fColor        = "{{fColor}}" 
+          [(fValue)]    = "fNewValue" 
+          fErrors       = "required|pattern"
+          fErrorMsgs    = "New {{fLabel}} is required.|Invalid character or format for {{fLabel}}."
+          fExtraCSS     = "mb-2"
+          [fOnInput]    = "newValueChange"
+          [fFocusFn]    = "fOnFocus">
+        </app-icon-input>
+        <div *ngIf="!fDisabled && fActionButtons && (fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
+              class="d-flex flex-row justify-content-center align-items-center app-flex-wrap">
+          <label class="app-smaller-font mr-4 mb-0">
+            <app-fab
+                    fType       = "submit"
+                    [fOpen]     = "true"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                    [fDelay]    = "200"
+                    fAria       = "add"
+                    fIcon       = "check_circle_outline"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-primary">
+            </app-fab>
+              Save
+          </label>
+          <label *ngIf="fValue != '999'" class="app-smaller-font mr-4 mb-0">
+            <app-fab
+                    fType       = "button"
+                    [fOpen]     = "true"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                    [fDelay]    = "200"
+                    [fOnClick]  = "deleteItem"
+                    fAria       = "remove"
+                    fIcon       = "remove_circle_outline"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-warn">
+            </app-fab>
+              Remove
+          </label>
+          <label class="app-smaller-font mb-0">
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "true"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1"
+                    [fDelay]    = "200"
+                    [fOnClick]  = "cancelEdit"
+                    fAria       = "cancel"
+                    fIcon       = "highlight_off"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-brite-orange">
+            </app-fab>
+              Cancel
+          </label>
+        </div>
+        <div *ngIf="!fActionButtons && (fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
+              class="d-flex flex-row justify-content-end align-items-center">
+          <label class="app-small-list-field-cancel-fab mb-0">
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "true"
+                    fButtonCSS  = "app-fab-xsm app-bg-fab-gray mb-1"
+                    [fDelay]    = "200"
+                    [fOnClick]  = "cancelEdit"
+                    fAria       = "cancel"
+                    fIcon       = "highlight_off"
+                    fIconCSS    = "app-fab-icon-xsm"
+                    fIconColor  = "app-brite-orange">
+            </app-fab>
+              Cancel
+          </label>
+        </div>
+    </div>
+  </div>
 </div>

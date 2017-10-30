@@ -21,17 +21,47 @@
           <app-message name="updateSuccess" class="app-success">
             List update successful.
           </app-message>
+          <app-message name="listItemAdded" class="app-success">
+            List item added.
+          </app-message>
+          <app-message name="listItemRemoved" class="app-success">
+            List item removed.
+          </app-message>
+          <app-message name="listItemUpdated" class="app-success">
+            List item updated.
+          </app-message>
           <app-message name="dateConflict" class="app-error">
             Given date restrictions confilct.
+          </app-message>
+          <app-message name="passwordChangeFail" class="app-error">
+            Unable to change password.
           </app-message>
           <app-message name="emailChangeFail" class="app-error">
             Unable to change email address.
           </app-message>
+          <app-message name="deleteFail" class="app-error">
+            Unable to delete account.
+          </app-message>
+          <app-message name="createFail" class="app-error">
+            Unable to create new account.
+          </app-message>
+          <app-message name="authFail" class="app-error">
+            Unable to sign in.
+          </app-message>
+          <app-message name="passwordResetFail" class="app-error">
+            Unable to reset password.
+          </app-message>
+          <app-message name="newEmailInvalid" class="app-error">
+            New Email Address is invalid.
+          </app-message>
           <app-message name="emailInvalid" class="app-error">
-            New email address is invalid.
+            Email Address is invalid.
+          </app-message>
+          <app-message name="newEmailInUse" class="app-error">
+            New Email Address already in use.
           </app-message>
           <app-message name="emailInUse" class="app-error">
-            New email address already in use.
+            Email Address already in use.
           </app-message>
           <app-message name="unrecognizedEmail" class="app-error">
             No account for current email.
@@ -39,23 +69,14 @@
           <app-message name="incorrectPassword" class="app-error">
             Password value is incorrect.
           </app-message>
-          <app-message name="passwordChangeFail" class="app-error">
-            Unable to change password.
-          </app-message>
-          <app-message name="deleteFail" class="app-error">
-            Unable to delete account.
+          <app-message name="incorrectCurrentPassword" class="app-error">
+            Current Password value is incorrect.
           </app-message>
           <app-message name="createSuccess" class="app-success">
             Success!
           </app-message>
-          <app-message name="createFail" class="app-error">
-            Unable to create new account.
-          </app-message>
           <app-message name="weirdProblem" class="app-error">
             Some weird problem occurred.
-          </app-message>
-          <app-message name="authFail" class="app-error">
-            Unable to sign in.
           </app-message>
           <app-message name="accountCreated" class="app-success">
             Your new account has been created, press Submit to Sign In.
@@ -65,9 +86,6 @@
           </app-message>
           <app-message name="enterTempPassword" class="app-success">
             Enter the password from that email.
-          </app-message>
-          <app-message name="passwordResetFail" class="app-error">
-            Unable to reset password.
           </app-message>
           <app-message name="questionableShotCount" class="app-error">
             Wrong number of shots for indicated result.

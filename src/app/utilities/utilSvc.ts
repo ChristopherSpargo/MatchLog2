@@ -69,8 +69,8 @@ export class UtilSvc {
       var year  : number;
       var month : number;
       var day   : number;
-      var h     : number;
-      var m     : number;
+      var h     : number;   // hour
+      var m     : number;   // minute
       var fd    : string;
 
       if(d){
@@ -85,8 +85,21 @@ export class UtilSvc {
       m = dt.getMinutes();
       fd = (year + (month < 10 ? "0" : "") + month + (day < 10 ? "0" : "") + day + 
               (h < 10 ? "0" : "") + h + (m < 10 ? "0" : "") + m);
-      return fd;
+      return this.extendSortDate(fd);
     };
+
+    // attach current second and millisecond values to given sort date
+    extendSortDate(sd : string) : string {
+      var sms   : Date;
+      var s     : number;   // second
+      var ms    : number;   // millisecond
+
+      sms = new Date();   
+      s = sms.getSeconds();
+      ms = sms.getMilliseconds();
+      sd += (s < 10 ? "0" : "") + s + (ms < 100 ? "0" : "") + (ms < 10 ? "0" : "") + ms;
+      return sd;
+    }
 
     //set an item in the user.message object so the corresponding message can be displayed
     setUserMessage(msg: string, text?: string) : void {
@@ -274,6 +287,42 @@ export class UtilSvc {
               msgType = 'error';
               msgDuration = 2500;
               break;
+            case 'matchMadePublic':
+              msgText = "Copy of match is now public";
+              msgType = 'success';
+              break;
+            case 'matchMadePrivate':
+              msgText = "Public copy of match removed";
+              msgType = 'success';
+              break;
+            case 'matchRestrictionsUpdated':
+              msgText = "Authorized user list updated";
+              msgType = 'success';
+              break;
+            case 'errorUpdatingMatchRestrictions':
+              msgText = "Error updating authorized user list";
+              msgType = 'success';
+              break;
+            case 'errorMakingMatchPublic':
+              msgText = "Error making public copy of match";
+              msgType = 'error';
+              break;
+            case 'errorUpdatingPrivateMatch':
+              msgText = "Error updating private version of match";
+              msgType = 'error';
+              break;
+            case 'errorDeletingPublicCopy':
+              msgText = "Error removing public copy of match";
+              msgType = 'error';
+              break;
+            case 'errorReadingPublicCopy':
+              msgText = "Error reading public copy of match";
+              msgType = 'error';
+              break;
+            case 'featureNotAvailable':
+              msgText = "Feature is not available";
+              msgType = 'error';
+              break;
             default:
           }
           var toast: Toast = {
@@ -314,6 +363,21 @@ export class UtilSvc {
         }, delay);
     };
 
+    // Issue a confirmation dialog for an action involving a Match
+    // return a Promise
+    confirmMatchAction(title: string, player: string, opponent: string, matchDate: string, 
+                       okText: string, cancelText = "Cancel") : Promise<any> {
+      return this.modalSvc.matchActionOpen(title, player, opponent, matchDate, cancelText, okText);
+    };
+
+    // Define a function to issue a confirmation dialog
+    // return a Promise
+    openPublicMatchSettings(title: string, emailList: string[], player: string, opponent: string, 
+      matchDate: string, mode: string, okText ?: string, deleteText ?: string, cancelText ?:string) : Promise<any> {
+      return this.modalSvc.publicSettingsOpen(title, emailList, player, opponent, matchDate, mode,
+                                              okText, deleteText, cancelText);
+    };
+
     // Define a function to issue a confirmation dialog
     // return a Promise
     getConfirmation(title: string, content: string, okText: string, cancelText = "Cancel") : Promise<any> {
@@ -329,6 +393,6 @@ export class UtilSvc {
     // display the ConfirmDialog template according to the given parameters
     // returns: Promise
     showDialog(title: string, content: string, cancelText: string, okText: string) : Promise<any> {
-      return this.modalSvc.open(title, content, cancelText, okText);
+      return this.modalSvc.simpleOpen(title, content, cancelText, okText);
     }
 }

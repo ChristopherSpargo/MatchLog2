@@ -24,6 +24,7 @@ export class LogsCreateInfoComponent implements OnInit {
 @Input() resumeMenuOpen : boolean;  // true if MATCH tab should display menu of matches to resume
 @Input() pausedMatches  : Match[];  // list of matches to resume (if Resume mode)
 
+  checkAll              : boolean   = false; //true if form fields to be checked for errors (touched or not)
   working               : boolean = false;
   viewReady             : boolean = false;
   matchInfo = {
@@ -79,13 +80,16 @@ export class LogsCreateInfoComponent implements OnInit {
 
   ngOnInit() {
     if(!this.userInfo.authData){return;}
+    this.checkAll = false;
     this.setMessageResponders();
     // pre-fill some fields and pre-fetch some tables that will be needed
     this.matchInfo.date = this.utilSvc.formatDate();
     this.currentMatch.pointsLogged = 0;
     this.currentMatch.hasBeenSaved = false;
     if(this.userInfo.profile){
-      this.matchInfo.playerId = this.userInfo.profile.defaultPlayerId.toString();
+      if(this.userInfo.profile.defaultPlayerId){
+        this.matchInfo.playerId = this.userInfo.profile.defaultPlayerId.toString();
+      }
       this.newPlayer.gender = this.newOpponent.gender = 
           this.userInfo.profile.defaultOpponentGender || DEFAULT_GENDER_TYPE;
     }
@@ -168,6 +172,7 @@ export class LogsCreateInfoComponent implements OnInit {
     var oDef : Promise<any>;
     var promiseList : Promise<any>[] = [];
 
+    this.checkAll = true;
     this.clearRequestStatus();
     if(form && this.checkForProblems(form,this.matchInfo.playerId, this.matchInfo.opponentId)) {
       this.utilSvc.scrollToTop();
@@ -469,9 +474,8 @@ export class LogsCreateInfoComponent implements OnInit {
 
   // delete a match that was pausedd
   deletePausedMatch = (m: Match) => {
-    var msg = 'Delete ' + this.playerName(m.playerId) + ' .vs. ' + this.playerName(m.opponentId) +
-            ' on '+ m.date + ' ?';
-    this.utilSvc.getConfirmation('Delete Match', msg, 'Delete')
+    this.utilSvc.confirmMatchAction('Delete Match', this.playerName(m.playerId),
+                                    this.playerName(m.opponentId), m.date, 'Delete')
     .then((deleteIt) => {
       this.dataSvc.deleteMatch(m.sortDate)
       .then((success) => {
@@ -494,6 +498,11 @@ export class LogsCreateInfoComponent implements OnInit {
   // move to the next tab in the tab set
   public prevTab = () => {
     this.emit("prevTab");
+  }
+
+  // close the View Logs display
+  public closeView = () => {
+    this.utilSvc.emitEvent("closeView");
   }
 
 }

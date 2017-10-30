@@ -9,7 +9,7 @@ import { UIRouterModule } from "@uirouter/angular";
 import { uiRouterConfigFn } from "../router.config";
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { AboutStatus, UserInfo } from '../app.globals';
-import { ModalComponentTemplate, ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from '../app.component';
 
@@ -53,7 +53,7 @@ describe('Utilites Service', () => {
 
   it('should format a sort date as yyyyMMddHHmm', () => {
     let sdate = service.formatSortDate();
-    expect(sdate).toMatch(/^20\d\d[01]\d[0123]\d[01]\d[012345]\d$/g);
+    expect(sdate).toMatch(/^20\d\d[01]\d[0123]\d([01]\d|2[0123])[012345]\d$/g);
   });
 
   it('should display a toast message', () => {
@@ -67,7 +67,7 @@ describe('Utilites Service', () => {
   });
 
   it('should display a confirmation dialog', () => {
-    let mSpy = spyOn(modalSvc,'open').and.returnValue(Promise.resolve('CANCEL'));
+    let mSpy = spyOn(modalSvc,'simpleOpen').and.returnValue(Promise.resolve('CANCEL'));
     service.getConfirmation('Confirmation','Are you sure?','Yes');
     expect(mSpy.calls.count()).toEqual(1);
   });

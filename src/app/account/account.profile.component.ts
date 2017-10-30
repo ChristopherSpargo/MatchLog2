@@ -14,8 +14,9 @@ export class AccountProfileComponent implements OnInit {
 
   constructor(private user: UserInfo, private utilSvc: UtilSvc, private dataSvc: DataSvc){
   };
-    // CONTROLLER for PROFILE UPDATE feature
+    // COMPONENT for PROFILE UPDATE feature
 
+  checkAll           : boolean   = false; //true if form fields to be checked for errors (touched or not)
   profile            : any = {};
   playerList         : PlayerData[] = [];
   playerMenuLabel    : string = "";
@@ -52,6 +53,7 @@ export class AccountProfileComponent implements OnInit {
 
   // send profile update request to Data service
   submitRequest(form : NgForm) : void {
+    this.checkAll = true;
     this.clearRequestStatus();
     if(form.invalid){
       this.requestStatus.formHasErrors = true;

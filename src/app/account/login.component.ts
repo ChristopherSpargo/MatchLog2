@@ -11,6 +11,8 @@ import { DataSvc } from '../model/dataSvc'
   templateUrl: 'login.component.html'
 })
 export class LoginComponent implements OnInit {
+
+  checkAll              : boolean = false; //true if form fields to be checked for errors (touched or not)
   formOpen              : boolean = false;
   userEmail             : string = '';
   userPassword          : string = '';
@@ -86,6 +88,7 @@ export class LoginComponent implements OnInit {
 
   // send login request to Firebase service
   sendLoginRequest(form : NgForm) : void {
+    this.checkAll = true;
     this.clearRequestStatus();
     if(form.invalid){
       this.requestStatus.formHasErrors = true;

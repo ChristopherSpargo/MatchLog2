@@ -21,12 +21,11 @@
         <div class="d-flex flex-column">
 
           <!-- Email field -->
-
           <app-icon-input
             [fForm]       = "deleteForm" 
             fRef          = "cE" 
             fName         = "cEmail" 
-            [fReadonly]   = "true"
+            [fDisabled]   = "true"
             fType         = "email" 
             fLabel        = "Email Address"  
             fIcon         = "mail_outline"
@@ -35,9 +34,9 @@
           </app-icon-input>
 
           <!-- Password field -->
-
           <app-icon-input
             [fForm]       ="deleteForm" 
+            [fCheckAll]   = "checkAll"
             fRef          ="cP" 
             fName         ="cPassword" 
             [fRequired]   ="true" 
@@ -56,43 +55,25 @@
           </app-icon-input>
 
           <!-- Status Message Area -->
-
           <app-form-messages 
             [fWorkingOpen]    = "!haveStatusMessages() && working"
             [fMessageOpen]    = "haveStatusMessages() && !working"
             [fMessageObj]     = "requestStatus">
           </app-form-messages>                    
-          <!-- <div class=" app-form-message-area app-open app-no-overflow ">
-            <div class="d-flex flex-row justify-content-center align-items-center app-form-message-area app-fade-in"
-                  [ngClass]="{'app-open': working}">
-              <div class="progress app-progress-indicator" >
-                <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" 
-                      role="progressbar" aria-valuenow="100" 
-                      aria-valuemin="0" aria-valuemax="100" style="width: 100%; color: black;">Working...</div>
-              </div>                
-            </div>
-            <div class=" app-form-message-area app-fade-in"
-                  [ngClass]="{'app-open': (haveStatusMessages() && deleteForm.submitted)}" >
-              <app-messages [mList]="requestStatus" [mMax]="2">
-                <app-message name="formHasErrors" class="app-error">
-                  Please correct the fields with errors.
-                </app-message>
-                <app-message name="deleteFail" class="app-error">
-                  Unable to delete account.
-                </app-message>
-                <app-message name="unrecognizedEmail" class="app-error">
-                  No account for current email.
-                </app-message>
-                <app-message name="incorrectPassword" class="app-error">
-                  Password value is incorrect.
-                </app-message>
-              </app-messages>
-            </div>
-          </div> -->
 
           <!-- Actions Area -->
-
-            <app-update-actions [fDeleteCheck]="true"></app-update-actions>
+            <app-update-actions 
+              [fDeleteCheck]  ="true"
+              [fLabels]       ="true"
+              fRLabel         ="Delete"
+              >
+          </app-update-actions>
+                            
+          <!-- Button to close form -->
+          <app-footer-button 
+            [fOnClick]      = "closeForm">
+          </app-footer-button>
+          
         </div>
       </form>
     </div>

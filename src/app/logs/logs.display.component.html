@@ -198,13 +198,12 @@
         <!-- Display player names, current display item label and maybe a serving indicator
               and a who won indicator.  Also, allow user to swipe left/right to change tabs in this area -->
         <div class="d-flex flex-row app-no-overflowy py-1">
-            <div class="d-flex flex-row justify-content-center align-items-end app-match-stats-player-name app-flex-1">
-              <img class=" app-match-stats-service-img " [src]="ballImage" 
-                  [class.app-invisible]="!playerServed && (!playerServing || opponentServed)"/>
-              <div>
+            <div class="d-flex flex-row justify-content-start align-items-end app-match-stats-player-name app-flex-1">
+              <div
+                  [class.app-match-was-server]="playerServed || (playerServing && !opponentServed)">
                 {{stats?.shortPlayerName}}
               </div>
-              <i class="material-icons app-match-winner-check-icon"
+              <i *ngIf="singleMatch()" class="material-icons app-match-winner-check-icon"
                 [ngClass]="{'app-check-green': playerWon,
                       'app-transparent-text': !playerWon,
                       'app-check-red': playerBroke}">
@@ -218,17 +217,16 @@
               {{stats?.title2}}
             </div>
           </div>
-            <div class="d-flex flex-row justify-content-center align-items-end app-match-stats-opponent-name app-flex-1">
-              <img class=" app-match-stats-service-img " [src]="ballImage" 
-                  [class.app-invisible]="!opponentServed && (!opponentServing || playerServed)"/>
-              <div>
-                {{stats?.shortOpponentName}}
-              </div>
-              <i class="material-icons app-match-winner-check-icon" 
+            <div class="d-flex flex-row justify-content-end align-items-end app-match-stats-opponent-name app-flex-1">
+              <i *ngIf="singleMatch()" class="material-icons app-match-winner-check-icon" 
                   [ngClass]="{'app-check-green': opponentWon,
                           'app-transparent-text': !opponentWon,
                         'app-check-red': opponentBroke}">
                 check</i>
+              <div
+                  [class.app-match-was-server]="opponentServed || (opponentServing && !playerServed)">
+                {{stats?.shortOpponentName}}
+              </div>
             </div>
         </div>
         <div class=" app-match-stats-divider ">
@@ -543,7 +541,7 @@
             <app-fab 
                     fType       = "button"
                     [fOpen]     = "speedDialOpen"
-                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2"
+                    fButtonCSS  = "app-fab-m app-bg-fab-gray app-expand-open mr-2"
                     [fOnClick]  = "closeSDMoveRight"
                     fAria       = "move right"
                     fIcon       = "chevron_right"
@@ -553,7 +551,7 @@
             <app-fab 
                     fType       = "button"
                     [fOpen]     = "speedDialOpen"
-                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-1"
+                    fButtonCSS  = "app-fab-m app-bg-fab-gray app-expand-open mr-2 app-delay-1"
                     [fOnClick]  = "closeSDInsert"
                     fAria       = "add"
                     fIcon       = "add"
@@ -563,7 +561,7 @@
             <app-fab 
                     fType       = "button"
                     [fOpen]     = "speedDialOpen"
-                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-2"
+                    fButtonCSS  = "app-fab-m app-bg-fab-gray app-expand-open mr-2 app-delay-2"
                     [fOnClick]  = "closeSDMoveLeft"
                     fAria       = "move left"
                     fIcon       = "chevron_left"
@@ -573,7 +571,7 @@
             <app-fab 
                     fType       = "button"
                     [fOpen]     = "speedDialOpen"
-                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-3"
+                    fButtonCSS  = "app-fab-m app-bg-fab-gray app-expand-open mr-2 app-delay-3"
                     [fOnClick]  = "closeSDDelete"
                     fAria       = "delete"
                     fIcon       = "remove"
@@ -583,7 +581,7 @@
             <app-fab 
                     fType       = "button"
                     [fOpen]     = "speedDialOpen"
-                    fButtonCSS  = "app-fab-sm app-bg-fab-gray app-expand-open mr-2 app-delay-4"
+                    fButtonCSS  = "app-fab-m app-bg-fab-gray app-expand-open mr-2 app-delay-4"
                     [fOnClick]  = "closeSDEdit"
                     [fDelay]    = "200"
                     fAria       = "edit"

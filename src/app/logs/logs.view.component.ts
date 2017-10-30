@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { StateService } from "@uirouter/angular";
 import { NgbTabChangeEvent, NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { UtilSvc } from '../utilities/utilSvc';
 import { UserInfo, CurrentMatch } from '../app.globals';
@@ -6,6 +7,7 @@ import { DataSvc } from '../model/dataSvc';
 import { GraphsSvc } from '../model/graphsSvc';
 import { Player, PlayerData } from '../model/player';
 import { Match } from '../model/match';
+import { PUBLIC_USER_ID } from '../constants'
 
 export const MENU_TAB       : number = 0;
 export const MENU_TAB_ID    : string = "menuTab";
@@ -32,6 +34,8 @@ export class LogsViewComponent implements OnInit, OnDestroy {
   matchViewOpen    : boolean = false;
   logsReady        : boolean = false;
   working          : boolean = false;
+  managePublics    : boolean = false;
+  viewPublics      : boolean = false;
   matchesMessage   : string = "";
   playerList       : any[] = [];
   tournamentList   : string[] = [];
@@ -42,7 +46,8 @@ export class LogsViewComponent implements OnInit, OnDestroy {
  
 
   constructor(private userInfo : UserInfo, private utilSvc : UtilSvc, private dataSvc : DataSvc,
-              private graphsSvc : GraphsSvc, private currentMatch: CurrentMatch){};
+              private graphsSvc : GraphsSvc, private currentMatch: CurrentMatch,
+              private stateService: StateService){};
 
   ngOnInit() {
     // make the user sign in to view match logs
@@ -50,19 +55,25 @@ export class LogsViewComponent implements OnInit, OnDestroy {
       this.utilSvc.returnToHomeMsg("signInToReview");
     }
     else {
-        // initialize the this.currentMatch object
-      this.currentMatch.mode          = "Review";
+        // initialize mode flags and the currentMatch object
+      this.managePublics              = this.stateService.current.name == 'managePublicLogs';
+      if(this.managePublics && (this.userInfo.authData.uid === PUBLIC_USER_ID)){
+        this.utilSvc.returnToHomeMsg("featureNotAvailable");
+      }
+      this.viewPublics                = this.stateService.current.name == 'viewPublicLogs';
+      this.currentMatch.mode          = 'Review';
       this.currentMatch.matchSelectFlags = [];
       this.currentMatch.match         = undefined;
       this.currentMatch.selectedSet   = undefined;
       this.currentMatch.selectedGame  = undefined;
       this.currentMatch.selectedPoint = undefined;
 
+
       this.constructMatchesMessage(0);          
       this.setMessageResponders();
       this.utilSvc.setCurrentHelpContext("MatchLogSearch"); //note current context
       this.utilSvc.displayUserMessages();
-      this.dataSvc.getPlayers()    //read current list of players
+      this.dataSvc.getPlayers(this.viewPublics ? PUBLIC_USER_ID : undefined ) //read appropriate list of players
       .then((pList) => {
         this.currentMatch.playerList = this.playerList = <any[]>pList;
         //the next line will call openSearchForm from the (tabChange) handler of the TABS element
@@ -86,6 +97,7 @@ export class LogsViewComponent implements OnInit, OnDestroy {
     document.addEventListener("searchUpdate", this.updateMatchList);
     document.addEventListener("nextTab", this.nextTab);
     document.addEventListener("prevTab", this.prevTab);
+    document.addEventListener("closeView", this.closeView);
   }
 
   //remove all the message responders set in this module
@@ -94,6 +106,7 @@ export class LogsViewComponent implements OnInit, OnDestroy {
     document.removeEventListener("searchUpdate", this.updateMatchList);
     document.removeEventListener("nextTab", this.nextTab);
     document.removeEventListener("prevTab", this.prevTab);
+    document.removeEventListener("closeView", this.closeView);
   }
 
   //emit a custom event with the given name and detail data
@@ -172,9 +185,13 @@ export class LogsViewComponent implements OnInit, OnDestroy {
     if(this.logsReady){       // something to show?
       this.closeMatchView();
       this.closeSearchForm();
-      // this.currentMatch.selectedTab = MENU_TAB;
-      this.headerTitle = "Match Log Menu";
-      this.utilSvc.setCurrentHelpContext("MatchLogMenu");
+      if(this.managePublics){
+        this.headerTitle = "Manage Public Logs";
+        this.utilSvc.setCurrentHelpContext("ManagePublicLogs");
+      } else {
+        this.headerTitle = this.viewPublics ? "Public Match Logs" : "Personal Match Logs";
+        this.utilSvc.setCurrentHelpContext("MatchLogMenu");
+      }
       setTimeout( () => {
         this.matchMenuOpen = true;
       }, 100);
@@ -239,17 +256,26 @@ export class LogsViewComponent implements OnInit, OnDestroy {
     return 999;       // not found?
   }
 
-  // return the name of the player with the given id
-  public playerName = (id : number) => {
+  // return the selected name data of the player with the given id
+  public playerName = (id : number, sel = 'B') => {
     var i;
+    var n = "Unknown";
 
     i = this.getPlayerListIndex(id);
     if(i != 999){
-      return this.currentMatch.playerList[i].name;
+      switch(sel){
+        case 'B':   // return both names
+        n = this.currentMatch.playerList[i].name;
+        break;
+        case 'F':
+        n = this.currentMatch.playerList[i].firstName;
+        break;
+        case 'L':
+        n = this.currentMatch.playerList[i].lastName;
+        break;
+      }
     }
-    else{
-      return "Unknown";
-    }
+    return n;
   }
 
   public tabChange = (evt: NgbTabChangeEvent) => {

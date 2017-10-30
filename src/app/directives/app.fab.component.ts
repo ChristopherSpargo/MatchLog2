@@ -8,6 +8,8 @@ export class AppFabComponent  {
   clicked : boolean = false;
 
   @Input() fType        : string = "submit";      // Type for button
+  @Input() fLabel       : string = ""             // creates a small fab with a label
+  @Input() fReverse     : boolean = false;        // reverse side for label
   @Input() fButtonCSS   : string = ""             // css classes to assign to the button
   @Input() fOpen        : boolean = false         // true if assign app-open class to button
   @Input() fAria        : string;                 // aria label text

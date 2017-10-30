@@ -28,6 +28,7 @@ $disabledTextColor: rgb(166,166,166);
 /*$infoLabelColor: rgb(57,115,172);*/
 $infoLabelColor: rgb(0,137,123);
 $inputLabelColor: rgba(0,137,123,.54);
+$publicLogsColor: rgba(255,145,0,.9);
 html {
   overflow: hidden;
   /*overflow-y: auto; */
@@ -81,15 +82,34 @@ b, strong {
 .app-fab-button:focus {
   outline: none;
    box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);}
-.app-fab-sm {
+.app-fab-m {
   max-width: 40px;
   min-width: 40px;
   max-height: 40px;
   min-height: 40px;}
+.app-fab-icon-m {
+  font-size: 40px;}
+.app-fab-sm {
+  max-width: 30px;
+  min-width: 30px;
+  max-height: 30px;
+  min-height: 30px;}
 .app-fab-icon-sm {
   font-size: 30px;}
 .app-fab-icon-xsm {
   font-size: 24px;}
+.app-fab-xsm {
+  max-width: 20px;
+  min-width: 20px;
+  max-height: 20px;
+  min-height: 20px;}
+.app-fab-icon-xsm {
+  font-size: 20px;}
+.app-fab-xsm {
+  max-width: 20px;
+  min-width: 20px;
+  max-height: 20px;
+  min-height: 20px;}
 .app-fab-lg {
   max-width: 56px;
   min-width: 56px;
@@ -238,6 +258,8 @@ b, strong {
   margin: 0!important;}
 .app-no-border {
   border: 0 !important;}
+.app-bt-1px {
+  border-top: 1px solid gray;}
 .app-no-overflow {
   overflow: hidden;}
 .app-no-overflow-x {
@@ -504,6 +526,10 @@ b, strong {
   .app-logs-header-theme {
     background-color: rgba(98,134,95,1);
   }
+  .app-public-logs-settings-theme {
+    background-color: $publicLogsColor;
+    color: $blackTextColor;
+  }
   .app-account-header-theme {
     background-color: rgba(190,66,56,1);
   }
@@ -543,6 +569,32 @@ b, strong {
     .app-form-icon-input-label, .app-form-icon-input-label-sm {
       margin: 0 0 0 39px;}}
 
+/* wrappers for achieve overlapping fields within list item field */
+.app-list-item-field-conainer {
+  position: relative;}
+.app-list-item-height-1 {
+  min-height: 65px;}
+.app-list-item-height-2 {
+  min-height: 115px;}
+  @media($lg-screen) {
+    .app-list-item-height-1 {
+      min-height: 78px;}
+    .app-list-item-height-2 {
+      min-height: 130px;}}
+.app-list-item-field-container-element {
+  position: absolute;
+  min-width: 100%;
+  left: 0;
+  top: 0;}
+.app-z--1 {
+  z-index: -1;}
+.app-z-3 {
+  z-index: 3;}
+.app-small-list-field-cancel-fab {
+  position: relative;
+  z-index: 4;
+  font-size: 70%;
+  top: -25px;}
 /* provide a flex container unit for an input field with icon, floating label 
    and verification messages */
     .app-icon-input-field-container {
@@ -571,7 +623,7 @@ b, strong {
           left: 0px;}} 
     .app-icon-input-field-label.has-value, .app-icon-input-field-label-sm.has-value,
     .app-icon-input-field-label.has-focus, .app-icon-input-field-label-sm.has-focus {
-        transform: translate3d(-12.5%,-1.5em,0) scale(.75);}
+        transform: translate3d(-12.5%,-1.3em,0) scale(.75);}
     .app-show-required::after {
       content: "*";
       color: rgba(255,0,0,.8);
@@ -617,7 +669,7 @@ b, strong {
   margin-left: 30px;
   max-width: calc(100% - 30px) !important;}
 .app-input-icon-area {
-  margin: 0 6px 0 0;
+  margin: 0 7px 0 0;
   width: 24px;}
   @media ($lg-screen) {
     .app-input-icon-area {
@@ -635,6 +687,11 @@ b, strong {
   @media($lg-screen) {
     .app-form-radio-control {
       margin: 0 8px 0 0;}}
+.app-form-radio-control-rev {
+  margin: 0 0 0 6px;}
+  @media($lg-screen) {
+    .app-form-radio-control-rev {
+      margin: 0 0 0 8px;}}
 .app-add-subtract-input-control {
   order: 0 !important;
   width: 30% ;
@@ -985,7 +1042,7 @@ $appFormCloseSizeIconLg: 38px !important;
   cursor: pointer;
   background-color: white;
   color: inherit;
-  margin: 0px!important;
+  margin: 0px;
   align-items: center;
   border-bottom: 1px solid rgba(0,0,0,.12);
   width: 100%;
@@ -1013,6 +1070,12 @@ $appFormCloseSizeIconLg: 38px !important;
   min-height: 36px;}
 .app-match-menu-delete-icon {
   font-size: 36px;}
+.app-match-menu-edit-icon {
+  font-size: 24px;}
+.app-matches-menu-edit-space-left {
+  margin-left: 50px;}
+.app-matches-menu-edit-space-right {
+  margin-right: 40px;}
 .app-matches-menu-line1 {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -1097,6 +1160,11 @@ $appFormCloseSizeIconLg: 38px !important;
   margin-right: 0;
   line-height: 1.1em;
   font-size: 1.1em;}
+.app-match-was-server {
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #ffcc00;
+  -moz-text-decoration-color: #ffcc00}
 .app-match-stats-section-button {
   cursor: pointer;
   text-transform: none;
@@ -1213,8 +1281,6 @@ $appFormCloseSizeIconLg: 38px !important;
   border-radius: .3em;}
 .app-confirm-dialog-content {
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 8px;
   min-height: 30px;}
 .app-dialog-header {
   border: 0;
@@ -1237,6 +1303,8 @@ $appFormCloseSizeIconLg: 38px !important;
   color: rgba(204,153,102,1);}
 .app-logs-color {
   color: rgba(98,134,95,.9);}
+.app-public-logs-color {
+  color: $publicLogsColor}
 .app-accounts-color {
   color: rgba(190,66,56,.9);}
 .app-about-color {
@@ -1310,7 +1378,7 @@ $appFormCloseSizeIconLg: 38px !important;
   flex-wrap: wrap;}
 /*modifications for ngb-bootstrap modal*/
 .modal-dialog {
-  margin: 40% 10%;}
+  margin: 15% 2%;}
   @media ($lg-screen) {
     .modal-dialog {
       margin: 10% auto;}}

@@ -233,9 +233,12 @@ export class TSet {
   readyForPoint(): boolean {
     var addedGame = false;
     
-    if(!this.isEmpty() && this.games[this.games.length-1].winnerId && !this.winnerId){ //current game is over but not the set?
-        this.addNewGame(); //add another game
-        addedGame = true;
+    if((this.type != TIEBREAK_SET_TYPE)
+                  && !this.isEmpty() 
+                  && this.games[this.games.length-1].winnerId 
+                  && !this.winnerId){ //current game is over but not the set?
+      this.addNewGame(); //add another game
+      addedGame = true;
     }
     return addedGame;
   }

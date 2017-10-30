@@ -49,6 +49,10 @@ export class HomeComponent implements OnInit {
     return this.sS.logsMenuOpen;
   }
 
+  publicLogsMenuOpen = () => {
+    return this.sS.publicLogsMenuOpen;
+  }
+
   listsMenuOpen = () => {
     return this.sS.listsMenuOpen;
   }
@@ -99,6 +103,7 @@ export class HomeComponent implements OnInit {
 
   toggleLogsMenu() : void {
     this.sS.aboutMenuOpen = false;
+    this.sS.publicLogsMenuOpen = false;
     this.sS.listsMenuOpen = false;
     this.sS.accountMenuOpen = false;
     setTimeout( () => {
@@ -106,9 +111,20 @@ export class HomeComponent implements OnInit {
     }, 100);
   }
 
+  togglePublicLogsMenu() : void {
+    this.sS.aboutMenuOpen = false;
+    this.sS.logsMenuOpen = false;
+    this.sS.listsMenuOpen = false;
+    this.sS.accountMenuOpen = false;
+    setTimeout( () => {
+      this.sS.publicLogsMenuOpen = !this.sS.publicLogsMenuOpen;
+    }, 100);
+  }
+
   toggleListsMenu() : void {
     this.sS.aboutMenuOpen = false;
     this.sS.logsMenuOpen = false;
+    this.sS.publicLogsMenuOpen = false;
     this.sS.accountMenuOpen = false;
     setTimeout( () => {
       this.sS.listsMenuOpen = !this.sS.listsMenuOpen;
@@ -119,6 +135,7 @@ export class HomeComponent implements OnInit {
     this.sS.aboutMenuOpen = false;
     this.sS.listsMenuOpen = false;
     this.sS.logsMenuOpen = false;
+    this.sS.publicLogsMenuOpen = false;
     setTimeout( () => {
       this.sS.accountMenuOpen = !this.sS.accountMenuOpen;
     }, 100);
@@ -128,6 +145,7 @@ export class HomeComponent implements OnInit {
     this.sS.accountMenuOpen = false;
     this.sS.listsMenuOpen = false;
     this.sS.logsMenuOpen = false;
+    this.sS.publicLogsMenuOpen = false;
     setTimeout( () => {
       this.sS.aboutMenuOpen = !this.sS.aboutMenuOpen;
     }, 100);

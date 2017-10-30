@@ -30,6 +30,8 @@
         <ng-template ngbTabContent>
           <!-- Component to display the menu of matches from search -->
           <app-logs-view-menu
+            [viewPublics]               = "viewPublics"
+            [managePublics]             = "managePublics"
             [matchMenuOpen]             = "matchMenuOpen"
             [playerName]                = "playerName"
             [constructMatchesMessage]   = "constructMatchesMessage">
@@ -63,6 +65,7 @@
         <ng-template ngbTabContent>
           <!-- Component to display the match search form -->
           <app-logs-view-search
+            [viewPublics]    = "viewPublics"
             [searchFormOpen] = "searchFormOpen">
           </app-logs-view-search>
         </ng-template>

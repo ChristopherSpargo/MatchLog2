@@ -11,6 +11,7 @@ export class SlideoutStatus {
   aboutMenuOpen     : boolean = false;
   accountMenuOpen   : boolean = false;
   logsMenuOpen      : boolean = false;
+  publicLogsMenuOpen: boolean = false;
   listsMenuOpen     : boolean = false;
   aboutOpen         : boolean = false;
 }

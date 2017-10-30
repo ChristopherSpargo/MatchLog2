@@ -16,6 +16,7 @@ export class AccountDeleteComponent implements OnInit {
               private cookieSvc: CookieSvc){
   };
     
+  checkAll           : boolean   = false; //true if form fields to be checked for errors (touched or not)
   userEmail          : string;
   password           : string = "";
   requestStatus      : { [key: string]: any } = {};
@@ -61,6 +62,7 @@ export class AccountDeleteComponent implements OnInit {
   // send delete request to Firebase service
   submitRequest(form: NgForm) : void {
     this.clearRequestStatus();
+    this.checkAll = true;
     if(form.invalid){
       this.requestStatus.formHasErrors = true;
       return;

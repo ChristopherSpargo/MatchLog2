@@ -21,9 +21,9 @@
         <div class="d-flex flex-column">
 
           <!-- Email field -->
-
           <app-icon-input
             [fForm]       = "loginForm" 
+            [fCheckAll]   = "checkAll"
             fRef          = "uE" 
             fName         = "uEmail" 
             [fRequired]   = "true" 
@@ -38,9 +38,9 @@
           </app-icon-input>
 
           <!-- Password field -->
-
           <app-icon-input
             [fForm]       ="loginForm" 
+            [fCheckAll]   = "checkAll"
             fRef          ="uP" 
             fName         ="uPassword" 
             [fRequired]   ="true" 
@@ -59,14 +59,13 @@
           </app-icon-input>
 
           <!-- Hidden fields for creating a new account -->
-
           <div class=" d-flex flex-column app-vertical-expand app-form-theme-text"
                 [class.app-open]="showNewAccountFields()">
 
             <!-- Password confirmation field -->
-
             <app-icon-input
               [fForm]     ="loginForm" 
+              [fCheckAll] = "checkAll"
               fRef        ="cP" 
               fName       ="cPassword" 
               [fRequired] ="showNewAccountFields()" 
@@ -96,7 +95,6 @@
           </div>
 
           <!-- Remember Me field -->
-
           <div *ngIf="!requestStatus.incorrectPassword">
             <label>
               <input type="checkbox" class="app-input-icon-area" name="memberMe" [(ngModel)]="rememberLogin">
@@ -105,7 +103,6 @@
           </div>
 
           <!-- Status Message Area -->
-
           <app-form-messages 
             [fWorkingOpen]    = "!haveStatusMessages() && working"
             [fMessageOpen]    = "haveStatusMessages() && !working"
@@ -113,19 +110,27 @@
           </app-form-messages>                    
 
           <!-- Actions Area -->
-
           <div class="d-flex flex-row justify-content-center align-items-center" id="actions">
-            <app-fab *ngIf="!newAccount && !requestStatus.incorrectPassword" fAria="sign in"
+            <app-fab *ngIf="!newAccount && !requestStatus.incorrectPassword"
+                      fAria="sign in"
+                      fLabel="{{createAccount ? 'Create Account' : 'Sign In'}}"
                       fIcon="{{createAccount ? 'add_circle_outline' : 'check_circle_outline'}}">
             </app-fab>
-            <app-fab *ngIf="newAccount" fAria="sign in"
+            <app-fab *ngIf="newAccount" fAria="sign in" fLabel="Continue to Sign In"
                       fIcon="arrow_forward">
             </app-fab>
-            <app-fab *ngIf="requestStatus.incorrectPassword"
-                      fAria="forgot password" fIcon="sentiment_dissatisfied" fIconColor="app-warn"
+            <app-fab *ngIf="requestStatus.incorrectPassword"  fAria="forgot password"
+                      fLabel="Reset Password"
+                      fIcon="sentiment_dissatisfied" fIconColor="app-warn"
                       fType="button" [fOnClick]="requestPasswordReset">
             </app-fab>
           </div>
+                            
+          <!-- Button to close form -->
+          <app-footer-button
+            [fOnClick]      = "closeForm">
+          </app-footer-button>
+
         </div>
       </form>
     </div>

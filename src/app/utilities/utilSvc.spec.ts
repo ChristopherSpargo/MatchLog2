@@ -51,9 +51,9 @@ describe('Utilites Service', () => {
     expect(date).toMatch(/^[01]\d\/[0123]\d\/20\d\d$/g);
   });
 
-  it('should format a sort date as yyyyMMddHHmm', () => {
+  it('should format a sort date as yyyyMMddHHmmssttt', () => {
     let sdate = service.formatSortDate();
-    expect(sdate).toMatch(/^20\d\d[01]\d[0123]\d([01]\d|2[0123])[012345]\d$/g);
+    expect(sdate).toMatch(/^20\d\d[01]\d[0123]\d([01]\d|2[0123])[012345]\d\d\d\d\d\d$/g);
   });
 
   it('should display a toast message', () => {

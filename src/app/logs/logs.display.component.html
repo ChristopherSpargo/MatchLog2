@@ -1,8 +1,49 @@
- <div class="container px-2 py-3"
-      [class.app-open]="matchViewOpen">  
+ <div class="container px-2 pb-3" 
+      [ngClass]="{'app-open': matchViewOpen,
+                  'app-filter-nav-padding': (singleMatch() && selectedMatch()),
+                  'pt-3': !(singleMatch() && selectedMatch())}">  
+
+        <!-- display a control for moving between points in the pointFilterList (if any) -->
+        <div *ngIf="singleMatch() && selectedMatch()" 
+              class="d-flex flex-row justify-content-end app-point-filter-nav">
+          <ng-container *ngIf="haveFilterList()">
+              <button class="btn app-filter-nav-button " type="button"
+                      (click)="previousFilterPoint()">
+                <i aria-label="previous point"
+                          class="material-icons app-primary app-filter-nav-icon">arrow_back</i>
+              </button>
+                <input type="text" name="pointOf" autocomplete="off" 
+                        aria-label="selected point" name="sPoint"
+                        [ngModel]="filterNavDisplay" readonly
+                        class="app-add-subtract-input-control app-width-20 app-form-theme-text"
+                        >
+              <button class="btn app-filter-nav-button mr-3" type="button"
+                      (click)="nextFilterPoint()">
+                <i aria-label="next point"
+                          class="material-icons app-primary app-filter-nav-icon">arrow_forward</i>
+              </button>
+          </ng-container>
+        <!-- display a button to open the point filter modal -->
+          <label class="mb-0">
+            <app-fab 
+                    fType       = "button"
+                    [fOpen]     = "true"
+                    fButtonCSS  = "app-fab-sm app-bg-fab-gray mb-1 ml-4 mr-1"
+                    [fDelay]    = "200"
+                    [fOnClick]  = "openPointFilter"
+                    fAria       = "filter points"
+                    fIcon       = "filter_list"
+                    fIconCSS    = "app-fab-icon-sm"
+                    fIconColor  = "app-point-filter-color">
+            </app-fab>
+              Filter
+          </label>
+        </div>
+        
   <div *ngIf="viewTabOpen()" class=" app-no-scroll ">
     <div class="app-theme-inherit">
       <div class="d-flex flex-column">
+
         <!-- Describe the dataset. -->
         <div class="d-flex flex-column app-vertical-expand app-tb-padding-4px 
                     app-match-display-header app-lr-padding-8px"
@@ -90,12 +131,13 @@
                 </div>
               </div>
             </button>
-            <div *ngIf="singleMatch()" class="d-flex flex-row">
+            <div *ngIf="singleMatch() && selectedMatch()" class="d-flex flex-row">
               <button *ngFor="let s of selectedMatch().score; index as i" 
                       (click)="setSelectedSet(i)" type="button" 
                       class="btn d-flex flex-column justify-content-center align-items-center 
                             app-match-display-set-button app-viewlogs-button-theme" 
-                      [class.app-stats-selected]="selectedSet() == selectedMatch().sets[i]">
+                      [ngClass]="{'app-stats-selected': selectedSet() == selectedMatch().sets[i],
+                                  'app-stats-filtered': selectedMatch().sets[i].hasFilterPoint}">
                 <div class=" app-match-display-score-set ">
                   {{s[0]}}
                 </div>
@@ -135,7 +177,8 @@
                       (click)="setSelectedGame(i)" aria-label="select game" type="button"
                       class="btn d-flex flex-column justify-content-center align-items-center 
                             app-match-display-set-button app-viewlogs-button-theme" 
-                      [class.app-stats-selected]="selectedGame() == g">
+                      [ngClass]="{'app-stats-selected': selectedGame() == g,
+                                  'app-stats-filtered': g.hasFilterPoint}">
                 <i *ngIf="g.playerWon" class="material-icons app-match-set-winner-icon" 
                       [ngClass]="{'app-check-green': g.playerServed, 
                                   'app-check-red': !g.playerServed}">
@@ -157,7 +200,8 @@
                       (click)="setSelectedPoint(i)" aria-label="select game" type="button"
                       class="btn d-flex flex-column justify-content-center align-items-center 
                             app-match-display-set-button app-viewlogs-button-theme" 
-                      [class.app-stats-selected]="selectedPoint() == p">
+                      [ngClass]="{'app-stats-selected': selectedPoint() == p,
+                                  'app-stats-filtered': p.hasFilterPoint}">
                 <div class="app-match-display-score-set" 
                       [ngClass]="{'app-check-green': playerHeldThisPoint(p),
                                   'app-check-red': playerBrokeThisPoint(p)}">
@@ -180,7 +224,8 @@
                     (click)="setSelectedPoint(i)" aria-label="select point"
                     class="btn d-flex flex-column justify-content-center align-items-center 
                             app-match-display-set-button app-viewlogs-button-theme" 
-                    [class.app-stats-selected]="selectedPoint() == p">
+                      [ngClass]="{'app-stats-selected': selectedPoint() == p,
+                                  'app-stats-filtered': p.hasFilterPoint}">
               <div class="app-match-display-score-set" 
                     [ngClass]="{'app-check-green': playerHeldThisPoint(p),
                                 'app-check-red': playerBrokeThisPoint(p)}">
@@ -490,10 +535,10 @@
 	    <div *ngIf="selectedPoint()" class="d-flex flex-column app-edit-fab-container ">
 		    <app-point-item fLabel="Shots:" [fValue]="pointInfo.shots"></app-point-item> 
 		    <app-point-item fLabel="Serve:" [fValue]="pointInfo.serve"></app-point-item>
-		    <app-point-item *ngIf="pointInfo.endedByAce"
+		    <app-point-item *ngIf="pointInfo.endedByAce || pointInfo.endedByDouble"
 		    								fLabel="Return:" [fValue]="pointInfo.returnIn">
 		    </app-point-item> 
-		    <app-point-item *ngIf="!pointInfo.endedByAce"
+		    <app-point-item *ngIf="!pointInfo.endedByAce && !pointInfo.endedByDouble"
 		    								fLabel="Return:" [fValue]="pointInfo.returnIn"
 		    								[fWing]="pointInfo.returnWing">
 		    </app-point-item> 
@@ -520,6 +565,10 @@
 		    </app-point-item> 
 		    <app-point-item *ngIf="pointInfo.errorDetail"
                         fLabel="Cause:" [fValue]="pointInfo.errorDetail">
+        </app-point-item> 
+		    <app-point-item *ngIf="pointInfo.specialPt"
+                        fLabel="Big Point:" [fValue]="pointInfo.specialPt"
+                        fColor="{{pointInfo.specialPtFor === 'server' ? 'app-check-green' : 'app-check-red'}}">
         </app-point-item> 
 
         <!-- Point editing controls -->

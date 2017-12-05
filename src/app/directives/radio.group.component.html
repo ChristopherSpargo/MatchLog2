@@ -1,5 +1,5 @@
 <div class="d-flex flex-column app-form-theme-text ">
-  <label class="app-form-icon-input-label-sm"
+  <label *ngIf="fTitle" class="app-form-icon-input-label-sm"
            [class.ml-0]="!fIcon && !fIconSpace">{{fTitle}}</label>
   <div class="d-flex flex-row justify-content-start align-items-center">
     <i *ngIf="fIcon || fIconSpace" class="material-icons app-input-icon-area {{fIconColor}}">{{fIcon}}</i>

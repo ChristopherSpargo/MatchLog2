@@ -11,6 +11,7 @@ import { Component, Input } from '@angular/core';
 export class AboutTextIconComponent  {
 
   @Input() fIcon        : string;   // name of icon to display
+  @Input() fSize        : string;   // size of icon to display
   @Input() fColor       : string  = "app-about-icon-color";   // CSS class for the icon color
   @Input() fFab         : boolean = false;                  // 'true' if display icon on a button
   @Input() fFabColor    : string  = "app-bg-gwhite";    // CSS class for button color

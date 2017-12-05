@@ -1,7 +1,12 @@
-<!--dialog template used for basic NOTICES and CONFIRMATIONS-->
+<!-- dialog template used for changes to PUBLIC MATCH SETTINGS -->
 <div class="app-fade-in app-dialog-container" [ngClass]="{'app-open': openModal}">
   <div class="modal-header app-dialog-header app-public-logs-settings-theme">
     <div class="modal-title d-flex flex-row justify-content-start align-items-center app-flex-1 app-all-paddings-8px">
+      <button type="button" class="btn app-form-image-button ml-0 mr-2" aria-label="help"
+        data-toggle="tooltip" data-placement="top" title="Help" data-delay="200"
+                  (click)="toggleAbout()"> 
+        <img class=" app-form-header-image " [src]="icon"/>
+      </button>
       <div class="app-form-title">{{title}}</div>
     </div>
   </div>
@@ -34,8 +39,7 @@
         </div>
 
         <div class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
-                    app-disabled-text mt-3"
-             [style.fontSize.%]="60">
+                    app-disabled-text mt-3 app-smaller-font2">
           Optional list of authorized users by email:
         </div>
         <!-- User Email Field -->
@@ -73,10 +77,10 @@
       </div>
     </form>
   </div>
-  <div class="modal-footer d-flex flex-row justify-content-end align-items-center">
+  <div class="modal-footer d-flex flex-row app-flex-1 justify-content-end align-items-center app-dialog-footer">
     <button type="button" (click)="dismiss()" 
-            class="btn btn-sm app-green ">{{cancelText}}</button>
-    <button type="button" (click)="close()" class="btn btn-sm app-green">
+            class="btn btn-sm app-green mr-auto app-modal-action-btn">{{cancelText}}</button>
+    <button type="button" (click)="close()" class="btn btn-sm app-green app-modal-action-btn">
       {{!deleteMatch ? okText : deleteText}}
     </button>
   </div>

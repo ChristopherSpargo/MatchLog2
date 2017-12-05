@@ -112,13 +112,13 @@ export class DataSvc {
         };
         if(filter.checkEmail){ //need to check for public match user restrictions?
           fExp += fExp.length ? " AND " : "";
-          fExp = "(attribute_not_exists(rT) OR contains(rT, :v_cE) OR (sB = :v_uI))"
+          fExp += "(attribute_not_exists(rT) OR contains(rT, :v_cE) OR (sB = :v_uI))"
           params.ExpressionAttributeValues[":v_cE"] = filter.checkEmail;
           params.ExpressionAttributeValues[":v_uI"] = filter.userId;
         }
         if(filter.playerId){
           fExp += fExp.length ? " AND " : "";
-          fExp = "((pI = :v_pI) OR (oI = :v_pI))";
+          fExp += "((pI = :v_pI) OR (oI = :v_pI))";
           params.ExpressionAttributeValues[":v_pI"] = filter.playerId;
         }
         if(filter.opponentId){

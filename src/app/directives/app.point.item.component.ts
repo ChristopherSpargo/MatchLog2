@@ -15,7 +15,7 @@ export class AppPointItemComponent  {
   @Input() fWing         : string;    // final shot was forehand/backhand
   @Input() fTargetWing   : string;   // final shot directed to opponents fh/bh
   @Input() fAtNet        : string;   // final shot was at net
-  @Input() fColor        : string;   // CSS class to apply to the item display
+  @Input() fColor        : string = "";   // CSS class to apply to the item display
 
   constructor() {
   };

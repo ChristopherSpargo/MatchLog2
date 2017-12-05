@@ -239,7 +239,7 @@ export class LogsCreateComponent implements OnInit, OnDestroy {
     this.closeMIForm()
     this.closeMatchReview();
     this.resumeMenuOpen = false;
-    if(this.currentMatch.mode == 'Create'){this.appBarItems = this.createModeBarItems;}
+    if(this.currentMatch.mode === 'Create'){this.appBarItems = this.createModeBarItems;}
     if(this.tabSet.activeId == LOG_TAB_ID) {
       this.openLogForm();
     } else {

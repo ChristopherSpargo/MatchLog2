@@ -1,6 +1,6 @@
   <!--Form used to gather match description information-->
 
-<div *ngIf="MIFormOpen && viewReady" class="container px-2 py-3">
+<div *ngIf="MIFormOpen && viewReady" class="container px-2 pt-3 pb-1">
 
   <!-- Start of Form -->
 
@@ -412,17 +412,12 @@
       >
     </app-update-actions>
 
-    <!-- Button to close view -->
-    <app-footer-button *ngIf="!pointsLogged()" 
-      [fOnClick]      = "closeView">
-    </app-footer-button>
-                      
   </form>
 </div>
 
           <!-- Menu for list of paused matches -->
 
-<div *ngIf="resumeMenuOpen && viewReady" class="container px-2 py-3">
+<div *ngIf="resumeMenuOpen && viewReady" class="container px-2 pt-3 pb-1">
   <div class="d-flex flex-column justify-content-start align-items-start app-frame">
     <ul class=" app-matches-menu-ul ">
       <li *ngFor="let m of pausedMatches; index as i; last as l">
@@ -462,9 +457,5 @@
     </ul>
 
   </div>
-    <!-- Button to close view -->
-    <app-footer-button
-      [fOnClick]      = "closeView">
-    </app-footer-button>
 </div>
                       

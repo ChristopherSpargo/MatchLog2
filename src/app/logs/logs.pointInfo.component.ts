@@ -161,6 +161,20 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
       pData.uED = parseInt(this.pointInfo.unforcedErrorDetail,10);}
     pData.bP = this.pointInfo.breakPoint;
     pData.gP = this.pointInfo.gamePoint;
+    if(this.currentMatch.setPoint){
+      if(pData.bP){
+        pData.sPf = pData.sI === PLAYER_ID ? OPPONENT_ID : PLAYER_ID;
+      } else{
+        pData.sPf = pData.sI === PLAYER_ID ? PLAYER_ID : OPPONENT_ID;
+      }
+    }
+    if(this.currentMatch.match.matchPoint){
+      if(pData.bP){
+        pData.mPf = pData.sI === PLAYER_ID ? OPPONENT_ID : PLAYER_ID;
+      } else{
+        pData.mPf = pData.sI === PLAYER_ID ? PLAYER_ID : OPPONENT_ID;
+      }
+    }
 
     newPoint = Point.build(pData);    //create the newPoint
     if(this.currentMatch.insertActive) { //insert point in front of selected point
@@ -488,6 +502,11 @@ export class LogsPointInfoComponent implements OnInit, OnDestroy {
       default:
     }
 
+  }
+
+  // return true if point can be submitted with information on form
+  canSubmitPoint = (): boolean => {
+    return ((this.pointInfo.winnerId !== '') && (this.pointInfo.shots !== '0'));
   }
 
   // check for inconsistent winner/shot count combination

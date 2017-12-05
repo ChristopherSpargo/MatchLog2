@@ -4,7 +4,7 @@
     <div *ngIf="fDivider" class="app-match-stats-divider app-bottom-margin-8px"></div>
     <div class="d-flex flex-row justify-content-start align-items-center app-about-heading-text {{fColor}}">
     	<div class="d-flex flex-row app-about-heading-icon-area">
-				<span *ngIf="fButton" class="app-about-heading-button {{fButtonColor}}">{{fButton}}</span>
+				<span *ngIf="fButton" class="btn btn-sm app-about-heading-button {{fButtonColor}}">{{fButton}}</span>
 	      <i *ngIf="fIcon && !fFab" class="material-icons app-about-icon {{fIconColor}}">{{fIcon}}</i>
 	      <img *ngIf="fImage" class="app-about-icon" [src]="fImage"/>
         <button *ngIf="fFab" class="btn d-inline-flex flex-row justify-content-center 

@@ -2,7 +2,10 @@
 
 export const IMAGE_DIRECTORY      : string = "assets/images/";
 export const ML_VERSION           : string = "2.1";
-export const ML_DATA_VERSION      : number = 2.0;
+//Data Version Changes:
+//  V2.0 : added forehand/backhand tracking on serve return and last shot
+//  V2.1 : added matchPointFor and setPointFor properties to Points
+export const ML_DATA_VERSION      : number = 2.1;
 export const FORM_HEADER_ICON     : string = "tennisBall3.jpe";
 export const SCORE_BALL_IMAGE     : string = "tennisBall4.jpg";
 export const PLAYER_ID            : number = 1;

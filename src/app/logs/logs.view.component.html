@@ -12,10 +12,11 @@
                     headerTheme       = "app-logs-header-theme"
                     closeButtonTheme  = "app-white"
                     [headerClose]     = "closeView">
+                    
   </app-form-header>
 
   	<!-- Tab set for View Match Logs -->
-  <div class="app-form-theme app-flex-1 pt-1 app-card-bottom-corners" >
+  <div class="app-form-theme-transparent app-flex-1" >
     <ngb-tabset #viewTabs="ngbTabset" (tabChange)="tabChange($event)" 
                 [destroyOnHide]="false" justify="center">
       <ngb-tab id="menuTab"

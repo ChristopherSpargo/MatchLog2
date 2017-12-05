@@ -5,29 +5,25 @@
     <!-- About (Help) Panel -->
     <!-- The appropriate help component based on the current helpContext-->
 
-  <div class="d-flex flex-column app-about-container app-slide-right app-whiteframe-2dp"
+  <div class="d-flex flex-column app-about-container app-slide-right 
+              app-whiteframe-2dp app-card-corners mb-1"
        [class.app-open]="aboutOpen()">
 
        <!-- Card Header -->
 
-    <div class="app-whiteframe-2dp">
-      <div class="app-about-header-theme">
-          <div class="d-flex flex-row">
-            <div class="d-flex flex-row justify-content-start align-items-center app-width-15">
-              <button type="button" class="btn app-form-image-button " aria-label="help"
-                data-toggle="tooltip" data-placement="top" title="Close" data-delay="200"
-                        (click)="closeAbout()"> 
-                <img class=" app-form-header-image " [src]="icon"/>
-              </button>
+    <div class="app-card-top-corners">
+      <div class="app-about-header-theme app-card-top-corners">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="d-flex flex-row justify-content-start align-items-center ml-2"> 
+              <app-about-text-icon fIcon="{{helpContextIcon()}}" 
+                                   fColor="app-about-color" fSize="L"></app-about-text-icon>
+               <!-- <div flex class="d-flex app-about-title1 app-about-color mr-2">How To:</div> -->
+              <div flex class="ml-2 d-flex app-about-title2 ">{{helpContextTitle()}}</div> 
             </div>
-            <div class="d-flex flex-column justify-content-center align-items-center app-width-70"> 
-              <div flex class="d-flex app-about-title1 ">- How To -</div>
-              <div flex class="d-flex app-about-title2 ">{{helpContextTitle()}}</div>
-            </div>
-            <div class="d-flex flex-row justify-content-center align-items-center app-width-15">
+            <div class="d-flex flex-row justify-content-center align-items-center">
               <button id="aboutCloseBtn" type="button" class="btn app-form-close-button " 
                         (click)="closeAbout()">
-                <i class="material-icons app-form-close-icon app-white" aria-label="close">arrow_back</i>
+                <i class="material-icons app-form-close-icon app-about-color" aria-label="close">arrow_back</i>
               </button>
             </div>
           </div>
@@ -35,8 +31,7 @@
     </div> 
 
     <!--Section for context specific help information-->
-
-    <div class="app-scroll-frame-left app-about-body-theme">
+    <div class="app-about-body-theme app-scroll-frame-left my-2">
       <div *ngIf="helpContext() === 'UsingMatchLog'"        ><app-about-matchlog></app-about-matchlog></div>
       <div *ngIf="helpContext() === 'ContactUs'"            ><app-about-contact-us></app-about-contact-us></div> 
       <div *ngIf="helpContext() === 'ManageEvents'"         ><app-about-manage-events></app-about-manage-events></div>
@@ -55,6 +50,10 @@
       <div *ngIf="helpContext() === 'PointInformation'"     ><app-about-log-point></app-about-log-point></div>
       <div *ngIf="helpContext() === 'ReviewEditMatchLog'"   ><app-about-log-review-edit></app-about-log-review-edit></div>
       <div *ngIf="helpContext() === 'ResumeMatchLog'"       ><app-about-log-resume></app-about-log-resume></div> 
+      <div *ngIf="helpContext() === 'ManagePublicLogsMenu'" ><app-about-manage-public-logs></app-about-manage-public-logs></div> 
+      <div *ngIf="helpContext() === 'MakeLogPublic'"        ><app-about-make-log-public></app-about-make-log-public></div> 
+      <div *ngIf="helpContext() === 'ManagePublicSettings'" ><app-about-manage-public-settings></app-about-manage-public-settings></div> 
+      <div *ngIf="helpContext() === 'PointFilter'"          ><app-about-point-filter></app-about-point-filter></div> 
     </div>
   </div>
 

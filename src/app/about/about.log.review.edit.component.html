@@ -1,17 +1,23 @@
   <div>
-    <app-about-heading fIcon="search" fText="Viewing/Editing Match Statistics"></app-about-heading>
     &nbsp;&nbsp;The <b>Log Review</b> tab displays all point information from the match log currently
-    being recorded in statistical form.  Individual points can be edited on this tab.<br />
+    being recorded in statistical form.  Individual points can be edited on this tab.
 
     <app-about-heading fIcon="dashboard" fText="Display Layout"></app-about-heading>
-    &nbsp;&nbsp;This tab is organized in three sections: 
-    <b>Setup</b> <b>Information</b>, <b>Menu</b> and <b>Statistics</b>.<br/>
+    &nbsp;&nbsp;This tab is organized in four sections:<br/> 
+    <b>Point Filter</b>, <b>Setup Information</b>,<br/><b>Menu</b> and <b>Statistics</b>.
+
+    <app-about-heading fIcon="filter_list" [fFab]="true" fText="Point Filter"></app-about-heading>
+    &nbsp;&nbsp;For a <b>single</b> log, this section contains the point filter activation button and
+    the filtered points navigation control.<br/>
+    Press the <app-about-text-icon fIcon="filter_list" [fFab]="true" fSize="S"></app-about-text-icon> to open the
+    Point Filter form.  If a filter has been applied and matching points are found, the navigation
+    control will appear allowing you to traverse the list of matching points.
 
     <app-about-heading fIcon="assignment" fText="Setup Information Section"></app-about-heading>
     &nbsp;&nbsp;This section displays general information about the     match such as tournament name, date, time, match format, etc.<br /> 
     &nbsp;&nbsp;To toggle the display of this section, tap the
     <app-about-text-icon fIcon="assignment" fColor="app-link-active"></app-about-text-icon> icon on the REVIEW tab
-    at the top of the tab display.<br/>
+    at the top of the tab display.
 
     <app-about-heading fIcon="menu" fText="Menu Section"></app-about-heading>
     &nbsp;&nbsp;This section displays a menu for selecting the level of information you want to see. The stats can be viewed at the Match, Set, Game and Point level.<br />
@@ -34,11 +40,11 @@
     &nbsp;&nbsp;<b>Point</b> buttons display each player's score when the point started. Also, the 
     colored score on the button indicates who won that point, red for returner, green for server.<br />
     &nbsp;&nbsp;Finally, selecting a point button displays an account of that point which includes all relevant
-    information from the <b>Log Point</b> tab.<br />
+    information from the <b>Log Point</b> tab.
 
     <app-about-heading fIcon="edit" fText="Point Editing"></app-about-heading>
     &nbsp;&nbsp;Also displayed at the point level is the<br /> 
-    <app-about-text-icon fIcon="menu" fColor="app-about-fab-icon-sm app-primary"
+    <app-about-text-icon fIcon="menu" fColor="app-primary" fSize="LS"
                          [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> 
     <b>Edit Menu</b> button which offers the following point editing options:<br /><br />
     <app-about-text-icon fIcon="chevron_right" fColor="app-retro-brown"
@@ -52,12 +58,11 @@
                          [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Move Left</b>: 
     This allows the selected point to be moved one position earlier in the point sequence.<br /><br />
     <app-about-text-icon fIcon="remove" fColor="app-warn"
-                         fFab="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Delete</b>: 
+                         [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Delete</b>: 
     This allows the selected point to be deleted.<br /><br />
-    <app-about-text-icon fIcon="edit" fColor="app-about-fab-icon-sm app-brite-orange"
+    <app-about-text-icon fIcon="edit" fColor="app-brite-orange" fSize="LS"
                          [fFab]="true" fFabColor="app-bg-fab-gray mr-1"></app-about-text-icon> <b>Edit</b>: 
     This allows the information for selected point to be edited.
-    <br />
 
     <app-about-heading fIcon="search" fText="Statistics Section"></app-about-heading>
     &nbsp;&nbsp;Here is where the actual statistics are displayed.<br />
@@ -75,24 +80,24 @@
     at the top-left of the section.  The text 
     representation of the data can be displayed or hidden by tapping the<br /><span class="app-about-text-button app-primary">Text</span> 
     <app-about-text-icon fIcon="arrow_drop_down" fColor="app-primary"></app-about-text-icon> button at the top-right of the
-    section.<br/>
+    section.
 
     <app-about-heading fButton="Synopsis" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Synopsis Display"></app-about-heading>
     &nbsp;&nbsp;The synopsis section gives you an overview of how each player is performing. 
     The text display shows data as ratios or counts whereas the graph display shows data as percentages. In general, to be doing
-    well a player's performance should be over <b>50%</b> in every category on this graph.<br />
+    well a player's performance should be over <b>50%</b> in every category on this graph.
 
     <app-about-heading fButton="Serving" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Serving Display"></app-about-heading>
     &nbsp;&nbsp;The serving section gives you information of how well each player is serving. Information includes counts of 
     serves in play and won, aces, double faults and Game points won.  The text display shows data as ratios or counts whereas 
     the graph display shows data as percentages. In general, to be doing
-    well a player's performance should be over <b>50%</b> in most of the percentage categories on this graph.<br />
+    well a player's performance should be over <b>50%</b> in most of the percentage categories on this graph.
 
     <app-about-heading fButton="Returning" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Returning Display"></app-about-heading>
     &nbsp;&nbsp;The returning section gives you information of how well each player is returning serve. Information includes counts of 
     returns in play and won and Break points won. The text display shows data as ratios or counts whereas the graph display shows 
     data as percentages. In general, to be doing
-    well a player's performance should be near <b>50%</b> in most of the categories on this graph.<br />
+    well a player's performance should be near <b>50%</b> in most of the categories on this graph.
 
     <app-about-heading fButton="Risk" fIcon="arrow_drop_down" fIconColor="app-primary" fText="Risk Display"></app-about-heading>
     &nbsp;&nbsp;The risk section gives you information of how aggressively each player is playing. Information includes counts of 
@@ -100,7 +105,7 @@
     Both the Graph and Text displays in this section show data as ratios or counts.<br />
     &nbsp;&nbsp;In general, higher numbers of winners and/or unforced
     errors along with shorter rallies and possibly coming to net indicates more aggressive play whereas lower winners/unforced errors 
-    and longer rallies while staying back shows more conservative play.<br />
+    and longer rallies while staying back shows more conservative play.
 
     <app-about-heading fIcon="warning" fText="Tips and Warnings" fIconColor="app-checkbox" [fDivider]="true"></app-about-heading>
     &nbsp;&nbsp;Graphs are displayed only for the <b>Match</b> and <b>Set</b> levels.  Also, some information

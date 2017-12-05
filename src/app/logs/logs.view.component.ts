@@ -187,7 +187,7 @@ export class LogsViewComponent implements OnInit, OnDestroy {
       this.closeSearchForm();
       if(this.managePublics){
         this.headerTitle = "Manage Public Logs";
-        this.utilSvc.setCurrentHelpContext("ManagePublicLogs");
+        this.utilSvc.setCurrentHelpContext("ManagePublicLogsMenu");
       } else {
         this.headerTitle = this.viewPublics ? "Public Match Logs" : "Personal Match Logs";
         this.utilSvc.setCurrentHelpContext("MatchLogMenu");

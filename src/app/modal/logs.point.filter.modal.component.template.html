@@ -1,0 +1,421 @@
+<!-- dialog template used for changes to PUBLIC MATCH SETTINGS -->
+<div class="app-fade-in app-dialog-container" [ngClass]="{'app-open': openModal}">
+  <div class="modal-header app-dialog-header app-point-filter-theme">
+    <div class="modal-title d-flex flex-row app-flex-1 justify-content-start align-items-center 
+                                                                              app-all-paddings-8px">
+      <button type="button" class="btn app-form-image-button ml-0 mr-2" aria-label="help"
+        data-toggle="tooltip" data-placement="top" title="Help" data-delay="200"
+                  (click)="toggleAbout()"> 
+        <img class=" app-form-header-image " [src]="icon"/>
+      </button>
+      <div class="app-form-title">{{title}}</div>
+    </div>
+  </div>
+  <div class="modal-body app-form-theme app-all-paddings-8px">
+    <div class="d-flex flex-row justify-content-start app-left-padding-16px align-items-center 
+                app-smaller-font mb-0">
+      Select criteria for highlighting specific points:
+    </div>
+
+    <!-- Start of Point Filter Form -->
+    <form #pointFilterForm ="ngForm" role="form" novalidate class="px-0 py-0">
+
+      <!-- Serve result field -->
+      
+      <div class="d-flex flex-column app-form-theme-text ">
+        <label class="d-flex flex-row justify-content-start align-items-center 
+                      app-input-divider app-match-info-label">Server:</label>
+        <div class=" app-match-info-input-container ">
+          <div class="d-flex flex-row justify-content-around align-items-center">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="pServed" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.playerServed"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="pServed" id="pServed"
+                          (change)="updatePointFilterForm('playerServed')" 
+                          (focus)="clearRequestStatus()">
+                {{pointInfo.playerName}}
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="oServed" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.opponentServed"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="oServed" id="oServed"
+                          (change)="updatePointFilterForm('opponentServed')" 
+                          (focus)="clearRequestStatus()">
+                {{pointInfo.opponentName}}
+              </label>
+            </div>
+          </div>
+          <div class=" app-match-stats-divider-32 "></div>
+          <label class="d-flex flex-row justify-content-start align-items-center 
+                        app-input-divider app-match-info-label">Special Points:</label>
+          <div class="d-flex flex-row justify-content-around align-items-center">
+            <div class="d-flex flex-column">
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="gPoint" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.gamePoint"
+                            class="app-inline-flex app-form-radio-control" 
+                            name="gamePt" id="gPoint"
+                            (change)="updatePointFilterForm('gamePoint')" 
+                            (focus)="clearRequestStatus()">
+                  Game Point
+                </label>
+              </div>
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="bPoint" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.breakPoint"
+                            class="app-inline-flex app-form-radio-control" 
+                            name="breakPt" id="bPoint"
+                            (change)="updatePointFilterForm('breakPoint')" 
+                            (focus)="clearRequestStatus()">
+                  Break Point
+                </label>
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="sPoint" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.setPoint"
+                            class="app-inline-flex app-form-radio-control" 
+                            name="setPt" id="sPoint"
+                            (change)="updatePointFilterForm('setPoint')" 
+                            (focus)="clearRequestStatus()">
+                  Set Point
+                </label>
+              </div>
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="mPoint" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.matchPoint"
+                            class="app-inline-flex app-form-radio-control" 
+                            name="matchPt" id="mPoint"
+                            (change)="updatePointFilterForm('matchPoint')" 
+                            (focus)="clearRequestStatus()">
+                  Match Point
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class=" app-match-stats-divider-32 "></div>
+          <label class="d-flex flex-row justify-content-start align-items-center 
+                        app-input-divider app-match-info-label">Serve:</label>
+          <div class="d-flex flex-row justify-content-around align-items-center">
+            <div class="d-flex flex-column">
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="s1st" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.first"
+                            class="app-inline-flex app-form-radio-control" 
+                            name="fServe" id="s1st"
+                            (change)="updatePointFilterForm('first')" 
+                            (focus)="clearRequestStatus()">
+                  1st Serve
+                </label>
+              </div>
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="s2nd" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.second" 
+                          class="app-inline-flex app-form-radio-control" 
+                          (change)="updatePointFilterForm('second')" name="sServe" id="s2nd"
+                          (focus)="clearRequestStatus()">
+                  2nd Serve
+                </label>
+              </div>
+            </div>
+            <div class="d-flex flex-column">
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="sAce" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.ace" name="svcAce" id="sAce"
+                            class="app-inline-flex app-form-radio-control" 
+                            (change)="updatePointFilterForm('Ace')" 
+                            (focus)="clearRequestStatus()">
+                  Ace
+                </label>
+              </div>
+              <div class="d-inline-flex flex-row align-items-center">
+                <label for="sDbl" class="mb-0">
+                  <input type="checkbox" [(ngModel)]="pointInfo.double" name="svcDouble" id="sDbl"
+                            class="app-inline-flex app-form-radio-control" 
+                            (focus)="clearRequestStatus()"                           
+                            (change)="updatePointFilterForm('Double')">
+                  Double Fault
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Return result field -->
+      
+      <div class=" app-match-stats-divider-32 "></div>
+      <div class="d-flex flex-column app-form-theme-text ">
+        <label class="d-flex flex-row justify-content-start align-items-center 
+                      app-input-divider app-match-info-label">Return:</label>
+        <div class=" app-match-info-input-container ">
+          <div      class="d-flex flex-row justify-content-around align-items-center">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="rIn" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.return" id="rIn"
+                      class="app-inline-flex app-form-radio-control" name="return"
+                      (change)="updatePointFilterForm('return')" 
+                      (focus)="clearRequestStatus()">
+                In
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="rOut" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.missedReturn" 
+                      class="app-inline-flex app-form-radio-control" id="rOut" name="rOut"
+                      (change)="updatePointFilterForm('missedReturn')" 
+                      (focus)="clearRequestStatus()">
+                Out
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="rWinner" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.returnWinner" 
+                      class="app-inline-flex app-form-radio-control" id="rWinner" name="rWinner"
+                      (change)="updatePointFilterForm('returnWinner')" 
+                      (focus)="clearRequestStatus()">
+                Winner
+              </label>
+            </div>
+          </div>
+          <div      class=" app-match-stats-divider-32 "></div>
+          <label class="d-flex flex-row justify-content-start align-items-center 
+                      app-input-divider app-match-info-label">Return Wing:</label>
+          <div      class="d-flex flex-row justify-content-around align-items-center pb-0"> 
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="rWF" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.returnWingF" id="rWF"
+                      class="app-inline-flex app-form-radio-control" name="rwFore"
+                      (change)="updatePointFilterForm('returnWingF')" 
+                      (focus)="clearRequestStatus()">
+                Forehand
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="rWB" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.returnWingB" id="rWB"
+                      class="app-inline-flex app-form-radio-control" name="rwBack"
+                      (change)="updatePointFilterForm('returnWingB')" 
+                      (focus)="clearRequestStatus()">
+                Backhand
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Number of shots field -->
+
+      <div class=" app-match-stats-divider-32 "></div>
+      <div class="d-flex flex-column app-form-theme-text ">
+        <label class="d-flex flex-row justify-content-start align-items-center 
+                    app-input-divider app-match-info-label">Number of Shots:</label>
+        <div class="d-flex flex-row justify-content-around align-items-center pb-0"> 
+          <div class="d-inline-flex flex-row align-items-center">
+            <label  for="shotsLT" class="mb-0">
+              <input  type="checkbox" [(ngModel)]="pointInfo.shotsLessThan" id="shotsLT"
+                    class="app-inline-flex app-form-radio-control" name="shotsLT"
+                    (change)="updatePointFilterForm('shotsLessThan')" 
+                    (focus)="clearRequestStatus()">
+              Less Than
+            </label>
+          </div>
+          <div class="d-inline-flex flex-row align-items-center">
+            <label  for="shotsMT" class="mb-0">
+              <input  type="checkbox" [(ngModel)]="pointInfo.shotsMoreThan" id="shotsMT"
+                    class="app-inline-flex app-form-radio-control" name="shotsMT"
+                    (change)="updatePointFilterForm('shotsMoreThan')" 
+                    (focus)="clearRequestStatus()">
+              More Than
+            </label>
+          </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center align-items-center pb-0"> 
+          <div class=" app-match-info-input-container ">
+            <div class="d-flex flex-row justify-content-center pl-2">
+              <button class="btn app-add-subtract-button " type="button"
+                      (focus)="clearRequestStatus()"
+                      (click)="subtractAShot();updatePointFilterForm('shots')">
+                <i aria-label="one less point"
+                          class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
+              </button>
+                <input type="text" name="shots" autocomplete="off" 
+                        aria-label="number of shots" name="nShots"
+                        [(ngModel)]="pointInfo.shots" readonly
+                        class="app-add-subtract-input-control app-width-15 app-form-theme-text"
+                        >
+              <button class="btn app-add-subtract-button " type="button"
+                      (focus)="clearRequestStatus()"
+                      (click)="addAShot(1);updatePointFilterForm('shots')">
+                <i aria-label="one more point"
+                          class="material-icons app-primary app-add-subtract-icon ">arrow_forward</i>
+              </button>
+              <button class="btn app-add-subtract-button app-left-margin-8px" type="button"
+                      (focus)="clearRequestStatus()"
+                      (click)="addAShot(5)">
+                <i aria-label="add five shots"
+                          class="material-icons app-primary app-add-subtract-icon">forward_5</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Message Area -->
+
+      <app-form-messages 
+        [fHaveMessage]    = "haveStatusMessages()"
+        [fWorkingOpen]    = "false"
+        [fMessageOpen]    = "haveStatusMessages()"
+        [fMessageObj]     = "requestStatus">
+      </app-form-messages>                    
+
+      <!-- Winner Id field -->
+      
+      <div class=" app-match-stats-divider-32 "></div>
+      <div class="d-flex flex-column app-form-theme-text ">
+        <label class="d-flex flex-row justify-content-start align-items-center
+                        app-input-divider app-match-info-label ">Point Won By:</label>
+        <div class=" app-match-info-input-container ">
+          <div class="d-flex flex-row justify-content-around align-items-center">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="pWon" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.playerWon"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="pWon" id="pWon"
+                          (change)="updatePointFilterForm('playerWon')" 
+                          (focus)="clearRequestStatus()">
+                {{pointInfo.playerName}}
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="oWon" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.opponentWon"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="oWon" id="oWon"
+                          (change)="updatePointFilterForm('opponentWon')" 
+                          (focus)="clearRequestStatus()">
+                {{pointInfo.opponentName}}
+              </label>
+            </div>
+          </div>
+          <div class=" app-match-stats-divider-32 "></div>
+          <label class="d-flex flex-row justify-content-start align-items-center
+                        app-input-divider app-match-info-label ">Player Finished at Net:</label>
+          <div class="d-flex flex-row justify-content-around align-items-center app-top-margin-4px">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="pAtNet" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.playerAtNet" 
+                        class=" app-form-radio-control " id="pAtNet" name="pAtNet"
+                        (change)="updatePointFilterForm('playerAtNet')" 
+                        (focus)="clearRequestStatus()">
+                {{pointInfo.playerName}}
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="oAtNet" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.opponentAtNet" 
+                        class=" app-form-radio-control-rev " id="oAtNet" name="oAtNet"
+                        (change)="updatePointFilterForm('opponentAtNet')" 
+                        (focus)="clearRequestStatus()">
+                {{pointInfo.opponentName}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Point ending field -->
+
+      <div class=" app-match-stats-divider-32 "></div>
+      <div class="d-flex flex-column app-form-theme-text ">
+        <label class="d-flex flex-row justify-content-start align-items-center
+                        app-input-divider app-match-info-label ">Last Shot Wing:</label>
+        <div class=" app-match-info-input-container ">
+          <div class="d-flex flex-row justify-content-around align-items-center pb-0"> 
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="lsWF" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.lastShotWingF" id="lsWF"
+                      class="app-inline-flex app-form-radio-control" name="lsWF"
+                      (change)="updatePointFilterForm('lastShotWingF')" 
+                      (focus)="clearRequestStatus()">
+                Forehand
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label  for="lsWB" class="mb-0">
+                <input  type="checkbox" [(ngModel)]="pointInfo.lastShotWingB" id="lsWB"
+                      class="app-inline-flex app-form-radio-control" name="lsWB"
+                      (change)="updatePointFilterForm('lastShotWingB')" 
+                      (focus)="clearRequestStatus()">
+                Backhand
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class=" app-match-stats-divider-32 "></div>
+        <label class="d-flex flex-row justify-content-start align-items-center 
+                      app-input-divider app-match-info-label">Point Ended By:</label>
+        <div class="d-flex flex-row justify-content-around align-items-center">
+          <div class="d-flex flex-column">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="end0" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.winnerEnd"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="end0" id="end0"
+                          (change)="updatePointFilterForm(pointEndings[0].name)" 
+                          (focus)="clearRequestStatus()">
+                {{pointEndings[0].name}}
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="end1" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.forcedEnd"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="end1" id="end1"
+                          (change)="updatePointFilterForm(pointEndings[1].name)" 
+                          (focus)="clearRequestStatus()">
+                {{pointEndings[1].name}}
+              </label>
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="end2" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.unforcedEnd"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="end2" id="end2"
+                          (change)="updatePointFilterForm(pointEndings[2].name)" 
+                          (focus)="clearRequestStatus()">
+                {{pointEndings[2].name}}
+              </label>
+            </div>
+            <div class="d-inline-flex flex-row align-items-center">
+              <label for="end3" class="mb-0">
+                <input type="checkbox" [(ngModel)]="pointInfo.badCallEnd"
+                          class="app-inline-flex app-form-radio-control" 
+                          name="end3" id="end3"
+                          (change)="updatePointFilterForm(pointEndings[3].name)" 
+                          (focus)="clearRequestStatus()">
+                {{pointEndings[3].name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer d-flex flex-row app-flex-1 justify-content-end align-items-center app-dialog-footer">
+    <button type="button" (click)="dismiss()" 
+            class="btn btn-sm app-green app-modal-action-btn mr-auto">{{cancelText}}</button>
+    <button type="button" (click)="resetPointFilterForm()" 
+            class="btn btn-sm app-green app-modal-action-btn">{{clearText}}</button>
+    <button type="button" (click)="close(pointFilterForm)" class="btn btn-sm app-green app-modal-action-btn">
+      {{okText}}</button>
+  </div>
+</div>

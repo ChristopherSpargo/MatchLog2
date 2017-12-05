@@ -28,6 +28,14 @@ export interface UserData {
   helpContext     : string;           // current context for help information
 }
 
+// definition of PointReference
+
+export interface PointReference {
+  set   : number;
+  game ?: number;
+  point : number;
+}
+
 @Injectable()
 export class UserInfo {
     userEmail   : string  = "";
@@ -36,13 +44,16 @@ export class UserInfo {
     profile     : Profile;
     messages    : { [key: string]: any } = null;
     messageOpen : boolean = false;
-    helpContext : string  = "MatchLog";   //current context for help information
 }
 
 @Injectable()
 export class AboutStatus {
-    context : string  = "MatchLog";   //current context for help information
+    context : string  = "UsingMatchLog";   //current context for help information
     open   : boolean = false;
+
+    toggle = () => {
+      this.open = !this.open;
+    }
 }
 
     ////////////////////////////////////////////////////////////
@@ -83,5 +94,7 @@ export class CurrentMatch {
       editActive            : boolean = false;  // indicates an edit action in progress for the point list
       selectedTab           : number = undefined; // index of the current view tab
       startTimer            : number = 0        // time in milliseconds that logging most recently started
+      filteredPoints        : PointReference[]; // list of points found to match point filter
+      filteredPointsIndex   : number;
     }
 

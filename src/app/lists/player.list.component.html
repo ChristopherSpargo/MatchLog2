@@ -16,22 +16,18 @@
 
        <!-- Start of Form -->
 
-  <div id="view-container"
-       class="app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-2 py-3">
+    <div class="container app-whiteframe-2dp app-card-bottom-corners app-form-theme px-2 pt-3 pb-1 mb-1">
       <form #playerForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(playerForm)">
         <div class="d-flex flex-column">
 
         <!-- Instructional messages -->
-        <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
-                     mb-2"
-             [style.fontSize.%]="75">
+        <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 
+                                                align-items-center mb-2 app-smaller-font">
           Select from the list to edit/create a Player
         </div>
-        <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
-                     mb-2"
-             [style.fontSize.%]="75">
+        <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 
+                                                align-items-center mb-2 app-smaller-font">
           Now edit and save or remove this Player
         </div>
 
@@ -123,24 +119,37 @@
           </app-radio-group>
 
           <!-- Player Notes field -->
-          <app-icon-input
+          <app-icon-textarea
             [fForm]       = "playerForm" 
             [(fCheckAll)] = "checkAll"
             fRef          = "pN" 
             fName         = "pNotes" 
             [fDisabled]   = "selectedItem == ''"
-            fType         = "textarea" 
             fLabel        = "Notes"  
             fIcon         = "edit"
             fColor        = "app-light-brown" 
             [(fValue)]    = "notes" 
-            fPattern      = "^[ -.!?\w]{1,}$"
+            fPattern      = "^[ -.!?\w]*$"
             fMaxLength    = "1000"
             fErrors       = "pattern"
             fErrorMsgs    = "Invalid note character/format."
             fExtraCSS     = "mb-2"
             [fFocusFn]    = "clearRequestStatus">
-          </app-icon-input>
+          </app-icon-textarea> 
+          <!-- <div class="app-icon-input-field-container mb-2">
+            <label class="app-icon-input-field-label-sm" 
+                  [class.has-value]="notes !== undefined && notes !== ''" 
+                  [class.has-focus]="focused">
+                  Notes</label>
+            <div class="d-flex flex-row">
+              <i class="material-icons app-input-icon app-light-brown">edit</i>
+              <textarea name="pNotes" ngModel autocomplete="off"
+                  [maxlength]="1000"
+                  [disabled]="selectedItem == ''"
+                  [(ngModel)]="notes" class="app-form-input d-flex" #pN="ngModel"
+                  (focus)="showFocused()" (blur)="showNotFocused()"></textarea>
+            </div>
+          </div> -->
 
           <!-- Creation Date Field -->
           <app-icon-input
@@ -211,13 +220,7 @@
             [fMessageObj]   ="requestStatus">
           </app-form-messages>                    
                             
-          <!-- Button to close form -->
-          <app-footer-button 
-            [fOnClick]      = "closeForm">
-          </app-footer-button>
-
         </div>
       </form>
-    </div>
-  </div>
+    </div> 
 </div>

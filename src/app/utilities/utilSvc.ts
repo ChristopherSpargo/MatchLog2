@@ -349,6 +349,11 @@ export class UtilSvc {
       this.aboutStatus.context = help;
     };
 
+    //get the current help context
+    getCurrentHelpContext() : string {
+      return this.aboutStatus.context;
+    };
+
     // switch to home state after setting the given user message
     returnToHomeMsg(msg: string, delay?: number) : void {
       this.setUserMessage(msg);
@@ -363,6 +368,11 @@ export class UtilSvc {
         }, delay);
     };
 
+    openPointFilterModal(title : string, pointFilterInfo : any, okText : string, clearText = "Reset", cancelText = "Cancel"){
+      return this.modalSvc.pointFilterOpen(title, pointFilterInfo, okText, clearText, cancelText, 
+                                           this.aboutStatus.toggle);
+    }
+
     // Issue a confirmation dialog for an action involving a Match
     // return a Promise
     confirmMatchAction(title: string, player: string, opponent: string, matchDate: string, 
@@ -375,7 +385,7 @@ export class UtilSvc {
     openPublicMatchSettings(title: string, emailList: string[], player: string, opponent: string, 
       matchDate: string, mode: string, okText ?: string, deleteText ?: string, cancelText ?:string) : Promise<any> {
       return this.modalSvc.publicSettingsOpen(title, emailList, player, opponent, matchDate, mode,
-                                              okText, deleteText, cancelText);
+                                              this.aboutStatus.toggle, okText, deleteText, cancelText);
     };
 
     // Define a function to issue a confirmation dialog

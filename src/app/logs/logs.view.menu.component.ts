@@ -115,6 +115,7 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
           this.currentMatch.mode = this.multiMode;              
         }
         setTimeout( () => {
+          this.currentMatch.filteredPoints = undefined;
           this.utilSvc.emitEvent('selectViewTab');
           this.utilSvc.emitEvent('setSelectedMatch');
         }, 100);
@@ -144,13 +145,14 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
   public makeMatchPublic = (index : number) => {
     var m : Match = this.menuMatchList[index];
     var mpDate : string = m.sortDate;
+    var oldHelpContext : string;
 
-    // this.utilSvc.confirmMatchAction('Make Match Public', this.playerName(m.playerId),
-    //                                 this.playerName(m.opponentId), m.date, 'OK')
-    // .then((doIt) => {
+    oldHelpContext = this.utilSvc.getCurrentHelpContext();
+    this.utilSvc.setCurrentHelpContext("MakeLogPublic");
     this.utilSvc.openPublicMatchSettings('Add Public Match', undefined, 
             this.playerName(m.playerId), this.playerName(m.opponentId), m.date, 'Create', 'Make Public')
     .then((result) => {
+      this.utilSvc.setCurrentHelpContext(oldHelpContext);
       if(result.create === true){  //are we creating the public copy?
         if(mpDate.length === 12){ mpDate = this.utilSvc.extendSortDate(mpDate); }
         this.addPublicMatch(m, mpDate)
@@ -176,6 +178,7 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
       }
     })
     .catch((userHitCancel) => {
+      this.utilSvc.setCurrentHelpContext(oldHelpContext);
     })
   }
 
@@ -265,12 +268,16 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
   public publicMatchSettings = (index : number) => {
     var m : Match = this.menuMatchList[index];
     var sDate = m.madePublic;       //get sortDate for public copy of match
+    var oldHelpContext : string;
 
     this.dataSvc.readMatch(PUBLIC_USER_ID, sDate)
     .then((publicMatch) => {
+      oldHelpContext = this.utilSvc.getCurrentHelpContext();
+      this.utilSvc.setCurrentHelpContext("ManagePublicSettings");
       this.utilSvc.openPublicMatchSettings('Public Match Settings', publicMatch.restrictedTo, 
                       this.playerName(m.playerId), this.playerName(m.opponentId), m.date, 'Edit')
       .then((result) => {
+        this.utilSvc.setCurrentHelpContext(oldHelpContext);
         if(result.delete === true){  //are we deleting the public copy?
           this.dataSvc.deleteMatch(sDate, PUBLIC_USER_ID)
           .then((success) => {
@@ -293,6 +300,7 @@ export class LogsViewMenuComponent implements OnInit, OnDestroy {
         }
       })
       .catch((userHitCancel) => {
+        this.utilSvc.setCurrentHelpContext(oldHelpContext);
       })
     })
     .catch((failToReadPublicMatch) => {

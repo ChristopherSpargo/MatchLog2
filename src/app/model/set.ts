@@ -403,64 +403,69 @@ export class TSet {
 
   //compute the current score for this set
   computeScore(position?: MatchPosition): void {
+    var g         : Game;
+    var setLength : number;
+    var numGames  : number, numPoints : number;
+
     this.playerScore = 0;
     this.opponentScore = 0;
     this.playerGameScore = "0";
     this.opponentGameScore = "0";
-    this.setPoint = undefined;
+    this.setPoint = this.setPointFor = undefined;
     this.winnerId = 0;
 
+    setLength = SET_LENGTHS[this.type];
     switch(this.type) {
       case SIX_GAME_SET_TYPE:
       case EIGHT_GAME_SET_TYPE:
-        var numGames =(position && (position.game != undefined)) ? position.game : this.games.length;
+        numGames = (position && (position.game != undefined)) ? position.game : this.games.length;
         for(var i=0; (i<numGames) && !this.winnerId; i++) {
+          g = this.games[i];
           if(i == numGames-1){
-            this.games[i].computeScore(position);
+            g.computeScore(position);
           } else{
-              this.games[i].computeScore();
+              g.computeScore();
           }
-          if(this.games[i].winnerId){
-            if( this.games[i].winnerId == PLAYER_ID){
+          if(g.winnerId){
+            if( g.winnerId == PLAYER_ID){
               this.playerScore++;
             }
             else {
               this.opponentScore++;
             }
             //check to see if set is over
-            if(this.playerScore >= SET_LENGTHS[this.type]){
+            if(this.playerScore >= setLength){
               if((this.playerScore > this.opponentScore+1) ||
-                  ((this.playerScore > this.opponentScore) && (this.opponentScore == SET_LENGTHS[this.type]))){
+                  ((this.playerScore > this.opponentScore) && (this.opponentScore == setLength))){
                 this.winnerId = PLAYER_ID;
               }
             }
-            if(this.opponentScore >= SET_LENGTHS[this.type]){
+            if(this.opponentScore >= setLength){
               if((this.opponentScore > this.playerScore+1) ||
-                  ((this.opponentScore > this.playerScore) && (this.playerScore == SET_LENGTHS[this.type]))){
+                  ((this.opponentScore > this.playerScore) && (this.playerScore == setLength))){
                 this.winnerId = OPPONENT_ID;
               }
             }
           }
           else {
-            var g = this.games[i];
             this.playerGameScore = <string> g.playerScore;
             this.opponentGameScore = <string> g.opponentScore;
             this.breakPoint = g.breakPoint;
             this.gamePoint = g.gamePoint;
             if(this.gamePoint){
               if(this.serverId == PLAYER_ID){
-                if((this.playerScore >= SET_LENGTHS[this.type]-1 &&
+                if((this.playerScore >= setLength-1 &&
                   this.playerScore > this.opponentScore) ||
-                  (this.playerScore == SET_LENGTHS[this.type] && //in a tiebreak?
+                  (this.playerScore == setLength && //in a tiebreak?
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = PLAYER_ID;
                 } 
               }
               else {
-                if((this.opponentScore >= SET_LENGTHS[this.type]-1 &&
+                if((this.opponentScore >= setLength-1 &&
                   this.opponentScore > this.playerScore) ||
-                  (this.opponentScore == SET_LENGTHS[this.type] &&
+                  (this.opponentScore == setLength &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = OPPONENT_ID;
@@ -469,18 +474,18 @@ export class TSet {
             }
             if(this.breakPoint){
               if(this.serverId != PLAYER_ID){
-                if((this.playerScore >= SET_LENGTHS[this.type]-1 &&
+                if((this.playerScore >= setLength-1 &&
                   this.playerScore > this.opponentScore) ||
-                  (this.playerScore == SET_LENGTHS[this.type] &&
+                  (this.playerScore == setLength &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = PLAYER_ID;
                 } 
               }
               else {
-                if((this.opponentScore >= SET_LENGTHS[this.type]-1 &&
+                if((this.opponentScore >= setLength-1 &&
                   this.opponentScore > this.playerScore) ||
-                  (this.opponentScore == SET_LENGTHS[this.type] &&
+                  (this.opponentScore == setLength &&
                   this.playerScore == this.opponentScore)){
                   this.setPoint = true;
                   this.setPointFor = OPPONENT_ID;
@@ -491,27 +496,27 @@ export class TSet {
         }
         break;
       case TIEBREAK_SET_TYPE:
-        var numPoints = (position && (position.point != undefined)) ? position.point : this.points.length;
+        numPoints = (position && (position.point != undefined)) ? position.point : this.points.length;
         for(var i=0; i<numPoints && !this.winnerId; i++) {
           if( this.points[i].winnerId == PLAYER_ID){
             this.playerScore++;}
           else {
             this.opponentScore++;}
           //check to see if set is over
-          if(this.playerScore >= SET_LENGTHS[this.type] && this.playerScore > this.opponentScore+1){
+          if(this.playerScore >= setLength && this.playerScore > this.opponentScore+1){
               this.winnerId = PLAYER_ID;
           }
           else {
-            if(this.playerScore >= SET_LENGTHS[this.type]-1 && this.playerScore > this.opponentScore){
+            if(this.playerScore >= setLength-1 && this.playerScore > this.opponentScore){
               this.setPoint = true;
               this.setPointFor = PLAYER_ID;
             }
           }
-          if(this.opponentScore >= SET_LENGTHS[this.type] && this.opponentScore > this.playerScore+1){
+          if(this.opponentScore >= setLength && this.opponentScore > this.playerScore+1){
               this.winnerId = OPPONENT_ID;
           }
           else {
-            if(this.opponentScore >= SET_LENGTHS[this.type]-1 && this.opponentScore > this.playerScore){
+            if(this.opponentScore >= setLength-1 && this.opponentScore > this.playerScore){
               this.setPoint = true;
               this.setPointFor = OPPONENT_ID;
             }

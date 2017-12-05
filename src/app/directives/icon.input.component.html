@@ -5,9 +5,9 @@
          [class.has-focus]="focused" 
          [class.app-show-required]="fRequired">
          {{fLabel}}</label>
-    <div class="d-flex flex-row">
+    <div  class="d-flex flex-row">
       <i *ngIf="fIcon" class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
-      <input [attr.type]="fType" name="{{fName}}" ngModel autocomplete="off" [email]="fType == 'email'"
+        <input [attr.type]="fType" name="{{fName}}" ngModel autocomplete="off" [email]="fType == 'email'"
             id="{{fName + 'ID'}}"
             [minlength]="fMinlength !== undefined ? fMinlength : undefined"
             [maxlength]="fMaxlength !== undefined ? fMaxlength : undefined"

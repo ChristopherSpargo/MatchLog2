@@ -15,7 +15,7 @@
   <!-- Start of Form -->
 
   <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-2 py-3">
+    <div class="container app-form-theme px-2 pt-3 pb-1">
       <form #loginForm = "ngForm" role="form" novalidate
             (ngSubmit)="sendLoginRequest(loginForm)">
         <div class="d-flex flex-column">
@@ -126,12 +126,7 @@
             </app-fab>
           </div>
                             
-          <!-- Button to close form -->
-          <app-footer-button
-            [fOnClick]      = "closeForm">
-          </app-footer-button>
-
-        </div>
+       </div>
       </form>
     </div>
   </div>

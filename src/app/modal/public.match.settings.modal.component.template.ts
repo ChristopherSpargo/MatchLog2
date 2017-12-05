@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { Match } from '../model/match'
+import { IMAGE_DIRECTORY, FORM_HEADER_ICON  } from '../constants'
 
 import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,6 +10,8 @@ import {NgbModal, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class PublicMatchSettingsModalComponentTemplate implements OnInit {
+  icon : string = IMAGE_DIRECTORY + FORM_HEADER_ICON;
+
   @Input() mode       : string;
   @Input() title      : string;
   @Input() itemList   : string[];
@@ -19,6 +22,7 @@ export class PublicMatchSettingsModalComponentTemplate implements OnInit {
   @Input() deleteText : string;
   @Input() cancelText : string;
   @Input() openModal  : boolean;
+  @Input() toggleAbout    : Function;
 
   checkAll            : boolean   = false; //true if form fields to be checked for errors (touched or not)
   deleteMatch         : boolean   = false;
@@ -26,7 +30,6 @@ export class PublicMatchSettingsModalComponentTemplate implements OnInit {
   selectedItem        : string    = "";
   newItemName         : string    = "";
   deleteItem          : boolean   = false;
-  // itemList            : string[]  = ['testuser@gmail.com'];
   requestStatus       : { [key: string]: any }  = {};
   working             : boolean   = false;
 

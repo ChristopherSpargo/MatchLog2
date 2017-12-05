@@ -2,15 +2,15 @@
          Used with <app-point-item> COMPONENT -->
     <div class="d-flex flex-row">
       <div class=" app-point-info-name app-match-info-label  ">
-      {{(fAtNet === 'Yes' ? 'At Net' : '') + ' ' + fLabel}}
+      {{(fAtNet === 'Yes' ? 'At Net ' : '') + fLabel}}
       </div>
-      <div *ngIf="fWing" class=" app-point-info-value ">
+      <div *ngIf="fWing !== undefined" class=" app-point-info-value ">
         {{fWing + ' ' +fValue}}
       </div>
-      <div *ngIf="fTargetWing" class=" app-point-info-value ">
+      <div *ngIf="fTargetWing !== undefined" class=" app-point-info-value ">
         {{fValue + ' to ' + fTargetWing}}
       </div>
-      <div *ngIf="!(fWing || fTargetWing)" class=" app-point-info-value {{fColor}}">
+      <div *ngIf="(fWing === undefined) && (fTargetWing === undefined)" class=" app-point-info-value {{fColor}}">
         {{fValue}}
       </div>
     </div>

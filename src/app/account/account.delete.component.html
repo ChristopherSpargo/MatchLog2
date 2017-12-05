@@ -15,7 +15,7 @@
   <!-- Start of Form -->
 
   <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-2 py-3">
+    <div class="container app-form-theme px-2 pt-3 pb-1">
       <form #deleteForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(deleteForm)">
         <div class="d-flex flex-column">
@@ -69,11 +69,6 @@
               >
           </app-update-actions>
                             
-          <!-- Button to close form -->
-          <app-footer-button 
-            [fOnClick]      = "closeForm">
-          </app-footer-button>
-          
         </div>
       </form>
     </div>

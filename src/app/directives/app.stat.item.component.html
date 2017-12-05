@@ -1,18 +1,34 @@
     <!-- Template used for stat item display. 
          Used with <app-stats-item> COMPONENT -->
     <div class="d-flex flex-row justify-content-center align-items-center">
-      <div class=" app-match-stats-player-value "
+      <div *ngIf="!fRatio" class="app-match-stats-player-value"
            [ngClass]="{'app-disabled-text': fShowOpponent,
                       'app-stats-subitem': fSubitem}">
-        {{!fShowOpponent ? (!fRatio ? (fValue[0] + fPct) : (fValue[0][0] + '/' + fValue[0][1])) : '...'}}
+        {{!fShowOpponent ? (fValue[0] + fPct) : '...'}}
+      </div>
+      <div *ngIf="fRatio" 
+            class=" app-match-stats-player-value d-flex flex-row justify-content-start align-items-end "
+           [ngClass]="{'app-disabled-text': fShowOpponent,
+                      'app-stats-subitem': fSubitem}">
+          <div *ngIf="fShowOpponent" class="app-width-100">...</div>
+          <div *ngIf="!fShowOpponent" class="app-ratio-dividend">{{fValue[0][0]}}</div>
+          <div *ngIf="!fShowOpponent" class="app-ratio-divisor">{{'/' + fValue[0][1]}}</div>
       </div>
       <div class=" app-match-stats-stat app-match-info-label "
            [class.app-stats-subitem]="fSubitem">
       {{fLabel}}
       </div>
-      <div class=" app-match-stats-opponent-value"
+      <div *ngIf="!fRatio" class="app-match-stats-opponent-value"
            [ngClass]="{'app-disabled-text': fShowPlayer,
                       'app-stats-subitem': fSubitem}">
-        {{!fShowPlayer ? (!fRatio ? (fValue[1] + fPct) : (fValue[1][0] + '/' + fValue[1][1])) : '...'}}
+        {{!fShowPlayer ? (fValue[1] + fPct) : '...'}}
+      </div>
+      <div *ngIf="fRatio" 
+            class=" app-match-stats-opponent-value d-flex flex-row justify-content-start align-items-end "
+           [ngClass]="{'app-disabled-text': fShowPlayer,
+                      'app-stats-subitem': fSubitem}">
+          <div *ngIf="fShowPlayer" class="app-width-100">...</div>
+          <div *ngIf="!fShowPlayer" class="app-ratio-dividend">{{fValue[1][0]}}</div>
+          <div *ngIf="!fShowPlayer" class="app-ratio-divisor">{{'/' + fValue[1][1]}}</div>
       </div>
     </div>

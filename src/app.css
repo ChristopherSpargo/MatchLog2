@@ -15,8 +15,10 @@
     main toolbar          ... 75
 */
 $lg-screen: (min-width: 960px);
+$modalActionBackground: transparent;
 $courtGreenLight: rgb(109, 149, 106);
-$helpHeaderColor: rgb(156, 39, 176);
+$helpHeaderColor: #5bc0de;
+/* $helpHeaderColor: rgba(156, 39, 176, 1); */
 $appBarIconSize: 30px !important;
 $headerDefaultColor: #009688;
 $primaryColor: #00897B;
@@ -28,7 +30,10 @@ $disabledTextColor: rgb(166,166,166);
 /*$infoLabelColor: rgb(57,115,172);*/
 $infoLabelColor: rgb(0,137,123);
 $inputLabelColor: rgba(0,137,123,.54);
-$publicLogsColor: rgba(255,145,0,.9);
+$publicLogsColor: rgba(0,110,110,1);
+$publicLogsColorMuted: rgba(0,110,110,.7);
+$pointFilterColor: rgba(2,117,216,.9);
+$pointFilterColorMuted: rgba(2,117,216,.7);
 html {
   overflow: hidden;
   /*overflow-y: auto; */
@@ -96,20 +101,46 @@ b, strong {
   min-height: 30px;}
 .app-fab-icon-sm {
   font-size: 30px;}
-.app-fab-icon-xsm {
+.app-fab-icon-sm {
   font-size: 24px;}
 .app-fab-xsm {
-  max-width: 20px;
-  min-width: 20px;
-  max-height: 20px;
-  min-height: 20px;}
+  max-width: 24px;
+  min-width: 24px;
+  max-height: 24px;
+  min-height: 24px;}
 .app-fab-icon-xsm {
   font-size: 20px;}
-.app-fab-xsm {
-  max-width: 20px;
-  min-width: 20px;
-  max-height: 20px;
-  min-height: 20px;}
+.app-fab-icon-xxsm {
+  font-size: 16px;}
+.app-filter-nav-padding {
+  padding-top: 2rem;}
+.app-point-filter-fab {
+  line-height: 1.15em;
+  position: absolute;
+  top: 0;
+  right: 4%;
+  z-index: 4;}
+.app-point-filter-nav {
+  line-height: 1.15em;
+  font-size: 85%;
+  position: absolute;
+  top: 2px;
+  right: 4%;
+  z-index: 4;}
+.app-filter-nav-button {
+  margin: 0px;
+  padding: 0px;
+  cursor: pointer;
+  background-color: white;
+  max-width: 30px;
+  min-width: 30px;
+  max-height: 30px;
+  min-height: 30px;}
+  .app-filter-nav-button:focus {
+    outline: none;
+    box-shadow: none;}
+  .app-filter-nav-icon {
+    font-size: 30px;}
 .app-fab-lg {
   max-width: 56px;
   min-width: 56px;
@@ -196,8 +227,12 @@ b, strong {
 .app-transparent {
   background-color: transparent !important;
   color: inherit;}
+.app-card-corners {
+  border-radius: 4px 4px 4px 4px !important;}
 .app-card-bottom-corners {
   border-radius: 0px 0px 4px 4px !important;}
+.app-card-top-corners {
+  border-radius: 4px 4px 0px 0px !important;}
 .app-width-15 {
   flex: 1 1 15%;
   max-width: 15%;
@@ -210,6 +245,10 @@ b, strong {
   flex: 1 1 25%;
   max-width: 25%;
   width: 25%;}
+.app-width-30 {
+  flex: 1 1 30%;
+  max-width: 30%;
+  width: 30%;}
 .app-width-40 {
   flex: 1 1 40%;
   max-width: 40%;
@@ -309,6 +348,8 @@ b, strong {
   font-size: 90% !important;}
 .app-smaller-font {
   font-size: 75% !important;}
+.app-smaller-font2 {
+  font-size: 60%;}
 .app-font-normal {
   font-weight: normal;}
 .app-text-center {
@@ -518,24 +559,41 @@ b, strong {
   border-color: rgba(211,211,211,.2);
   color: rgba(0,0,0,.87) !important;
   }
+.app-form-theme-transparent {
+  font-size: 1.25em!important;
+  background-color: transparent !important;
+  border-color: rgba(211,211,211,.2);
+  color: rgba(0,0,0,.87) !important;
+  }
   .app-form-header-theme, .app-logs-header-theme, .app-account-header-theme, .app-lists-header-theme {
     font-size: 1.25em !important;
     background-color: white;
-    color: white !important;
+    border-bottom: 2px solid;
+    /* color: white !important; */
   }
   .app-logs-header-theme {
-    background-color: rgba(98,134,95,1);
+    border-color: rgba(98,134,95,.9);
   }
   .app-public-logs-settings-theme {
     background-color: $publicLogsColor;
-    color: $blackTextColor;
+    color: white;
+  }
+  .app-point-filter-theme {
+    background-color: $pointFilterColorMuted;
+    color: white;
   }
   .app-account-header-theme {
-    background-color: rgba(190,66,56,1);
+    border-color: rgba(190,66,56,.9);
   }
   .app-lists-header-theme {
-    background-color: rgba(204,153,102,1);
+    border-color: rgba(204,153,102,.9);
   }
+  .app-simple-modal-theme {
+    color: white;
+    background-color: rgba(91, 192, 223,.5);}    
+  .app-match-action-modal-theme {
+    color: white;
+    background-color: rgba(91, 192, 223,.9);}    
   .app-form-theme-text {
     color: rgba(0,0,0,.87) !important;}
   .app-form-theme-select-menu {
@@ -695,7 +753,7 @@ b, strong {
 .app-add-subtract-input-control {
   order: 0 !important;
   width: 30% ;
-  border-width: 0 0 1px;
+  border-width: 0;
   text-align: center;}
 .app-add-subtract-input-control:disabled {
   color: $disabledTextColor;}
@@ -706,8 +764,8 @@ b, strong {
 .app-form-header-padding {
   padding: 4px 0px;}
 .app-form-image-button {
-  margin: 0px 0px 0px 10px!important;
-  padding: 0px !important;
+  margin: 0px 0px 0px 10px;
+  padding: 0px;
   background-color: transparent;
   max-height: 40px !important;
   max-width: 40px !important;
@@ -731,8 +789,8 @@ $appFormCloseSizeLg: 40px !important;
 $appFormCloseIconSize: 34px !important;
 $appFormCloseSizeIconLg: 38px !important;
 .app-form-close-button {
-  margin: 0px!important;
-  padding: 0px!important;
+  margin: 0px;
+  padding: 0px;
   background-color: transparent;
   max-height: $appFormCloseSize;
   max-width: $appFormCloseSize;
@@ -759,6 +817,7 @@ $appFormCloseSizeIconLg: 38px !important;
 .app-add-subtract-button {
   margin: 0px;
   padding: 0px;
+  cursor: pointer;
   background-color: white;
   max-width: 40px;
   min-width: 40px;
@@ -803,7 +862,7 @@ $appFormCloseSizeIconLg: 38px !important;
   overflow: hidden;}
 .app-scroll-frame-center {
   width: 100%;
-  max-height: calc(100% - 53px);
+  min-height: calc(100% - 53px);
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;}
   @media ($lg-screen) {
@@ -818,6 +877,8 @@ $appFormCloseSizeIconLg: 38px !important;
 .app-central-container {
   width: 100%;
   min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow: auto;
   margin: auto;}
   @media (min-width: 600px) {
     .app-central-container,.app-central-container-130 {
@@ -829,15 +890,16 @@ $appFormCloseSizeIconLg: 38px !important;
     .app-central-container,.app-central-container-130 {
       width: 40%;}}
 .app-whiteframe-2dp {
-  box-shadow: 0 1px 0px 0 rgba(0,0,0,.2),
-              0 2px 0px 0 rgba(0,0,0,.14),
-              0 3px 0px 0 rgba(0,0,0,.12), 
+  box-shadow: 1px 1px 0px 0 rgba(0,0,0,.2),
+              -1px 0px 0px 0 rgba(0,0,0,.2),
+              2px 2px 0px 0 rgba(0,0,0,.14),
+              3px 3px 0px 0 rgba(0,0,0,.12), 
               0 4px 0px 0 rgba(0,0,0,.08);} 
   @media ($lg-screen) {
     .app-whiteframe-2dp {
-    box-shadow: 0 1px 0px 0 rgba(0,0,0,.2),
-                0 2px 2px 0 rgba(0,0,0,.14),
-                0 3px 1px 0 rgba(0,0,0,.12);}} 
+    box-shadow: 1px 1px 0px 0 rgba(0,0,0,.2),
+                2px 2px 2px 0 rgba(0,0,0,.14),
+                3px 3px 1px 0 rgba(0,0,0,.12);}} 
 .app-scrollable {
   -webkit-overflow-scrolling: touch;
   overflow: auto !important;}
@@ -861,8 +923,10 @@ $appFormCloseSizeIconLg: 38px !important;
   /* Lighter About panel theme */
 .app-about-header-theme {
   padding: 4px 0;
-    background-color:  $helpHeaderColor;  
-  color: white;}
+  border-bottom: 2px solid;
+  background-color: #ddd;
+  border-color:  $helpHeaderColor;  
+  color: $blackTextColor;}
   .app-about-body-theme {
     background-color: white;
     line-height: 1.15em;
@@ -881,7 +945,7 @@ $appFormCloseSizeIconLg: 38px !important;
   line-height: 1.2;
   font-size: 1.25em;
   text-align: center!important;
-  font-weight: normal;}
+  font-weight: 500;}
 .app-about-heading-icon-area {
   margin-right: 10px;}
 .app-about-heading-text {
@@ -893,8 +957,18 @@ $appFormCloseSizeIconLg: 38px !important;
   font-size: 80%;}
 .app-about-heading-button {
   font-weight: normal !important;
+  background-color: rgb(211,211,211);
+  border-radius: .25rem .25rem;
   vertical-align: middle;
   font-size: 80%;}
+.app-about-text-icon-lg {
+  font-size: 24px;
+  position: relative;
+  top: 3px;}
+  @media ($lg-screen) {
+    .app-about-text-icon-lg {
+      font-size: 30px;
+      top: 4px;}}
 .app-about-text-icon {
   font-size: 18px;
   position: relative;
@@ -920,7 +994,24 @@ $appFormCloseSizeIconLg: 38px !important;
       min-height: 30px;
       min-width: 30px;
       margin: -3px 6px 0 0;}}
-.app-about-text-fab:focus {
+.app-about-text-fab-sm {
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  border-radius: 50%;
+  padding: 0 !important;
+  margin: -2px 0 0 0;
+  display: inline;}
+  @media ($lg-screen) {
+    .app-about-text-fab-sm {
+      max-height: 24px;
+      max-width: 24px;
+      min-height: 24px;
+      min-width: 24px;
+      margin: -3px 6px 0 0;}}
+.app-about-text-fab:focus, .app-about-text-fab-sm:focus {
   outline: none;
   box-shadow: 0 3px 6px 0 rgba(0,0,0,.26);
 }
@@ -933,7 +1024,7 @@ $appFormCloseSizeIconLg: 38px !important;
     .app-about-fab-icon-sm {
       font-size: 20px;}}
 .app-about-fab-icon-sm {
-  font-size: 16px;}
+  font-size: 19px;}
 .app-about-icon {
   cursor: text !important;
   font-size: 24px;
@@ -946,13 +1037,35 @@ $appFormCloseSizeIconLg: 38px !important;
       margin: 0 6px 0 0;}}
 .app-about-icon-color {
   color: $helpHeaderColor;}
+.app-about-radio-icon {
+  cursor: text!important;
+  max-height: 20px;
+  max-width: 20px;
+  font-size: 16px;
+  margin: 0 6px 0 2px;
+  color: rgba(0,0,0,.5);
+  background-color: #ddd; 
+  font-weight: 100;
+  border-radius: 50%;
+  border: 2px solid darkgray;}
+.app-about-checkbox-icon {
+  cursor: text!important;
+  max-height: 20px;
+  max-width: 20px;
+  font-size: 16px;
+  margin: 0 6px 0 2px;
+  color: rgba(0,0,0,.6);
+  background-color: #ddd; 
+  font-weight: 600;
+  border-radius: 5px;
+  border: 2px solid darkgray;}
 .app-about-container {
-  position: absolute;
+  position: fixed;
   left: 0px;
   top: 0px;
-  z-index: 80;
-  width: 95%;
-  background-color: white;
+  z-index: 1110;
+  width: 90%;
+   background-color: white; 
   bottom: 0px;}
   @media (min-width: 600px) {
     .app-about-container {
@@ -975,7 +1088,7 @@ $appFormCloseSizeIconLg: 38px !important;
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 10;
+  z-index: 1100;
   background-color: transparent;}
 /*******************************************/
 /* STYLES MOSTLY RELATED TO: CREATE LOG    */
@@ -1018,8 +1131,10 @@ $appFormCloseSizeIconLg: 38px !important;
     color: rgb(3,169,244)!important;}
   .app-viewlogs-button-text {
     color: rgba(0,0,0,.87)!important;}
+.app-stats-filtered {
+  border: 2px solid rgb(255,204,0)!important;}
 .app-stats-selected {
-  border: 1px solid rgb(190,66,56)!important;}
+  border: 2px solid rgb(190,66,56)!important;}
 .app-match-stats-frame {
   min-height: 100%;
   width: 100%;}
@@ -1127,7 +1242,7 @@ $appFormCloseSizeIconLg: 38px !important;
   height: 28px;
   padding: 0px 0px 0px 0px;}
 .app-match-display-set-button {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   line-height: 28px;
   min-width: 40px;}
 .app-match-display-back-button {
@@ -1185,7 +1300,7 @@ $appFormCloseSizeIconLg: 38px !important;
   font-size: .6em;
   margin: 0;
   line-height: 1em;}
-.app-match-stats-section:focus, .app-match-stats-text-button:focus {
+.app-match-stats-section-button:focus, .app-match-stats-text-button:focus {
   outline: none;
   box-shadow: none;}
 .app-match-stats-section-text {
@@ -1211,7 +1326,6 @@ $appFormCloseSizeIconLg: 38px !important;
 .app-match-stats-player-value {
   font-weight: normal;
   width: 30%;
-  /*margin-left: 5%;*/
   text-align: center;
   line-height: 1em;
   font-size: 1.2em;}
@@ -1227,7 +1341,7 @@ $appFormCloseSizeIconLg: 38px !important;
   min-height: 0px;
   text-align: center;
   line-height: 1em;
-  font-size: .85em;}
+  font-size: .85em!important;}
 .app-match-stats-stat.app-stats-subitem {
   width: 30%;
   font-size: .65em;}
@@ -1245,6 +1359,13 @@ $appFormCloseSizeIconLg: 38px !important;
   margin-left: 8px;
   line-height: 1em;
   font-size: .7em;}
+.app-ratio-divisor {
+  line-height: 1.2em;
+  font-weight: 500;
+  font-size: 70%;}
+.app-ratio-dividend {
+  width: 50%;
+  text-align: end;}
 .app-stat-breakdown {
   cursor: pointer;
   color: $infoLabelColor;
@@ -1254,7 +1375,7 @@ $appFormCloseSizeIconLg: 38px !important;
   outline: none;}
 .app-point-info-name {
   font-weight: normal;
-  width: 30%;
+  /* width: 30%; */
   margin-left: 5%;
   text-align: left;
   line-height: 24px;
@@ -1271,14 +1392,15 @@ $appFormCloseSizeIconLg: 38px !important;
   text-align: left;
   margin-left: 1%;
   line-height: 24px;
-  font-size: 1.0em;}
+  font-size: 1em;}
 
 /***************************************/
 /* STYLES MOSTLY RELATED TO: UTILITIES */
 /***************************************/
 .app-dialog-container {
-  background-color: white;
-  border-radius: .3em;}
+  /* background-color: white; */
+  /* border-radius: .3em; */
+}
 .app-confirm-dialog-content {
   text-align: center;
   min-height: 30px;}
@@ -1286,7 +1408,9 @@ $appFormCloseSizeIconLg: 38px !important;
   border: 0;
   padding: 0;
   border-radius: .3em .3em 0 0;}
-  
+.app-dialog-footer {
+  background-color: white;
+  border-radius: 0 0 .3em .3em;}
 /***************************************/
 /* STYLES MOSTLY RELATED TO: COLORS    */
 /***************************************/
@@ -1305,11 +1429,15 @@ $appFormCloseSizeIconLg: 38px !important;
   color: rgba(98,134,95,.9);}
 .app-public-logs-color {
   color: $publicLogsColor}
+.app-point-filter-color {
+  color: $pointFilterColor}
 .app-accounts-color {
   color: rgba(190,66,56,.9);}
 .app-about-color {
-  color: rgba(156,39,176,1);}
+  color: #5bc0de;}
+  /* color: rgba(156,39,176,1);} */
 .app-match-info-label {
+  margin-bottom: 0;
   color: $infoLabelColor;}
 .app-court-green {
   color: rgb(98,134,95);}
@@ -1377,6 +1505,8 @@ $appFormCloseSizeIconLg: 38px !important;
 .app-flex-wrap {
   flex-wrap: wrap;}
 /*modifications for ngb-bootstrap modal*/
+.modal-backdrop.show {
+  opacity: .7;}
 .modal-dialog {
   margin: 15% 2%;}
   @media ($lg-screen) {
@@ -1388,6 +1518,11 @@ $appFormCloseSizeIconLg: 38px !important;
 .modal-footer {
   padding: 10px;
   border-top: 1px solid gray;}
+.app-modal-action-btn {
+  background-color: $modalActionBackground;}
+  /* .app-modal-action-btn:focus {
+    outline: none;
+    box-shadow: none;} */
 #toast-container > div {
   width: 20em !important;}
   @media($lg-screen) {
@@ -1397,14 +1532,14 @@ $appFormCloseSizeIconLg: 38px !important;
   font-style: italic;}
 /*modifications for ngb-bootstrap tabs*/
 .nav-link {
-  padding: .25em .5em;}
+  padding: .25em .25em;}
 .nav-tabs .nav-link.active {
   color: #0275D8;}
 .nav-tabs .nav-link {
   color: #464A4C;}
 .nav-tabs .nav-link, .nav-tabs .nav-link.disabled {
   background-color: lightyellow;
-  border-color: #ddd #ddd;}
+  border-color:#ddd #ddd;}
 .app-tab-title {
   font-size: .75em;}
   @media($lg-screen) {
@@ -1412,6 +1547,17 @@ $appFormCloseSizeIconLg: 38px !important;
       font-size: .85em;}}
 ngb-tabset {
   width: 100%;}
+ngb-tabset > ul{
+  background-color: white;
+  padding-top: .15rem; }
+.tab-content {
+  box-shadow: 0 1px 0px 0 rgba(0,0,0,.2),
+              0 2px 0px 0 rgba(0,0,0,.14),
+              0 3px 0px 0 rgba(0,0,0,.12), 
+              0 4px 0px 0 rgba(0,0,0,.08);
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 10px;
+  background-color: white;}
 .btn {
   font-size: 14px;
 }

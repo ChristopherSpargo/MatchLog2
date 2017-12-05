@@ -1,6 +1,6 @@
                 <!--Form used to gather point information-->
 
-      <div *ngIf="loggingMatch()"  class="container px-2 py-3">
+      <div *ngIf="loggingMatch()"  class="container px-2 pt-3 pb-1">
         <!-- Start of Form -->
         <form #logForm ="ngForm" role="form" novalidate class="px-0 py-0"
               (submit)="submitPointInfo(logForm)">
@@ -129,7 +129,7 @@
                           aria-label="return wing" [(ngModel)]="pointInfo.returnWing"
                           (click)="updateLogForm('returnWingF')" 
                           [disabled]="!pointInfo.ace && !(pointInfo.return || pointInfo.missedReturn ||pointInfo.returnWinner)">
-                  <label  (click)="toggleReturnWing()" class="mb-0 mr-1">
+                  <label  (click)="toggleReturnWing()" class="app-form-radio-control">
                           {{pointInfo.returnWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
                   <input  type="radio" value="B" class=" app-inline-flex app-form-radio-control "
                         name="rWing" id="rWingB" [(ngModel)]="pointInfo.returnWing"
@@ -188,14 +188,16 @@
             </div>
             <div class="d-flex flex-column justify-content-around align-items-start">
               <app-fab
-                fLabel      ="Save"
-                fAria       ="save">
+                fLabel      = "Save"
+                [fDisabled] = "!canSubmitPoint()"
+                fAria       = "save">
               </app-fab>
               <app-fab *ngIf="insertActive() || editActive()"
                 fType       = "button"
                 fIcon       = "highlight_off"
                 fIconColor  = "app-warn"
                 fLabel      = "Cancel"
+                [fDisabled] = "!canSubmitPoint()"
                 [fReverse]  = "true"
                 fAria       = "cancel"
                 [fOnClick]  = "cancelInsertOrEdit"
@@ -282,7 +284,7 @@
                           (click)="updateLogForm('lastShotWingF')"  name="lsWing"
                           [disabled]="!(pointInfo.first || pointInfo.second) || pointInfo.double">
                   <label  (click)="toggleLastShotWing()" 
-                          class="mb-0 mr-1">{{pointInfo.lastShotWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
+                          class="app-form-radio-control">{{pointInfo.lastShotWing == 'B' ? 'Backhand' : 'Forehand'}}</label>
                   <input  type="radio" value="B" class="app-inline-flex app-form-radio-control"
                           aria-label="last shot wing" [(ngModel)]="pointInfo.lastShotWing"
                           (click)="updateLogForm('lastShotWingB')"  name="lsWing"
@@ -335,9 +337,9 @@
           </div>
         </form>
       </div>
-      <div *ngIf="!loggingMatch()" class=" mx-2 my-2 app-theme-inherit ">
-        <div class="d-flex flex-column justify-content-between align-items-center">
-          <h1>Match {{matchStatus()}}</h1>
+      <div *ngIf="!loggingMatch()" class=" mx-2 mb-2 app-theme-inherit ">
+        <div class="d-flex flex-column justify-content-between align-items-center pt-2">
+          <h3>Match {{matchStatus()}}</h3>
           <div *ngIf="matchStatus() == 'Paused'" class="d-flex flex-row mb-2">
             <div class="d-flex flex-row justify-content-end align-items-center pr-1 app-width-50">
               <app-fab 

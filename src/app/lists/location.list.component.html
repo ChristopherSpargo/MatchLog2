@@ -20,20 +20,18 @@
                                               <!-- Start of Form -->
 
   <div class=" app-scroll-frame-center app-card-bottom-corners app-whiteframe-2dp">
-    <div class="container app-form-theme px-2 py-3">
+    <div class="container app-form-theme px-2 pt-3 pb-1">
       <form #listForm = "ngForm" role="form" novalidate
             (ngSubmit)="submitRequest(listForm)">
         <div class="d-flex flex-column">
 
         <!-- Instructional messages -->
         <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
-                     mb-2"
-             [style.fontSize.%]="75">
+                                                mb-2 app-smaller-font">
           Select from the list to edit/create a Location
         </div>
         <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 align-items-center 
-                     mb-2"
-             [style.fontSize.%]="75">
+                                                mb-2 app-smaller-font">
           Now edit and save or remove this Location
         </div>
 
@@ -68,11 +66,6 @@
             [fMessageObj]     = "requestStatus">
           </app-form-messages>    
 
-          <!-- Button to close form -->
-          <app-footer-button 
-            [fOnClick]      = "closeForm">
-          </app-footer-button>
-                           
         </div>
       </form>
     </div>

@@ -1,0 +1,62 @@
+  <div>
+    &nbsp;&nbsp;The point filter form allows you to highlight points in the match that meet specific
+    conditions.<br />
+    <b>For example:</b> Highlight all points where Player X was serving at break point and got the
+    first serve in.<br/>
+    The fields and buttons are:
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Server:"></app-about-heading>
+    &nbsp;&nbsp;Specify which player is serving in the points you're interested in. Leave both unchecked
+    if the server doesen't matter.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Special Points:"></app-about-heading>
+    &nbsp;&nbsp;Specify if one or more of the special point conditions must apply. If more than one
+    are selected, at least one must apply.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Serve:"></app-about-heading>
+    &nbsp;&nbsp;Specify if the point started with a <b>First</b> or <b>Second</b> serve. If serve doesn't matter, don't
+    check either. <b>Ace</b> and <b>Double Fault</b> are treated as a separate category.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Return:"></app-about-heading>
+    &nbsp;&nbsp;Specify if the return was <b>In</b>, <b>Out</b> or a <b>Winner</b>. If more than one
+    are selected, at least one must apply.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Return Wing:"></app-about-heading>
+    &nbsp;&nbsp;Specify whether the serve was to the <b>Forehand</b> or <b>Backhand</b>. If it doesn't matter, don't
+    check either.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Number of Shots:"></app-about-heading>
+    &nbsp;&nbsp;Specify points with a certain number of shots. You may also check for rallys longer or
+    shorter than some numer. If you don't select <b>More Than</b> or <b>Less Than</b>, only points with the exact number
+    of shots will be highlighted.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Point Won By:"></app-about-heading>
+    &nbsp;&nbsp;Specify whether the point was won by a specific player. If it doesn't matter, don't
+    check either.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Player Finished at Net:"></app-about-heading>
+    &nbsp;&nbsp;Specify whether one or both of the players finished the point <b>at Net</b>.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Last Shot Wing"></app-about-heading>
+    &nbsp;&nbsp;Specify whether the point ended with a <b>Forehand</b> or <b>Backhand</b>. If it doesn't matter, don't
+    check either.
+
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Point Ended By:"></app-about-heading>
+    &nbsp;&nbsp;Specify the manner in which the point ended. If more than one
+    are selected, at least one must apply.
+
+    <app-about-heading fButton="Cancel" fText="Cancel Filter Changes" fButtonColor="app-green"></app-about-heading>
+    &nbsp;&nbsp;This button cancels making changes to the Point Filter settings.
+
+    <app-about-heading fButton="Reset" fText="Reset Point Filter" fButtonColor="app-green"></app-about-heading>
+    &nbsp;&nbsp;This button clears the Point Filter so no points will be highlighted.
+    
+    <app-about-heading fButton="Apply" fText="Apply Point Filter" fButtonColor="app-green"></app-about-heading>
+    &nbsp;&nbsp;This button applies the conditions of the filter and highlights all matching points.
+
+    <app-about-heading fIcon="warning" fText="Tips and Warnings" 
+    fIconColor="app-checkbox" [fDivider]="true"></app-about-heading>
+    &nbsp;&nbsp;If you make a selection in a category, that condition <b>must</b> be present for the 
+    point to be highlighted.<br />If you make more than one selection in a category, <b>at least one</b> of those
+    conditions must be present for the point to be highlighted.
+</div>

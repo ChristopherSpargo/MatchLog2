@@ -1,39 +1,41 @@
   <div>
-    <app-about-heading fIcon="edit" fText="Logging a Point"></app-about-heading>
-    &nbsp;&nbsp;The <b>Log Point</b> tab allows you to record all the information about a point.
-    Here's an explanation of the fields and buttons in each section:<br />
+    &nbsp;&nbsp;The <b>Log Point</b> tab allows you to record all the information about a point.<br/>
+    The fields and buttons are:
 
-    <app-about-heading fText="Serve:"></app-about-heading>
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Serve:"></app-about-heading>
     &nbsp;&nbsp;The person serving and the current score are displayed at the top of this section.
     &nbsp;&nbsp;The four fields in this section allow you to describe what happened with regard to the serve.<br />
     &nbsp;&nbsp;Specify which serve went in, 1st or 2nd, whether it was an ace or if the server double faulted.<br />
 
-    <app-about-heading fText="Return:"></app-about-heading>
+    <app-about-heading fIcon="check" fIconColor="app-about-checkbox-icon" fText="Return:"></app-about-heading>
     &nbsp;&nbsp;Describe what happened with regard to the return.<br />
-    &nbsp;&nbsp;Specify if the return went in or not, whether it was a winner and on which side the return was made,
-    forehand or backhand.  Select the right side of the forehand/backhand control to indicate backhand.<br />
+    &nbsp;&nbsp;Specify if the return went in or not, whether it was a winner and on which side the 
+    return was made. Tap the forehand/backhand control to toggle it's selection.<br />
 
     <app-about-heading fText="Number of shots:"></app-about-heading>
     &nbsp;&nbsp;The field in this section is for indicating the number of shots in this point.<br />
     &nbsp;&nbsp;Use the arrow buttons to <app-about-text-icon fIcon="arrow_back" fColor="app-primary"></app-about-text-icon> decrease
      or <app-about-text-icon fIcon="arrow_forward" fColor="app-primary"></app-about-text-icon> increase the shot count by 1.  Use the
     <app-about-text-icon fIcon="forward_5" fColor="app-primary"></app-about-text-icon> button to increase the shot count by 5.<br />
-    &nbsp;&nbsp;This section also contains the <app-about-text-icon fIcon="check_circle_outline" fColor="app-primary" [fFab]="true"></app-about-text-icon>
+    &nbsp;&nbsp;This section also contains the <app-about-text-icon fIcon="check_circle_outline" 
+    fColor="app-primary" [fFab]="true" fSize="S"></app-about-text-icon>
     save button. Tap this button to submit the point information and reset the form for the next point.<br />
 
 
-    <app-about-heading fText="Point won by:"></app-about-heading>
+    <app-about-heading fIcon="fiber_manual_record" fIconColor="app-about-radio-icon" fText="Point won by:"></app-about-heading>
     &nbsp;&nbsp;Here you indicate who won the point and whether either player was at the net when the point ended. The winner
     of the point is often selected for you based on the values in the fields above.  When you make a selection for point winner,
     the <b>Point ended by</b> section will automatically show a selection of <b>Winner</b> or <b>Error</b>. 
     <br />
 
-    <app-about-heading fText="Point ended by:"></app-about-heading>
+    <app-about-heading fIcon="fiber_manual_record" fIconColor="app-about-radio-icon" fText="Point ended by:"></app-about-heading>
     &nbsp;&nbsp;Here you indicate how the point ended. The information here is usually filled in automatically but sometimes
-    you may need to change <b>Error</b> to <b>Error Forced</b> and on rare occasions to <b>Bad Call</b>.
+    you may need to change <b>Error</b> to <b>Error Forced</b> and on rare occasions to <b>Bad Call</b>.<br/>
+    Also record which side the last shot was taken on. Tap the forehand/backhand control to toggle it's
+    selection.
     <br />
 
-    <app-about-heading fText="Unforced error detail:"></app-about-heading>
+    <app-about-heading fIcon="fiber_manual_record" fIconColor="app-about-radio-icon" fText="Unforced error detail:"></app-about-heading>
     &nbsp;&nbsp;Here you assign a cause to the Error when that is the point ending. <b>Execution</b> is selected by
     default.<br />
 

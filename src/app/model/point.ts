@@ -24,14 +24,16 @@ wI:   number;       // winner Id (PLAYER_ID or OPPONENT_ID)
 sI:   number;       // server Id (PLAYER_ID or OPPONENT_ID)
 fSI:  boolean;      // first serve was in
 rI:   boolean;      // return was in
-rW:   string;       // return wing (forehand or backhand)
-lW:   string;       // last shot wing
+rW:   string;       // return wing ('F'=forehand or 'B'=backhand)
+lW:   string;       // last shot wing (F or B)
 pAN:  boolean;      // Player was at net when point ended
 oAN:  boolean;      // Opponent was at net when point ended
 pEB:  number;       // point ended by (Ace, Winner, etc.)
 uED:  number;       // detail attribute if point ended by unforced ERROR
 bP:   boolean;      // point was a break point for returner
 gP:   boolean;      // point was a game point for server
+sPf?:  number;      // set point for ID (PLAYER_ID or OPPONENT_ID)
+mPf?:  number;      // match point for ID
 }
 
 export class Point {
@@ -56,6 +58,8 @@ export class Point {
   opponentWon:            boolean;
   playerServed:           boolean;
   opponentServed:         boolean;
+  setPointFor?:           number;
+  matchPointFor?:         number;         
 
   //static method to validate the data and call the constructor
   static build(pLog: PointData) : Point {
@@ -84,6 +88,8 @@ export class Point {
     this.unforcedErrorDetail = pLog.uED;
     this.breakPoint =          pLog.bP;
     this.gamePoint =           pLog.gP;
+    this.setPointFor =         pLog.sPf;
+    this.matchPointFor =       pLog.mPf;
     this.playerWon =           this.winnerId == PLAYER_ID;
     this.opponentWon =         this.winnerId == OPPONENT_ID;
     this.playerServed =        this.serverId == PLAYER_ID;
@@ -107,7 +113,9 @@ export class Point {
       pEB:  this.pointEndedBy,
       uED:  this.unforcedErrorDetail,
       bP:   this.breakPoint,
-      gP:   this.gamePoint
+      gP:   this.gamePoint,
+      sPf:  this.setPointFor,
+      mPf:  this.matchPointFor
     }
     return pLog;
   };
@@ -125,8 +133,29 @@ export class Point {
       returnIn:       this.returnIn ? "In" : "Out",
       pointEndedBy:   POINT_ENDINGS[this.pointEndedBy],
       breakPoint:     this.breakPoint,
-      gamePoint:      this.gamePoint
+      gamePoint:      this.gamePoint,
+      setPointFor:    this.setPointFor,
+      matchPointFor:  this.matchPointFor
     };
+    if(this.matchPointFor){
+      result.specialPt = "Match Point";
+      result.specialPtFor = this.matchPointFor === this.serverId ? "server" : "returner";
+    }else {
+      if(this.setPointFor){
+        result.specialPt = "Set Point";
+        result.specialPtFor = this.setPointFor === this.serverId ? "server" : "returner";
+      }else{
+        if(this.gamePoint){
+          result.specialPt = "Game Point";
+          result.specialPtFor = "server";
+        }else{
+          if(this.breakPoint){
+            result.specialPt = "Break Point";
+            result.specialPtFor = "returner";
+          }
+        }
+      }
+    }
     if(this.playerAtNet != undefined){
       result.playerAtNet = this.playerAtNet ? "Yes" : "No";
     }

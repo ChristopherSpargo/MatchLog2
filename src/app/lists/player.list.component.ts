@@ -118,7 +118,6 @@ export class PlayerListComponent implements OnInit {
       });            
     })
     .catch((error) => {
-      window.scrollTo(0,0);
       this.resetForm(form);
       this.utilSvc.displayThisUserMessage("errorUpdatingPlayerList");
       this.working = false;
@@ -152,6 +151,7 @@ export class PlayerListComponent implements OnInit {
     this.selectedItem = "";  // set no selected player
     this.deleteItem   = false;
     this.setItemFields();
+    this.utilSvc.scrollToTop();
   }
 
   // set the form fields to reflect the selected player or empty

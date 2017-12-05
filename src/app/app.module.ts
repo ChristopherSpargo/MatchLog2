@@ -33,6 +33,10 @@ import { AboutLogPointInfoComponent } from './about/about.log.pointInfo.componen
 import { AboutLogViewComponent } from './about/about.log.view.component';
 import { AboutLogReviewEditComponent } from './about/about.log.review.edit.component';
 import { AboutLogSetupComponent } from './about/about.log.setup.component';
+import { AboutManagePublicLogsComponent } from './about/about.manage.public.logs.component';
+import { AboutManagePublicSettingsComponent } from './about/about.manage.public.settings.component';
+import { AboutMakeLogPublicComponent } from './about/about.make.log.public.component';
+import { AboutPointFilterComponent } from './about/about.point.filter.component';
 import { LoginComponent } from './account/login.component';
 import { EventListComponent } from './lists/event.list.component';
 import { PlayerListComponent } from './lists/player.list.component';
@@ -62,6 +66,7 @@ import { ModalComponent } from './modal/modal.component';
 import { SimpleModalComponentTemplate } from './modal/simple.modal.component.template';
 import { MatchActionModalComponentTemplate } from './modal/match.action.modal.component.template';
 import { PublicMatchSettingsModalComponentTemplate } from './modal/public.match.settings.modal.component.template';
+import { LogsPointFilterModalComponentTemplate } from './modal/logs.point.filter.modal.component.template';
 import { UtilSvc } from './utilities/utilSvc';
 import { CookieSvc } from './utilities/cookieSvc';
 import { FireBaseSvc } from './utilities/fireBaseSvc';
@@ -70,6 +75,7 @@ import { DataSvc } from './model/dataSvc';
 import { GraphsSvc } from './model/graphsSvc';
 import { FormHeaderComponent } from './directives/form.header.component';
 import { IconInputComponent } from './directives/icon.input.component';
+import { IconTextareaComponent } from './directives/icon.textarea.component';
 import { ListItemFieldComponent } from './directives/list.item.field.component';
 import { UpdateActionsComponent } from './directives/update.actions.component';
 import { ValidationMessageComponent, ValidationMessagesComponent } from './directives/error.messages.component';
@@ -85,8 +91,9 @@ const INITIAL_STATES =  [ homeState, loginState, manageEventsState, managePlayer
     logsViewState, logsCreateState, logsResumeState, logsViewPublicState, logsManagePublicState ];
 const INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormHeaderComponent, IconInputComponent,
   ValidationMessageComponent, ValidationMessagesComponent, RegisterFormControlDirective, AppMessagesComponent,
-  AppMessageComponent, ModalComponent, 
+  IconTextareaComponent, AppMessageComponent, ModalComponent, 
   SimpleModalComponentTemplate, MatchActionModalComponentTemplate, PublicMatchSettingsModalComponentTemplate,
+  LogsPointFilterModalComponentTemplate,
   EventListComponent, ListItemFieldComponent, FormFooterButtonComponent,
   UpdateActionsComponent, DeleteEntryComponent, FormMessagesComponent, AppFabComponent,
   PlayerListComponent, TournamentListComponent,
@@ -97,9 +104,11 @@ const INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormH
   AboutAccountPasswordComponent, AboutAccountDeleteComponent, LogsViewComponent, LogsViewMenuComponent,
   LogsViewSearchComponent, LogsDisplayComponent, AppStatItemComponent, AppStatCategoryComponent,
   AppPointItemComponent, AppStatItemBreakdownComponent, RadioGroupComponent, LogsCreateComponent,
-  LogsCreateInfoComponent, LogsPointInfoComponent, AboutLogSearchComponent, AboutLogViewMenuComponent,
+  LogsCreateInfoComponent, LogsPointInfoComponent, 
+  AboutLogSearchComponent, AboutLogViewMenuComponent,
   AboutLogResumeComponent, AboutLogPointInfoComponent, AboutLogReviewEditComponent, AboutLogViewComponent,
-  AboutLogSetupComponent ];
+  AboutLogSetupComponent, AboutPointFilterComponent, AboutManagePublicLogsComponent,
+  AboutMakeLogPublicComponent, AboutManagePublicSettingsComponent ];
 
 @NgModule({
   declarations: INITIAL_COMPONENTS,
@@ -113,7 +122,7 @@ const INITIAL_COMPONENTS =  [ AppComponent, HomeComponent, LoginComponent, FormH
     HttpModule
   ],
   entryComponents: [SimpleModalComponentTemplate, MatchActionModalComponentTemplate,
-                    PublicMatchSettingsModalComponentTemplate],
+                    PublicMatchSettingsModalComponentTemplate, LogsPointFilterModalComponentTemplate],
   providers: [SlideoutStatus, UserInfo, ModalComponent, UtilSvc, ToasterService, DataSvc, AWSModule, CookieSvc,
               FireBaseSvc, AboutStatus, GraphsSvc, CurrentMatch],
       //  {provide: HAMMER_GESTURE_CONFIG, useClass: AppHammerConfig}],

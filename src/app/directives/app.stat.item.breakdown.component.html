@@ -1,20 +1,43 @@
     <!-- Template used for stat item display. 
          Used with <app-stats-item-breakdown> COMPONENT -->
     <div class="d-flex flex-row justify-content-center align-items-center">
-      <div class=" app-match-stats-player-value "
+      <div *ngIf="!fRatio" class="app-match-stats-player-value"
+           [ngClass]="{'app-disabled-text': fShowOpponent}">
+        {{!fShowOpponent ? (fValue[0] + fPct) : '...'}}
+      </div>
+      <div *ngIf="fRatio" 
+            class=" app-match-stats-player-value d-flex flex-row justify-content-start align-items-end "
+           [ngClass]="{'app-disabled-text': fShowOpponent}">
+          <div *ngIf="fShowOpponent" class="app-width-100">...</div>
+          <div *ngIf="!fShowOpponent" class="app-ratio-dividend">{{fValue[0][0]}}</div>
+          <div *ngIf="!fShowOpponent" class="app-ratio-divisor">{{'/' + fValue[0][1]}}</div>
+      </div>
+      <!-- <div class=" app-match-stats-player-value "
            [class.app-disabled-text]="fShowOpponent">
         {{!fShowOpponent ? (!fRatio ? (fValue[0] + fPct) : (fValue[0][0] + '/' + fValue[0][1])) : '...'}}
-      </div>
-      <button class="btn d-flex flex-row justify-content-center align-items-center 
-              app-match-stats-stat app-stat-breakdown " type="button"
+      </div> -->
+      <!-- use a div here instead of a button because IOS can't center the button text with justify-content-center -->
+      <div class="d-flex flex-row justify-content-center align-items-center 
+              app-match-stats-stat app-stat-breakdown"
               (click)="toggleBreakdownOpen()">
         {{fLabel}}
         <i class="material-icons app-match-info-label">{{fBreakdownOpen ? 'expand_less' : 'expand_more'}}</i>
-      </button>
-      <div class=" app-match-stats-opponent-value"
+      </div>
+      <div *ngIf="!fRatio" class="app-match-stats-opponent-value"
+           [ngClass]="{'app-disabled-text': fShowPlayer}">
+        {{!fShowPlayer ? (fValue[1] + fPct) : '...'}}
+      </div>
+      <div *ngIf="fRatio" 
+            class=" app-match-stats-opponent-value d-flex flex-row justify-content-start align-items-end "
+           [ngClass]="{'app-disabled-text': fShowPlayer}">
+          <div *ngIf="fShowPlayer" class="app-width-100">...</div>
+          <div *ngIf="!fShowPlayer" class="app-ratio-dividend">{{fValue[1][0]}}</div>
+          <div *ngIf="!fShowPlayer" class="app-ratio-divisor">{{'/' + fValue[1][1]}}</div>
+      </div>
+      <!-- <div class=" app-match-stats-opponent-value"
            [class.app-disabled-text]="fShowPlayer">
         {{!fShowPlayer ? (!fRatio ? (fValue[1] + fPct) : (fValue[1][0] + '/' + fValue[1][1])) : '...'}}
-      </div>
+      </div> -->
     </div>
     <div class="d-flex flex-column app-match-stats-section-text"
          [class.app-open]="fBreakdownOpen">

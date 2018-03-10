@@ -26,7 +26,7 @@ export class AppMessagesComponent implements DoCheck {
 
   ngDoCheck() {
     if(this.messageComponents !== undefined){
-      let mKeys = Object.keys(this.mList);
+      const mKeys = Object.keys(this.mList);
       let showMore = this.mMax; 
       this.messageComponents.forEach(component => {
         if( !component.nameInList(mKeys) || !showMore ){

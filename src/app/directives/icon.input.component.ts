@@ -21,6 +21,7 @@ export class IconInputComponent implements OnInit {
   @Input() fLabel       : string;   // label for input
   @Input() fIcon        : string = "";   // icon for input
   @Input() fColor       : string;   // color for icon
+  @Input() fInputCSS    : string;   // extra css for the input element
   @Input() fValue       : string;   // model for this field
   @Input() fErrors      : string;   // array of error key names
   @Input() fErrorMsgs   : string;   // array of messages for the error keys

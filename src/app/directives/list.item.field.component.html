@@ -62,7 +62,7 @@
   <!-- Item input field -->
   
   <div *ngIf="fAllowNew" class="d-flex flex-column app-list-item-field-container-element">
-    <div class="d-flex flex-column app-fade-in "
+    <div class="d-flex flex-column app-fade-in"
         [class.app-open]="(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))">
       <app-icon-input
           [fForm]       = "fForm" 
@@ -72,7 +72,7 @@
           [fRequired]   = "(fEqual ? (fValue == fNewTest) : (fValue != fNewTest))"
           [fDisabled]   = "fDisabled"
           fType         = "text" 
-          fPattern      = "^[ @.#,!?'$-\w]{1,}$"
+          fPattern      = "^[ @.#,!?'$-\w]+$"
           fMaxlength    = "30"
           fLabel        = "{{fValue == '999' ? 'New' : 'Edit'}} {{fLabel}}"  
           fIcon         = "{{fValue == '999' ? 'add_circle_outline' : 'edit'}}"
@@ -135,7 +135,7 @@
                     fType       = "button"
                     [fOpen]     = "true"
                     fButtonCSS  = "app-fab-xsm app-bg-fab-gray mb-1"
-                    [fDelay]    = "200"
+                    [fDelay]    = "0"
                     [fOnClick]  = "cancelEdit"
                     fAria       = "cancel"
                     fIcon       = "highlight_off"

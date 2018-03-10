@@ -21,15 +21,15 @@
             (ngSubmit)="submitRequest(playerForm)">
         <div class="d-flex flex-column">
 
-        <!-- Instructional messages -->
-        <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 
-                                                align-items-center mb-2 app-smaller-font">
-          Select from the list to edit/create a Player
-        </div>
-        <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 
-                                                align-items-center mb-2 app-smaller-font">
-          Now edit and save or remove this Player
-        </div>
+          <!-- Instructional messages -->
+          <div *ngIf="selectedItem === ''" class="d-flex flex-row justify-content-start app-flex-1 
+                                                  align-items-center mb-2 app-smaller-font">
+            Select from the list to edit/create a Player
+          </div>
+          <div *ngIf="selectedItem !== ''" class="d-flex flex-row justify-content-start app-flex-1 
+                                                  align-items-center mb-2 app-smaller-font">
+            Now edit and save or remove this Player
+          </div>
 
             <!-- Player selection field -->
           <app-list-item-field 
@@ -64,7 +64,7 @@
             fColor        = "app-light-brown" 
             [(fValue)]    = "firstName" 
             [fCapitalize] = "true"
-            fPattern      = "^[ #/-\w]{1,}$"
+            fPattern      = "^[ #/\-\w]+$"
             fMaxLength    = "30"
             fErrors       = "required|pattern"
             fErrorMsgs    = "A first name is required.|Invalid first name character/format."
@@ -86,7 +86,7 @@
             fColor        = "app-light-brown" 
             [(fValue)]    = "lastName" 
             [fCapitalize] = "true"
-            fPattern      = "^[ /#-\w]{1,}$"
+            fPattern      = "^[ #/\-\w]+$"
             fMaxLength    = "30"
             fErrors       = "required|pattern"
             fErrorMsgs    = "A last name is required.|Invalid last name character/format."
@@ -129,27 +129,13 @@
             fIcon         = "edit"
             fColor        = "app-light-brown" 
             [(fValue)]    = "notes" 
-            fPattern      = "^[ -.!?\w]*$"
+            fPattern      = "^[ \'-.!?\w]+$"
             fMaxLength    = "1000"
             fErrors       = "pattern"
             fErrorMsgs    = "Invalid note character/format."
             fExtraCSS     = "mb-2"
             [fFocusFn]    = "clearRequestStatus">
           </app-icon-textarea> 
-          <!-- <div class="app-icon-input-field-container mb-2">
-            <label class="app-icon-input-field-label-sm" 
-                  [class.has-value]="notes !== undefined && notes !== ''" 
-                  [class.has-focus]="focused">
-                  Notes</label>
-            <div class="d-flex flex-row">
-              <i class="material-icons app-input-icon app-light-brown">edit</i>
-              <textarea name="pNotes" ngModel autocomplete="off"
-                  [maxlength]="1000"
-                  [disabled]="selectedItem == ''"
-                  [(ngModel)]="notes" class="app-form-input d-flex" #pN="ngModel"
-                  (focus)="showFocused()" (blur)="showNotFocused()"></textarea>
-            </div>
-          </div> -->
 
           <!-- Creation Date Field -->
           <app-icon-input
@@ -161,7 +147,7 @@
             fType         = "text" 
             fLabel        = "Created On"  
             fIcon         = "today"
-            fColor        = "app-light-brown" 
+            fColor        = "app-light-brown"
             fExtraCSS     = "mb-2">
           </app-icon-input>
 

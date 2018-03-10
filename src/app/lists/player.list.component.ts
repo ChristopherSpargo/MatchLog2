@@ -167,6 +167,14 @@ export class PlayerListComponent implements OnInit {
       this.gender    = this.itemList[i].gender;
       this.notes     = this.itemList[i].notes;
       this.createdOn = this.itemList[i].createdOn;
+
+      //now a song-and-dance to get IOS to scroll the text area
+      setTimeout(()=>{
+        this.notes += "\n";   //it seems to pay attention to scrolling if you add a line
+        setTimeout(()=>{
+          this.notes = this.itemList[i].notes; //then take it away
+        },50)
+      },50)
     }
     else{
       this.id        = 0;

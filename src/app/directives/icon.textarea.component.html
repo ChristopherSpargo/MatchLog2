@@ -1,4 +1,5 @@
-<div class="app-icon-input-field-container {{fExtraCSS}}">
+<div class="app-icon-textarea-container {{fExtraCSS}}"
+         [ngClass]="{'has-focus': focused}">
   <label class="app-icon-input-field-label-sm" 
          [ngClass]="{'app-no-icon-label': !fIcon,
                      'has-value': fValue !== undefined && fValue !== '',
@@ -7,13 +8,13 @@
          {{fLabel}}</label>
     <div  class="d-flex flex-row">
       <i *ngIf="fIcon" class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
-      <textarea name="{{fName}}" ngModel autocomplete="off"
+      <textarea name="{{fName}}" ngModel autocomplete="off" rows="{{fRows}}"
         id="{{fName + 'ID'}}"
         [maxlength]="fMaxlength !== undefined ? fMaxlength : undefined"
         [required]="fRequired"
         [disabled]="fDisabled"
         [readonly]="fReadonly"
-        [(ngModel)]="fValue" class="app-form-input d-flex" #fRef="ngModel"
+        [(ngModel)]="fValue" class="app-form-input app-scrollable d-flex" #fRef="ngModel"
         [registerForm]="fForm" [registerModel]="fRef"
         (focus)="showFocused()" (blur)="showNotFocused()" (input)="valueChange(fRef)"></textarea>
     </div>

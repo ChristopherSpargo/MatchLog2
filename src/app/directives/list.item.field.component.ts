@@ -58,7 +58,7 @@ export class ListItemFieldComponent  {
     this.fValueChange.emit(this.fValue);
     if(this.fOnChange){ this.fOnChange(); }
     if(this.fAllowNew && (this.fEqual ? (this.fValue == this.fNewTest) : (this.fValue != this.fNewTest))){
-      document.getElementById(this.fNewName + "ID").focus();
+      this.focusOnField(this.fNewName);
     }
   }
 
@@ -71,18 +71,23 @@ export class ListItemFieldComponent  {
   }
 
   cancelEdit = ()=> {
-    this.fValue = "";
-    this.fCheckAll = false;
-    this.fCheckAllChange.emit(this.fCheckAll);
-    this.valueChange();
-    this.fOnFocus();
-    this.fForm.controls[this.fName].markAsUntouched();
     if(this.fNewName) {
       this.fNewValue = "";
       this.newValueChange();
       this.fForm.controls[this.fNewName].markAsUntouched();
     }
+    this.fValue = "";
+    this.fCheckAll = false;
+    this.fCheckAllChange.emit(this.fCheckAll);
+    this.fForm.controls[this.fName].markAsUntouched();
+    this.valueChange();
+    if(this.fOnFocus){ this.fOnFocus(); }
   }
 
+  focusOnField = (name : string) => {
+    setTimeout(()=>{
+      document.getElementById(name + "ID").focus();
+    },400)    
+  }
 }
 

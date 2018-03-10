@@ -25,6 +25,7 @@ export class IconTextareaComponent implements OnInit {
   @Input() fErrorMsgs   : string;   // array of messages for the error keys
   @Input() fErrorMulti  : string;   // 'true' if allow multiple error messages
   @Input() fMaxlength   : string;   // value for maxlength (if any)
+  @Input() fRows        : string = "4"; //number of rows for text area
   @Input() fPattern     : string;   // value for pattern (if any)
   @Input() fFocusFn     : Function; // function to execute on focus
   @Input() fOnInput     : Function; // function to execute on input
@@ -68,4 +69,5 @@ export class IconTextareaComponent implements OnInit {
     this.fValueChange.emit(this.fValue);
     if(this.fOnInput){ this.fOnInput(); }
   }
+
 }

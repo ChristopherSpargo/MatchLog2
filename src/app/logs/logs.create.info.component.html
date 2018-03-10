@@ -23,7 +23,7 @@
                   class=" app-add-subtract-input-control app-form-theme-text app-width-40"
                   aria-label="match date"
                   [class.app-disabled-text]="matchSaved()"
-                  [(ngModel)]="matchInfo.date" readonly
+                  [(ngModel)]="matchInfo.date" disabled
                   (focus)="clearRequestStatus()">
           <button class="btn app-add-subtract-button" type="button"
                       [disabled]="matchSaved()"
@@ -47,12 +47,12 @@
             <i aria-label="previous minute"
                       class="material-icons app-primary app-add-subtract-icon ">arrow_back</i>
           </button>
-            <input type="text" name="matchTime" autocomplete="off" 
-                    aria-label="match time"
-                    class="app-add-subtract-input-control app-form-theme-text app-width-40"
-                    [class.app-disabled-text]="matchSaved()"
-                    [(ngModel)]="matchInfo.time" readonly 
-                    (focus)="clearRequestStatus()">
+          <input type="text" name="matchTime" autocomplete="off" 
+                  aria-label="match time"
+                  class="app-add-subtract-input-control app-form-theme-text app-width-40"
+                  [class.app-disabled-text]="matchSaved()"
+                  [(ngModel)]="matchInfo.time" disabled 
+                  (focus)="clearRequestStatus()">
           <button class="btn app-add-subtract-button" type="button"
                       [disabled]="matchSaved()"
                       (click)="addTime()">

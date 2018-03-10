@@ -1,11 +1,11 @@
 <div class="app-icon-input-field-container {{fExtraCSS}}">
   <label class="app-icon-input-field-label-sm" 
-         [class.app-no-icon-label]="!fIcon"
-         [class.has-value]="fValue !== undefined && fValue !== ''" 
-         [class.has-focus]="focused" 
-         [class.app-show-required]="fRequired">
+         [ngClass]="{'app-no-icon-label': !fIcon,
+                     'has-value': fValue !== undefined && fValue !== '',
+                     'has-focus': focused,
+                     'app-show-required': fRequired}">
          {{fLabel}}</label>
-    <div  class="d-flex flex-row">
+    <div class="d-flex flex-row">
       <i *ngIf="fIcon" class="material-icons app-input-icon {{fColor}}">{{fIcon}}</i>
         <input [attr.type]="fType" name="{{fName}}" ngModel autocomplete="off" [email]="fType == 'email'"
             id="{{fName + 'ID'}}"
@@ -16,13 +16,15 @@
             [disabled]="fDisabled"
             [readonly]="fReadonly"
             [(ngModel)]="fValue" class="app-form-input d-flex" #fRef="ngModel"
-            [class.app-transparent-text]="(fValue === undefined || fValue === '') && !focused && fType ==='date'"
+            [ngClass]="{'app-transparent-text': (fValue === undefined || fValue === '') && !focused && 
+                        (fType ==='date'),
+                        'app-bg-white': fDisabled && fValue !== undefined && fValue !== ''}"
             [registerForm]="fForm" [registerModel]="fRef"
             (focus)="showFocused()" (blur)="showNotFocused()" (input)="valueChange()">
     </div>
     <div *ngIf="(fErrors !== undefined) && fErrors.length" 
       class="app-field-messages" [style.visibility]="(fRef.touched || fCheckAll) ? 'visible' : 'hidden'"
-      [class.app-no-icon-message]="!fIcon">
+      [ngClass]="{'app-no-icon-message': !fIcon}">
       <validation-messages [vField]="fRef" [vMultiple]="fErrorMulti">
         <validation-message *ngFor="let item of aErrors; let i=index"
           name="{{item}}">{{aMsgs[i]}}</validation-message>

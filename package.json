@@ -8,7 +8,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "bd": "npm run build-prod && npm run deploy",
+    "build-prod": "ng build --prod",
+    "deploy": "deploy"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.26",
     "@uirouter/angular": "^1.0.0-beta.6",
     "angular2-toaster": "^4.0.0",
+    "aws-sdk": "^2.164.0",
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",

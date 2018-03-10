@@ -595,6 +595,7 @@ b, strong {
     color: white;
     background-color: rgba(91, 192, 223,.9);}    
   .app-form-theme-text {
+    -webkit-text-fill-color: rgba(0,0,0,.87) !important; 
     color: rgba(0,0,0,.87) !important;}
   .app-form-theme-select-menu {
     background-color: gray!important;
@@ -655,6 +656,20 @@ b, strong {
   top: -25px;}
 /* provide a flex container unit for an input field with icon, floating label 
    and verification messages */
+    .app-icon-textarea-container {
+      display: flex;
+      flex: 1 1 100%;
+      flex-direction: column !important;
+      color: rgba(0,0,0,.87) !important;
+      padding: 1em 0 .5em 0;
+      max-height: 55px;
+      transition: max-height .4s ease-in-out;
+      position: relative;}
+      @media ($lg-screen) {
+        .app-icon-textarea-container{
+          max-height: 70px;}}
+    .app-icon-textarea-container.has-focus {
+      max-height: 500px;}
     .app-icon-input-field-container {
       display: flex;
       flex: 1 1 100%;
@@ -753,6 +768,7 @@ b, strong {
 .app-add-subtract-input-control {
   order: 0 !important;
   width: 30% ;
+  background-color: white;
   border-width: 0;
   text-align: center;}
 .app-add-subtract-input-control:disabled {
@@ -872,13 +888,14 @@ $appFormCloseSizeIconLg: 38px !important;
   width: 100%;
   min-height: 130%;
   margin: auto;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;}
+  /* -webkit-overflow-scrolling: touch;
+  overflow-y: auto; */
+}
 .app-central-container {
   width: 100%;
   min-height: 100%;
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;
+   -webkit-overflow-scrolling: touch;
+  overflow: auto; 
   margin: auto;}
   @media (min-width: 600px) {
     .app-central-container,.app-central-container-130 {
@@ -1398,8 +1415,9 @@ $appFormCloseSizeIconLg: 38px !important;
 /* STYLES MOSTLY RELATED TO: UTILITIES */
 /***************************************/
 .app-dialog-container {
-  /* background-color: white; */
-  /* border-radius: .3em; */
+  /* -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto; */
 }
 .app-confirm-dialog-content {
   text-align: center;
@@ -1479,6 +1497,8 @@ $appFormCloseSizeIconLg: 38px !important;
   color: #ffe8b3;}
 .app-bg-retro-dark-cream {
   background-color: #ffe8b3;}
+.app-bg-transparent {
+  background-color: transparent !important;}
 .app-bg-white {
   background-color: white !important;}
 .app-bg-gwhite { 

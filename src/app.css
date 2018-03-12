@@ -39,7 +39,6 @@ html {
   /*overflow-y: auto; */
 }
 body {
-  /*setting overflow-x: hidden; causes the address bar to not scroll away on Android*/
    overflow-x: hidden; 
   /*overflow-y: auto; */
   background-size: cover;
@@ -189,6 +188,8 @@ b, strong {
   visibility: hidden;}
 .app-no-display {
   display: none;}
+.app-pos-relative {
+    position: relative !important;}
 .app-lt-border-right {
   border-right: 1px solid rgba(255,255,255, 0.19)}
 .app-menu-button {

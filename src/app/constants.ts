@@ -1,7 +1,7 @@
 // Constants used by MatchLog2
 
 export const IMAGE_DIRECTORY      : string = "assets/images/";
-export const ML_VERSION           : string = "2.1";
+export const ML_VERSION           : string = "2.1.1";
 //Data Version Changes:
 //  V2.0 : added forehand/backhand tracking on serve return and last shot
 //  V2.1 : added matchPointFor and setPointFor properties to Points

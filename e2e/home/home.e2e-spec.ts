@@ -10,13 +10,13 @@ describe('matchlog2 App', () => {
   });
 
   it('should display both lines of the logo text', () => {
-    expect(page.getLogoText1()).toEqual('MatchLog', 'line 1 error');
+    expect(page.getLogoText1()).toEqual('MatchLogs', 'line 1 error');
     expect(page.getLogoText2()).toEqual('Tennis Logs', 'line 2 error');
   });
 
   it('should display about text', ()=> {
     page.getMenuItem(['aboutMenuBtn','aboutMatchLogBtn']).click();
-    expect(page.getAboutTitle()).toEqual('Use MatchLog','no help');
+    expect(page.getAboutTitle()).toEqual('Use MatchLogs','no help');
     page.closeAboutPanel();
   });
 

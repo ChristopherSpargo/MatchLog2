@@ -187,7 +187,7 @@ import { Match, MatchPosition, MatchData, MATCH_FORMATS,DEFAULT_MATCH_FORMAT,TWO
       position.point = undefined;
       expect(tMatch.getFormattedScore(position)).toEqual('(0,6)(6,0)0-0', 'new 3rd set score wrong');
       expect(tMatch.sets.length).toEqual(3,'no new set');
-      expect(tMatch.sets[2].type).toEqual(TIEBREAK_SET_TYPE,'not a TIEBREAK');
+      expect(tMatch.sets[2].type).toEqual(TIEBREAK_SET_TYPE,'not in TIEBREAK');
     })
 
     //simulate the 10-point match tibreak and check for proper winner and final score

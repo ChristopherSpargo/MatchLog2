@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
     // COMPONENT to insert headings into help text
     // Examples: 
-    // <app-about-heading aah-icon="clipboard" aah-text="Why Use MatchLog?" aah-color='app-primary'></app-about-heading>
+    // <app-about-heading aah-icon="clipboard" aah-text="Why Use MatchLogs?" aah-color='app-primary'></app-about-heading>
     // <app-about-heading aah-image="aC.formHeaderIcon" aah-text="Getting Help" aah-divider="true"></app-about-heading>
 
 

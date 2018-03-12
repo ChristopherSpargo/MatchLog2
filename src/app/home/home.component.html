@@ -3,13 +3,13 @@
     <!-- Toolbar is a single row that starts with the Logo followed by
     a set of feature buttons and finally a button to activate the full menu -->
   <div  id="mainToolbarSm"
-        class=" nav app-toolbar-theme app-main-short-toolbar hidden-md-up 
+        class=" nav app-toolbar-theme app-main-short-toolbar hidden-md-up app-pos-relative
                d-flex flex-row justify-content-between align-items-center">
 
                 <!-- Display the 2-line Logo Text -->
     <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
       <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
-        <div class=" app-logo-text1 ">MatchLog</div>
+        <div class=" app-logo-text1 ">MatchLogs</div>
         <div class=" app-logo-text2 app-text-center">Tennis Logs</div>
       </div>
     </div>
@@ -251,7 +251,7 @@
                           (click)="showAbout('UsingMatchLog')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-about-color app-menu-item-icon-sm">assignment</i>
-                      Using MatchLog
+                      Using MatchLogs
                     </div>
                   </button>
                 </li>
@@ -260,7 +260,7 @@
                           (click)="showAbout('ContactUs')">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-about-color app-menu-item-icon-sm">message</i>
-                      Contacting MatchLog
+                      Contacting MatchLogs
                     </div>
                   </button>
                 </li>
@@ -277,7 +277,7 @@
                                               app-slide-menu-listitem app-subitem-spacing app-disabled">
                     <div class="d-flex flex-row align-items-center">
                       <i class="material-icons app-about-color app-menu-item-icon-sm">build</i>
-                      MatchLog Version: {{version}}
+                      MatchLogs Version: {{version}}
                     </div>
                   </button>
                 </li>
@@ -316,7 +316,7 @@
                d-flex flex-row justify-content-between align-items-center">
     <div class="d-flex flex-row justify-content-start align-items-start app-logo-area">
       <div class="d-flex flex-column justify-content-start align-items-start app-logo-text-container ">
-        <div class="app-logo-text1">MatchLog</div>
+        <div class="app-logo-text1">MatchLogs</div>
         <div class="app-logo-text2 app-text-center">Tennis Logs</div>
       </div>
     </div>
@@ -367,11 +367,11 @@
         <a  id="aboutMenuBtn" ngbDropdownToggle class="nav-link dropdown-toggle app-toolbar-text" data-toggle="dropdown" 
            href="#" role="button" aria-haspopup="true" aria-expanded="false">About</a>
         <div class="dropdown-menu app-toolbar-submenu-theme">
-          <a id="aboutMatchLogBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('UsingMatchLog')">Using MatchLog</a>
-          <a id="aboutContactBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting MatchLog</a>
+          <a id="aboutMatchLogBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('UsingMatchLog')">Using MatchLogs</a>
+          <a id="aboutContactBtn" role="button" class="dropdown-item app-dropdown-text" (click)="showAbout('ContactUs')">Contacting MatchLogs</a>
           <a class="dropdown-item app-dropdown-disabled-text">
             User:{{loggedIn() ? ' ' + userEmail() : ' Not signed in'}}</a>
-          <a class="dropdown-item app-dropdown-disabled-text">MatchLog Version: {{' ' + version}}</a>
+          <a class="dropdown-item app-dropdown-disabled-text">MatchLogs Version: {{' ' + version}}</a>
         </div>
       </li>
                 <!-- Button for Sign In/Sign Out function -->

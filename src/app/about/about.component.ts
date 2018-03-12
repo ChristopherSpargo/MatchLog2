@@ -5,7 +5,7 @@ import { IMAGE_DIRECTORY, FORM_HEADER_ICON } from '../constants';
 import { AboutStatus, UserInfo } from '../app.globals';
 
 export const HelpContextTitles = {
-      UsingMatchLog       : ['assignment','Using MatchLog'],
+      UsingMatchLog       : ['assignment','Using MatchLogs'],
       MatchLogSearch      : ['search','Searching for Match Logs'],
       MatchLogMenu        : ['search','Selecting Match Logs'],
       ManagePublicLogsMenu: ['settings_applications','Managing Public Logs'],
@@ -26,7 +26,7 @@ export const HelpContextTitles = {
       ManageEvents        : ['list','Managing Events'],
       ManageLocations     : ['list','Managing Locations'],
       ManageTournaments   : ['list','Managing Tournaments'],
-      ContactUs           : ['mail_outline','Contacting MatchLog']
+      ContactUs           : ['mail_outline','Contacting MatchLogs']
     };
 
 @Component({

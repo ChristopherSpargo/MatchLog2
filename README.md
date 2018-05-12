@@ -51,7 +51,7 @@
   <p>
     <b>Demo Account</b><br/>
     &nbsp;&nbsp;To see MatchLog in action on actual match data go to <br />
-    &nbsp;&nbsp;'http://match-log2.com.s3-website-us-west-2.amazonaws.com' and Sign In using<br />
+    &nbsp;&nbsp;'http://MatchLogs.com' and Sign In using<br />
     &nbsp;&nbsp;<b>'ml-user@demo.com'</b> with password <b>'mldemo8888'</b>.<br/>
     Write access is disabled for this account but you can get a good idea of the program's features.<br/>
   </p>
